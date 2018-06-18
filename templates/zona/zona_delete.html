@@ -1,0 +1,28 @@
+{% extends 'base1/inicio.html' %}
+{% load staticfiles %}
+{% block subtitle %} 
+    Eliminar <span style="color:#FC9C30">ZONA</span> 
+    <!-- Button trigger modal -->
+{% endblock%}
+{% block extrastatic %}
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+   <link rel="stylesheet" href="static/css/animate.min.css">
+{% endblock %}
+ {% block home %}
+    <a href="{% url 'inicio:logeo' %}"  class=" w3-bar-item w3-button"><img width="15%" src="{% static 'images/home.png' %}"> Home</a>
+    {% endblock %}
+ {% block zona %}
+            <a href="{% url 'zona:zona_listar' %}" id="uno"class="w3-bar-item w3-button"><img width="15%" src="{% static 'images/iconos-zona.png' %}"> Zona</a>
+			{% endblock %}
+
+{% block content %}
+<br>
+<form method="post">
+    {% csrf_token %}
+    <h4>¿Desea eliminar el registro de {{object.Nombre}}?</h4>
+    <button class="btn btn-danger" type="submit">Si, eliminar</button>
+    <a class="btn btn-default" href="{% url 'zona:zona_listar' %}">Cancelar</a>
+</form>
+{% endblock %}

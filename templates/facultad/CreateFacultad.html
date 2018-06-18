@@ -1,0 +1,176 @@
+{% extends 'base1/inicio.html'%}
+{% load staticfiles %}
+
+{% block subtitle %} 
+    NUEVA <span style="color:#FC9C30">FACULTAD</span> 
+{% endblock%}
+{% block home %}
+<li class="nav-item">
+    <li><a href="{% url 'inicio:logeo' %}" class="nav-link"><i class="batch-icon batch-icon-browser-alt"></i> <span>Inicio</span></a>
+
+</li>
+{% endblock %}
+
+{% block Facultad %}
+    <li class="nav-item">
+        <a class="nav-link active" href="{% url 'Facultad:lista_Facultad' %}">
+            <i class="batch-icon batch-icon-star"></i>
+            Facultad
+        </a>
+    </li>
+{% endblock %}
+{% block extrastatic %}
+
+<script>
+        function paises() {
+            document.getElementById("zona").innerHTML = "";
+            var v=document.getElementById("pais").value;
+            var option = document.createElement("option");
+            option.text = "--SELECCIONE--";
+            document.getElementById("zona").add(option);
+            {% for z in  Zona%}
+                var id_pais={{z.pais.id}}
+
+                if(v==id_pais){
+
+                    var op = document.createElement("option");
+                    op.value = "{{z.pk}}";
+                    op.text = "{{z.Nombre}}";
+                    document.getElementById("zona").appendChild(op);
+                }
+            {% endfor %}
+
+        }
+		function zonas() {
+            document.getElementById("universidad").innerHTML = "";
+            var v=document.getElementById("zona").value;
+            var option = document.createElement("option");
+            option.text = "--SELECCIONE--";
+            document.getElementById("universidad").add(option);
+            {% for u in  Universidad%}
+                var id_zona={{u.zona.id}}
+
+                if(v==id_zona){
+
+                    var op = document.createElement("option");
+                    op.value = "{{u.pk}}";
+                    op.text = "{{u.Nombre}}";
+                    document.getElementById("universidad").appendChild(op);
+                }
+            {% endfor %}
+
+        }
+        function unicam() {
+            document.getElementById("campus").innerHTML = "";
+            var v=document.getElementById("universidad").value;
+            var option = document.createElement("option");
+            option.text = "--SELECCIONE--";
+            document.getElementById("campus").add(option);
+            {% for ca in  Campus %}
+                var id_campus={{ca.universidad.id}}
+
+                if(v==id_campus){
+
+                    var op = document.createElement("option");
+                    op.value = "{{ca.pk}}";
+                    op.text = "{{ca.Nombre}}";
+                    document.getElementById("campus").appendChild(op);
+                }
+            {% endfor %}
+
+        }
+    </script>
+{% endblock %}
+{% block content %}
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12 pb-5">
+                         <form method="post">
+                            {% csrf_token %}
+                        	
+                        	<div class="row">
+                        		<div class="col-md-12">
+                        			<div class="form-group">
+                        				<label>Pais</label>
+                                        <select class="form-control" id="pais" onchange="paises()">
+                                            <option>--Seleccione--</option>
+                                            {% for p in  Pais%}
+                                            <option value="{{ p.pk }}">{{p.Nombre}}</option>
+
+                                            {% endfor %}
+                                        </select>
+                        			</div>
+                        		</div>
+                        	</div>
+                        	 <div class="row">
+                        		<div class="col-md-12">
+                        			<div class="form-group">
+                        				<label>Zona</label>
+                                        <select class="form-control" id="zona" onchange="zonas()">
+                                            <option>--Seleccione--</option>
+
+                                        </select>
+                        			</div>
+                        		</div>
+                        	</div>
+                        	 <div class="row">
+                        		<div class="col-md-8 col-md-offset-2">
+                        			<div class="form-group">
+                        				<label>Universidad</label>
+                                        <select class="form-control" id="universidad" onchange="unicam()">
+                                            <option>--Seleccione--</option>
+
+                                        </select>
+                        			</div>
+                        		</div>
+                        	</div>
+                        	 <div class="row">
+                        		<div class="col-md-12">
+                        			<div class="form-group">
+                        				<label >Campus</label>
+                        				<select class="form-control" id="campus" name="campus" onchange="myFunction()">
+                                            <option>--Seleccione--</option>
+
+                                        </select>
+                        			</div>
+                        		</div>
+                        	</div>
+                           <div class="row">
+                        		<div class="col-md-12">
+                        			<div class="form-group input-field">
+                        				<label>Nombre de la Facultad </label>
+                        				<input class="form-control" type="text" name="Nombre">
+                        			</div>
+                        		</div>
+                        	</div>
+                        	<div class="row">
+                        		<div class="col-md-12">
+                        			<div class="form-group input-field">
+                        				<label >Decano</label>
+                        				<input class="form-control" type="text" name="Decano" onkeyup="">
+                        			</div>
+                        		</div>
+                        	</div>
+
+
+
+                                <div class="row">
+                        		<div class="col-md-12">
+                        			<div class="form-group">
+                                        <button type="submit"   class="btn btn-primary" >Guardar</button>
+                                        <a class="btn btn-default" href="{% url 'Facultad:lista_Facultad' %}">Cancelar</a>
+                                    </div>
+                        		</div>
+                                </div>
+                        	</div>
+
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

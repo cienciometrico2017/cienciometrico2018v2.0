@@ -1,0 +1,52 @@
+{% extends 'base1/inicio.html' %}
+{% load staticfiles %}
+{% block subtitle %} 
+        ACTUALIZAR <span style="color:#FC9C30">PAÍS</span> <a href="{% url 'pais:pais_listar' %}" class="btn btn-success  pull-right"><i class="glyphicon glyphicon-eye-open"></i> Ver Todos</a>
+{% endblock%}
+{% block home %}
+    <li class="nav-item">
+        <li><a href="{% url 'inicio:logeo' %}" class="nav-link"><i class="batch-icon batch-icon-browser-alt"></i> <span>Inicio</span></a>
+    </li>
+{% endblock %}	
+{% block pais %}
+    <li class="nav-item">
+        <a class="nav-link active" href="{% url 'pais:pais_listar' %}">
+            <i class="batch-icon batch-icon-star"></i>
+            País
+        </a>
+    </li>
+{% endblock %}
+
+{% block content %}
+	<div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12 pb-5">
+						<div class="panel panel-headline">
+						    <div class="panel-body">
+								<form method="post" enctype="multipart/form-data">
+                                	{% csrf_token %}
+
+									<div class="row">
+										<div class="col-md-12">
+											{{ form.as_p }}
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-8 col-md-offset-2">
+											<div class="form-group">
+												<button class="btn btn-primary "type="submit"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+{% endblock %}

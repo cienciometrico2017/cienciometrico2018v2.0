@@ -1,0 +1,80 @@
+{% extends 'base1/inicio.html'%}
+{% load staticfiles %}
+{% block subtitle %} 
+    LISTADO DE <span style="color:#FC9C30">CARRERAS</span> 
+     <a href="{% url 'carrera:create_Carrera' %}" class="btn btn-primary  pull-right "><i class="glyphicon glyphicon-plus"></i> Nueva Carrera</a>
+{% endblock%}
+{% block home %}
+<li class="nav-item">
+    <li><a href="{% url 'inicio:logeo' %}" class="nav-link"><i class="batch-icon batch-icon-browser-alt"></i> <span>Inicio</span></a>
+
+</li>
+{% endblock %}
+{% block carrera %}
+<li class="nav-item">
+    <a class="nav-link active" href="{% url 'carrera:lista_Carrera' %}">
+        <i class="batch-icon batch-icon-star"></i>
+        Carrera
+    </a>
+</li>
+{% endblock %}
+
+{% block content %}
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12 pb-5">
+                        <div class="table-responsive">
+                            {% if object_list %}
+                            <table id="datatable-1" class="table table-datatable table-striped table-hover">    
+                            	<thead >
+                            		<tr>
+                            			<td>#</td>
+                            			<td>Nombre Carrera</td>
+                            			<td>Director de Carrera</td>
+                            			<td>Facultad</td>
+                                        <td>Acciones</td>
+                            		</tr>
+
+                            	</thead>
+                            	<tbody>
+                                    
+                                    {% for carrera in object_list %}
+                                    <tr>
+                                        <td>{{carrera.id}}</td>
+                                        <td>{{carrera.Nombre}}</td>
+                                        <td>{{carrera.Director}}</td>
+                                        <td>{{carrera.facultad.Nombre}}</td>
+
+
+                                        <td>
+                                            <a class="btn btn-warning btn-sm" href="{% url 'carrera:update_Carrera' carrera.id %}" ><span class="glyphicon glyphicon-pencil"></span> Editar</a>
+                                            <a class="btn btn-danger btn-sm" href="{% url 'carrera:delete_Carrera'  carrera.id %}"><span class="glyphicon glyphicon-trash"></span> Eliminar</a>
+
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+
+                                    
+
+                            	</tbody>
+                            </table>
+                            {% else %}
+                            <h4>No hay registros de carreras</h4>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock%}
+
+{% block scripts %}
+    <!-- Datatables -->
+    <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/jquery.dataTables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/dataTables.responsive.min.js' %}"></script>
+    <!-- <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/responsive.bootstrap4.min.js' %}"></script> -->
+{% endblock %}

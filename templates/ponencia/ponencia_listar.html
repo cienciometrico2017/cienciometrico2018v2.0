@@ -1,0 +1,77 @@
+{% extends 'base1/inicio.html' %}
+{% load staticfiles %}
+{% block title %}
+        Lista de ponencia
+{% endblock%}
+{% block subtitle %}
+        LISTA DE <span style="color:#07afea">PONENCIAs</span> <a href="{% url 'Ponencia:ponencia_crear' %}" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Nueva ponencia</a>
+{% endblock%}
+{% block home %}
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'inicio:logeo' %}">
+        <i class="batch-icon batch-icon-browser-alt"></i>
+        Inicio
+    </a>
+</li>
+{% endblock %}
+
+{% block ponencia %}
+    <li class="nav-item active">
+        <a class="nav-link active" href="{% url 'Ponencia:ponencia_listar' %}">
+            <i class="batch-icon batch-icon-star"></i>
+            Ponencias
+        </a>
+    </li>
+{% endblock %}
+    {% block content %}
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12 pb-5">
+                            <div class="table-responsive">
+                                {% if Pon %}
+                                <table id="datatable-1" class="table table-datatable table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align:left; width:25%;">Título ponencia</th>
+                                            <th style="text-align:left; width:25%;">Lugar ponencia</th>
+                                            <th style="text-align:left; width:25%;">Fecha ponencia</th>
+                                            <th style="text-align:center; width:25%;">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    {% for i in Pon %}
+                                        <tr>
+                                            <td>{{i.tituloPonencia}}</td>
+                                            <td>{{i.lugarPonencia}}</td>
+                                            <td>{{i.fechaPonencia}}</td>
+                                            <td>
+                                                <a class="btn btn-primary btn-sm" href="{% url 'Ponencia:ponencia_editar' i.id %}"><span class="glyphicon glyphicon-pencil"></span> Editar</a>
+                                                <a class="btn btn-danger btn-sm" href="{% url 'Ponencia:ponencia_eliminar' i.id %}"><span class="glyphicon glyphicon-trash"></span> Eliminar</a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+
+                                    </tbody>
+                                </table>
+                                {% else %}
+                                    <h1 align="center">No hay registros de Ponencias</h1>
+                                    {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endblock%}
+
+{% block scripts %}
+    <!-- Datatables -->
+    <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/jquery.dataTables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/dataTables.responsive.min.js' %}"></script>
+    <!-- <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/responsive.bootstrap4.min.js' %}"></script> -->
+{% endblock %}

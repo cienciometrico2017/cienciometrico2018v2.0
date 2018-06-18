@@ -1,0 +1,79 @@
+{% extends 'base1/inicio.html' %}
+{% load staticfiles %}
+{% block extrastatic %}
+{% endblock %}
+    {% block subtitle %} 
+        LISTADO DE <span style="color:#FC9C30">intereses formativos</span>
+        <!-- Button trigger modal -->
+        
+        <a href="{% url 'interes:create_interes' %}" class="btn btn-success  pull-right "><i class="glyphicon glyphicon-plus"></i> Nuevo interes formativo</a>
+    {% endblock%}
+
+    
+    {% block home %}
+    <li class="nav-item">
+        <li><a href="{% url 'inicio:logeo' %}" class="nav-link"><i class="batch-icon batch-icon-browser-alt"></i> <span>Inicio</span></a>
+    </li>
+    {% endblock %}
+    {% block interes %}
+    <li class="nav-item">
+        <a class="nav-link active" href="{% url 'interes:interes_listar' %}">
+            <i class="batch-icon batch-icon-bulb-alt"></i>
+            Inteses Formativos
+        </a>
+    </li>
+    {% endblock %}
+    {% block content %}
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12 pb-5">
+                            <div class="table-responsive">
+                                {% if object_list %}
+                                <table id="datatable-1" class="table table-datatable table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align:left; width:25%;">#</th>
+                                            <th style="text-align:left; width:25%;">TematicaInteres</th>
+                                            <th style="text-align:left; width:25%;">Descripcion</th>
+                                            <th style="text-align:left; width:25%;">PalabrasClave</th>
+                                            <th style="text-align:center; width:25%;">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    {% for i in object_list %}
+                                        <tr>
+                                            <td>{{i.id}}</td>
+                                            <td>{{i.tematicaInteres}}</td>
+                                            <td>{{i.descripcion}}</td>
+                                            <td>{{i.palabrasClave}}</td>
+                                            <td>
+                                                <a class="btn btn-primary btn-sm" href="{% url 'interes:update_interes' i.id %}"><span class="glyphicon glyphicon-pencil"></span> Editar</a>
+                                                <a class="btn btn-primary btn-sm" href="{% url 'interes:delete_interes' i.id %}"><span class="glyphicon glyphicon-trash"></span> Eliminar</a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+
+                                    </tbody>
+                                </table>
+                                {% else %}
+                                    <h1 align="center">No hay registros de intereses formativos</h1>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endblock%}
+
+{% block scripts %}
+    <!-- Datatables -->
+    <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/jquery.dataTables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/dataTables.responsive.min.js' %}"></script>
+    <!-- <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/responsive.bootstrap4.min.js' %}"></script> -->
+{% endblock %}

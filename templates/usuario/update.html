@@ -1,0 +1,323 @@
+{% extends 'base1/inicio.html'%}
+{% load staticfiles %}
+{% block subtitle %}
+    actualizar información de <span style="color:#07afea">perfil</span>
+{% endblock%}
+{% block home %}
+<li class="nav-item">
+    <li><a href="{% url 'inicio:logeo' %}" class="nav-link active"><i class="batch-icon batch-icon-browser-alt"></i> <span>Inicio</span></a>
+</li>
+{% endblock %}
+
+{% block extrastatic %}
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAiVBq0HNzpFaQrKvjWzHP862amAuwGnE0"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+{% endblock %}
+
+{% block content%}
+
+<div class="col-md-12">
+    <div class="card">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="card-header">
+                Datos personales
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        {{ form.cedula.label }}
+                        {{ form.cedula }}
+                        {{ form.cedula.errors }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form2.username.label }}
+                        {{ form2.username }}
+                        {{ form2.username.errors }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        {{ form2.first_name.label }}
+                        {{ form2.first_name }}
+                        {{ form2.first_name.errors }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form2.last_name.label }}
+                        {{ form2.last_name }}
+                        {{ form2.last_name.errors }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        {{ form.telefono.label }}
+                        {{ form.telefono }}
+                        {{ form.telefono.errors }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form.genero.label }}
+                        {{ form.genero }}
+                        {{ form.genero.errors }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        {{ form.nacionalidad.label }}
+                        {{ form.nacionalidad }}
+                        {{ form.nacionalidad.errors }}
+                    </div>
+
+                    <div class="col-md-6">
+                        {{ form.edad.label }}
+                        {{ form.edad }}
+                        {{ form.edad.errors }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        {{ form2.email.label }}
+                        {{ form2.email }}
+                        {{ form2.email.errors }}
+                    </div>
+
+                    <div class="col-md-6">
+                        {{ form.photo.label }}
+                        {{ form.photo }}
+                        {{ form.photo.errors }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        {{ form.direccion.label }}<i class="batch-icon batch-icon-pin"></i> hasta su dirección y luego presione <i class="batch-icon batch-icon-refresh"></i>).
+                        <div class="input-group mb-3">
+                            
+                            {{ form.direccion }}
+                            {{ form.direccion.errors }}
+                            <div class="input-group-prepend">
+
+                                <button class="btn btn-primary" type="button" value="Obtener Dirección" onclick="codeLatLng()"><i class="batch-icon batch-icon-refresh"></i></button>
+                            </div>
+                        </div>
+
+                        <input id="latlng" value="-0.917476, -78.632573" style="display:none" type="text" name="coordenadas" class="form-control" >
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div align="center" id="map_canvas" style="width: 100%; height: 400px; z-index:0;">
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="card-header">
+                Información institucional
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        {{ form3.tipoContrato.label }}
+                        {{ form3.tipoContrato }}
+                        {{ form3.tipoContrato.erros }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form3.facultad.label }}
+                        {{ form3.facultad }}
+                        {{ form3.facultad.errors }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        {{ form3.carrera.label }}
+                        {{ form3.carrera }}
+                        {{ form3.carrera.errors }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button class="btn btn-primary btn-block"type="submit">Guardar cambios</button>
+                    </div>
+                </div>
+            </div>
+
+            </form>
+             <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        {% for message in messages %}
+                            <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+             </div>
+        </div>
+    </div>
+<script type='text/javascript'>
+
+
+    var geocoder;
+    var map;
+    var infowindow = null;
+    function openInfoWindow(marker) {
+    var markerLatLng = marker.getPosition();
+
+    infoWindow.setContent([
+     '<strong>La posición del marcador es:</strong><br/>',
+     markerLatLng.lat(),
+     ', ',
+     markerLatLng.lng(),
+     '<br/>Arrástrame para actualizar la posición.'
+    ].join(''));
+    infoWindow.open(map, marker);
+    document.getElementById('latlng').value = markerLatLng.lat()+','+markerLatLng.lng();
+
+    }
+
+
+    var marker = new google.maps.Marker({
+     position: latlng,
+     draggable: true,
+     map: map,
+    });
+    google.maps.event.addListener(marker, 'dragend', function(){ openInfoWindow(marker); });
+    google.maps.event.addListener(marker, 'click', function(){ openInfoWindow(marker); });
+
+    function closeInfoWindow() {
+     infowindow.close();
+    }
+
+    function initialize() {
+    geocoder = new google.maps.Geocoder();
+    var latlng = new google.maps.LatLng(-0.917476, -78.632573);
+    var mapOptions = {
+    zoom: 13,
+    center: latlng,
+    mapTypeId: 'roadmap'
+    }
+    infoWindow = new google.maps.InfoWindow();
+    map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+
+    google.maps.event.addListener(map, 'click', function(){
+         closeInfoWindow();
+       });
+    }
+
+    function codeLatLng() {
+    var input = $('#latlng').val();
+    var latlngStr = input.split(',', 2);
+    var lat = parseFloat(latlngStr[0]);
+    var lng = parseFloat(latlngStr[1]);
+    var latlng = new google.maps.LatLng(lat, lng);
+    geocoder.geocode({'latLng': latlng}, function(results, status) {
+    if (status == google.maps.GeocoderStatus.OK) {
+    if (results[0]) {
+
+     map.setCenter(results[0].geometry.viewport);
+             marker.setMap(map);
+             marker.setPosition(latlng);
+     $('#address').text(results[0].formatted_address);
+     document.getElementById('address1').value=results[0].formatted_address;
+     infowindow.setContent(results[0].formatted_address);
+     infowindow.open(map, marker);
+     google.maps.event.addListener(marker, 'click', function(){
+         infowindow.setContent(results[0].formatted_address);
+         infowindow.open(map, marker);
+
+     });
+    } else {
+     alert('No results found');
+    }
+    } else {
+    alert('Geocoder failed due to: ' + status);
+    }
+    });
+
+    }
+
+    $(document).ready(function(){
+    initialize();codeLatLng();
+    gmaps_ads();
+
+    });
+    function codeAddress() {
+        var address = document.getElementById('add').value;
+        geocoder.geocode( { 'address': address}, function(results, status) {
+            if (status == 'OK') {
+                map.setCenter(results[0].geometry.location);
+                marker.setMap(map);
+                marker.setPosition(results[0].geometry.location);
+                var markerLtLg = marker.getPosition();
+                document.getElementById('latlng').value=markerLtLg.lat()+','+markerLtLg.lng();
+
+            } else {
+                alert('Localización no tuvo éxito por la siguiente razón: ' + status);
+            }
+        });
+    }
+</script>
+<script>
+    function showContent() {
+    element = document.getElementById("content");
+    check = document.getElementById("check");
+    if (check.checked) {
+        element.style.display='block';
+    }
+    else {
+        element.style.display='none';
+    }
+    }
+</script>
+
+<script>
+    function showContent2() {
+    element = document.getElementById("content2");
+    check = document.getElementById("check2");
+    if (check.checked) {
+        element.style.display='block';
+    }
+    else {
+        element.style.display='none';
+    }
+    }
+</script>
+<script>
+    function showContenido() {
+        element = document.getElementById("contenido");
+        check = document.getElementById("check3");
+        if (check.checked) {
+            element.style.display='block';
+        }
+        else {
+            element.style.display='none';
+        }
+    }
+
+
+    function showContenido2() {
+        element = document.getElementById("contenido2");
+        check = document.getElementById("check4");
+        if (check.checked) {
+            element.style.display='block';
+        }
+        else {
+            element.style.display='none';
+        }
+    }
+</script>
+
+{% endblock %}
+

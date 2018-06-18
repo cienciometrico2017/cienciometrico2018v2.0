@@ -1,0 +1,394 @@
+{% extends 'base1/inicio.html' %}
+
+{% load staticfiles %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'assets/plugins/tagsinput/bootstrap-tagsinput.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/multiselect.css' %}">
+{% endblock %}
+
+{% block title %}
+    Nuevo artículo cientifico
+{% endblock%}
+
+{% block home %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'inicio:logeo' %}">
+            <i class="batch-icon batch-icon-browser-alt"></i>
+            Inicio
+        </a>
+    </li>
+{% endblock %}
+
+
+{% block itemArti %}
+    <li class="nav-item">
+       <a class="nav-link active" href="{% url 'articulosCientificos:ListaArticulo' %}">
+           <i class="batch-icon batch-icon-compose"></i>
+           Artículos Científicos
+       </a>
+    </li>
+{% endblock %}
+{% block content %}
+    <div class="col-md-12">
+        <form method="post" enctype="multipart/form-data" >
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12 pb-5">
+                        {% csrf_token %}
+                        <div class="card-header">
+                             Nuevo artículo científico
+                        </div>
+
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <b>{{ form.titulo.label }}</b>
+                                    {{ form.titulo }}
+                                    {{ form.titulo.errors }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <b>{{ form.estado.label }}</b>
+                                    {{ form.estado }}
+                                    {{ form.estado.errors }}
+                                </div>
+                                <div class="col-md-6">
+                                    <b>{{ form.iSSN.label }}</b>
+                                    {{ form.iSSN }}
+                                    {{ form.iSSN.errors }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <b>{{ form.url.label }}</b>
+                                    {{ form.url }}
+                                    {{ form.url.errors }}
+                                </div>
+                                <div class="col-md-6">
+                                    <b>{{ form.doi.label }}</b>
+                                    {{ form.doi }}
+                                    {{ form.doi.errors }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <b>{{ form.pais.label }}</b>
+                                    {{ form.pais }}
+                                    {{ form.pais.errors }}
+                                </div>
+                                <div class="col-md-6">
+                                    <b>{{ form.ciudad.label }}</b>
+                                    {{ form.ciudad }}
+                                    {{ form.ciudad.errors }}
+                                </div>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <b>{{ form.tipoArticulo.label }}</b>
+                                    {{ form.tipoArticulo }}
+                                    {{ form.tipoArticulo.errors }}
+                                </div>
+                                <div class="col-md-6">
+                                    <b>{{ form.fechaPublicacion.label }}</b>
+                                    {{ form.fechaPublicacion }}
+                                    {{ form.fechaPublicacion.errors }}
+                                </div>
+
+
+                                <div class="col-md-12">
+                                    <b>{{ form.aprobado.label }}</b>
+                                    {{ form.aprobado }}
+                                    {{ form.aprobado.errors }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <b>{{ form.lineaInves.label }}</b>
+                                    {{ form.lineaInves }}
+                                    {{ form.lineaInves.errors }}
+                                </div>
+                                <div class="col-md-6">
+                                    <b>{{ form.SubLinea.label }}</b>
+                                    {{ form.SubLinea }}
+                                    {{ form.SubLinea.errors }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <b>{{ form.resumen.label }}</b>
+                                    {{ form.resumen }}
+                                    {{ form.resumen.errors }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <b>{{ form.documento.label }}</b>
+                                    {{ form.documento }}
+                                    {{ form.documento.errors }}
+                                </div>
+                                {{ form.estPub }}
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label> <b>Palabras clave</b> (Escribe una palabra y presiona enter)</label><br>
+                                    <select multiple data-role="tagsinput" id="palabraC" name="palabraC"  class="form-control">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        <label><b>Base de Datos dónde está indexada la Revista</b></label> / <a href="#" class="" data-toggle="modal" data-target="#exampleModal">
+                                            <i class="fa fa-plus"></i> Nueva Base de Datos
+                                    </a>
+                                    </div>
+                                        <select id="baseDatos" name="baseDatos" multiple="multiple " onchange="a()">
+                                        </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-12">
+                                         <label><b>Revista del artículo </b></label> /  <a href="#" data-toggle="modal" data-target="#exampleModal1">
+                                            <i class="fa fa-plus"></i> Nueva Revista
+                                         </a>
+                                    </div>
+                                    {{ form.revista }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <b>{{ form.volumen.label }}</b>
+                                    {{ form.volumen }}
+                                    {{ form.volumen.errors }}
+                                </div>
+                                <div class="col-md-6">
+                                    <b>{{ form.numero.label }}</b>
+                                    {{ form.numero }}
+                                    {{ form.numero.errors }}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="card">
+            <div class="card-header">
+                Autores<br>
+                <button id="btRemove" class="btn btn-danger btn-sm pull-right" type="button" aria-disabled="true"><i class="fa fa-minus"></i> Autor</button>
+                <button id="btAdd" class="btn btn-primary btn-sm pull-right" type="button" aria-disabled="true"><i class="fa fa-plus"></i> Autor</button>
+                <a href="#" class="btn btn-primary btn-sm pull-left" data-toggle="modal" data-target="#autorNew"><i class="fa fa-user"></i> Añadir nuevo Autor</a>
+                </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12" >
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Grado de autoria</label>
+                                <input type="text" id="grado0" name="grado0" value="Primero" class="form-control" required>
+                            </div>
+                            <div class="col-md-6" id="repetidos">
+                                <label>Autor</label>
+                                <select name="user0" class="form-control autores" required onchange="f()">
+                                    <option value=""> ----------- </option>
+                                    {% for o in us %}
+                                        <option value="{{ o.id }}">{{ o.first_name }} {{ o.last_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div id="formGrado">
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div id="formUSer">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="alert alert-danger col-md-12" id="AutRep" role="alert">
+                                <strong>Compruebe los autores ingresados!!</strong> Se han repetido los autores o no ha seleccionado algun autor.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button class="btn btn-primary btn-block" type="submit">Guardar información</button>
+                    </div>
+                    <div class="col-md-6">
+                        <a class="btn btn-danger btn-block" href="{% url 'articulosCientificos:ListaArticulo' %}">
+                           Cancelar
+                       </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>
+
+    <!--  *********************************************** Modal autor ********************************************** -->
+    <div  class="modal fade bd-example-modal-sizes" id="autorNew" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" >Registrando un nuevo autor</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="formAut" method="POST">
+                {% csrf_token %}
+                <div class="modal-body" style="padding-right: 15px !important;">
+                    <label>Nombres</label>
+                    <input class="form-control" type="text" id="name" name="name" required="required" >
+                    <label>Apellidos</label>
+                    <input class="form-control" type="text" id="lastname" name="lastname" required="required">
+                    <label>Correo electronico</label>
+                    <input class="form-control" type="email" id="email" name="email" required="required">
+                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!--                                       Modal DB                                                  -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Nueva base de datos</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="formDB" method="POST">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>Nombre de la base de datos</label>
+                                <input type="text" class="form-control" name="nameBD" id="nameBD" required>
+                            </div>
+                            <div class="col-md-12">
+                                <label>Url de la base de datos</label>
+                                <input type="url" required class="form-control" name="Url de la base de datos" id="Url">
+                            </div>
+                                <input type="text" class="form-control" style="display:none" name="user" id="user" value="{{user.id}}">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <!--                                                    Modal RV                                              -->
+    <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel1">Nueva revista</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="formRev" method="POST" action="/revista/new/">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <label>Nombre de la revista</label>
+                                <input type="text" class="form-control" name="Nombre" id="Nombre" required>
+                            </div>
+                            <div class="col-md-12">
+                                <label>ISSN</label>
+                                <input type="text" class="form-control" name="ISSN" id="ISSN1" required>
+                            </div>
+                            <div class="col-md-12">
+                                <label>Base datos en la que se encuentra la revista</label>
+                                <select id="baseData" name="baseData" multiple="multiple"  required>
+
+                                </select>
+                            </div>
+                            <div class="col-md-12">
+                                <label>Cuartil al que pertenece</label>
+                                <input type="text" class="form-control" name="Cuartil_Pertenece" id="Cuartil_Pertenece">
+                            </div>
+
+                            <div class="col-md-12">
+                                <label>Factor impacto</label>
+                                <input type="text" class="form-control" name="Factor_Impacto" id="Factor_Impacto">
+                            </div>
+                            <div class="col-md-12">
+                                <label>Url</label>
+                                <input type="url" required class="form-control" name="Url" id="Url1">
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" style="display:none" name="user" id="user1" value="{{user.id}}">
+                                <input type="text" class="form-control" style="display:none" name="validada" id="validada" value="Ingresada">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <!-- Tags Inputlibreria para limpiar jqueryclean-->
+	<script type="text/javascript" src="{% static 'assets/plugins/tagsinput/bootstrap-tagsinput.min.js' %}"></script>
+    <!-- SCRIPTS - OPTIONAL START -->
+	<script type="text/javascript" src="{% static 'assets/js/misc/holder.min.js' %}"></script>
+	<!-- Form Wizard -->
+	<script type="text/javascript" src="{% static 'assets/plugins/bootstrap-wizard/jquery.bootstrap.wizard.min.js' %}"></script>
+    <!-- Form Validation -->
+	<script type="text/javascript" src="{% static 'assets/plugins/form-validator/jquery.form-validator.min.js' %}"></script>
+    <!-- Form Validation -->
+	<script type="text/javascript" src="{% static 'assets/plugins/typeahead/typeahead.bundle.min.js' %}"></script>
+    <!-- Tags Input -->
+    <script type="text/javascript" src="{% static 'assets/js/scriptsa.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'assets/js/multiselect.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'assets/js/scriptsna.js' %}"></script>
+
+{% endblock %}

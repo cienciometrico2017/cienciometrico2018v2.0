@@ -1,0 +1,30 @@
+{% extends 'base1/inicio.html'%}
+{% load staticfiles %}
+{% block subtitle  %}
+    MIS <span style="color:#FC9C30">titulos</span>
+
+{% endblock%}
+
+{% block home %}
+<li class="nav-item">
+    <li><a href="{% url 'inicio:logeo' %}" class="nav-link"><i class="batch-icon batch-icon-browser-alt"></i> <span>Inicio</span></a>
+</li>
+{% endblock %}
+{% block itemForCompl %}
+<li class="nav-item">
+    <a class="nav-link active" href="{% url 'FormacionComplementaria:lista_Formacion_Complementaria' %}">
+        <i class="batch-icon batch-icon-stamp-alt"></i>
+        Título cuarto grado
+    </a>
+</li>
+
+{% endblock %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <br><br>
+    <h4>¿Desea eliminar el registro de {{object.Nivel_Estudios}} ?</h4>
+    <button class="btn btn-danger" type="submit">Si, eliminar</button>
+    <a class="btn btn-default" href="{% url 'FormacionAcademica:lista_Formacion_Academica' %}">Cancelar</a>
+</form>
+{% endblock %}

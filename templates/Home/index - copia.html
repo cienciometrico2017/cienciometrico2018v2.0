@@ -1,0 +1,111 @@
+{% load staticfiles %}
+<!Doctype html>
+<html style="min-height: 100%;  position: relative;">
+<head>
+	{% block extrastatic %}
+    <link rel="icon" type="image/png" href="static/images/favicon.ico"/>
+    <link rel="stylesheet" href="static/css/styles.css">
+    <link rel="stylesheet" href="static/css/animate.min.css">
+    <link rel="stylesheet" href="{% static 'css/login.css'%}">
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script src="static/js/script.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  {% endblock %}
+    <title>{% block title %}Home {% endblock %}</title>
+   <meta charset='utf-8'>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+
+</style>
+</head>
+<body style="margin: 0;  margin-bottom: 40px;">
+{% block navbar %}
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="{% url 'indexHome:HomePrincipal' %}"><span style="color:#FC9C30">Metro Ciencia</span></a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="{% url 'indexHome:HomePrincipal' %}">Inicio</a></li>
+        <li>
+          <a  href="{% url 'indexHome:produccion' %}">Producción Científica </a>
+
+        </li>
+        <li><a href="{% url 'indexHome:similar' %}">Similares</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+          {% if not user %}
+          <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+          {% else %}
+          <li><a href="index/"><span class="fa fa-user"></span> {{ user.first_name}} {{ user.last_name}}</a></li>
+          {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+{% endblock %}
+{% block content %}
+  <h4>  Bloque de contenido   </h4>
+
+  {% endblock %}
+
+<br><br><br><br>
+{% block footer %}
+ <div  style="background-color: black;  position: absolute;  bottom: 0;  width: 100%; color: white; background-image: url(static/images/social-bg.jpg); background-size:cover; background-position: center center;background-attachment:fixed; background:black">
+			<div class="social_overlay section-padding">
+				<div class="container" >
+					<div class="row text-center" >
+
+						<div>
+							<div class="single_social_profile social_profile_color_one" >
+								<a href="#">
+									<div style="display: inline-block; background-color: #3b5998; color: #fff; padding: 15px; box-shadow: 0 0 0 5px rgba(0,0,0,.1) inset; -webkit-box-shadow: 0 0 0 5px rgba(0,0,0,.1) inset;  border-radius: 100%;  margin: 10px 0;"><i class="fa fa-facebook facebook fa-1x"></i></div>
+
+								</a>
+
+								<a href="#">
+									<div style="display: inline-block; background-color: #4FCCCD; color: #fff; padding: 15px; box-shadow: 0 0 0 5px rgba(0,0,0,.1) inset; -webkit-box-shadow: 0 0 0 5px rgba(0,0,0,.1) inset;  border-radius: 100%;  margin: 10px 0;"><i class="fa fa-twitter twitter fa-1x"></i></div>
+
+								</a>
+
+								<a href="#">
+									<div style="display: inline-block; background-color: #d34836; color: #fff; padding: 15px; box-shadow: 0 0 0 5px rgba(0,0,0,.1) inset; -webkit-box-shadow: 0 0 0 5px rgba(0,0,0,.1) inset;  border-radius: 100%;  margin: 10px 0;"><i class="fa fa-google-plus google fa-1x"></i></div>
+
+								</a>
+
+								<a href="#">
+									<div style="display: inline-block; background-color: #0e76a8; color: #fff; padding: 15px; box-shadow: 0 0 0 5px rgba(0,0,0,.1) inset; -webkit-box-shadow: 0 0 0 5px rgba(0,0,0,.1) inset;  border-radius: 100%;  margin: 10px 0;"><i class="fa fa-linkedin linkedin fa-1x"></i></div>
+
+								</a>
+
+								<a href="#">
+									<div style="display: inline-block; background-color: #c4302b; color: #fff; padding: 15px; box-shadow: 0 0 0 5px rgba(0,0,0,.1) inset; -webkit-box-shadow: 0 0 0 5px rgba(0,0,0,.1) inset;  border-radius: 100%;  margin: 10px 0;"><i class="fa fa-youtube youtube fa-1x"></i></div>
+
+								</a>
+
+								<a href="#">
+									<div style="display: inline-block; background-color: #3f729b; color: #fff; padding: 15px; box-shadow: 0 0 0 5px rgba(0,0,0,.1) inset; -webkit-box-shadow: 0 0 0 5px rgba(0,0,0,.1) inset;  border-radius: 100%;  margin: 10px 0;"><i class="fa fa-instagram instagram fa-1x"></i></div>
+
+								</a>
+							</div>
+						</div><!-- END COL -->
+					</div><!-- END ROW  -->
+				</div><!-- END CONTAINER  -->
+			</div>
+
+		</div>
+
+ {% endblock%}
+</body>
+</html>

@@ -1,0 +1,58 @@
+{% extends 'base1/inicio.html'%}
+{% load staticfiles %}
+
+{% block content %}
+   
+<a href="{% url 'otrainvestigacion:otrasinvestigaciones_crear' %}" class="btn btn-primary  pull-right "><i class="glyphicon glyphicon-plus"></i> Nueva Otra Investigación</a>
+   {% if object_list %}
+<table class="table table-bordered" style="text-align:center; width:100%; ">
+
+	<thead >
+		<tr>
+			<td>#</td>
+			<td>Título</td>
+			<td>Resumen</td>
+			<td>Palabras Claves</td>
+            <td>Documento</td>
+			<td>Fecha de Inicio</td>
+			<td>Fecha de Culminación</td>
+            <td>Link</td>
+            <td>Acciones</td>
+		</tr>
+
+	</thead>
+	<tbody>
+      
+        {% for otrasinvestigaciones in object_list %}
+        <tr>
+            <td>{{otrasinvestigaciones.id}}</td>
+            <td>{{otrasinvestigaciones.Titulo}}</td>
+
+            <td>{{otrasinvestigaciones.Resumen}}</td>
+            <td>{{otrasinvestigaciones.Palabras_Clave}}</td>
+            <td>
+                <li>
+                    <a href="{{ otrasinvestigaciones.Documento.url }}">{{ otrasinvestigaciones.Documento.name }}</a>
+                    <small>(Uploaded at: {{ otrasinvestigaciones.uploaded_at }})</small>
+                </li>
+            </td>
+            <td>{{otrasinvestigaciones.FechaInicio}}</td>
+             <td>{{otrasinvestigaciones.FechaFin}}</td>
+            <td>{{otrasinvestigaciones.Url}}</td>
+            <td>
+                <a class="btn btn-warning" href="{% url 'otrainvestigacion:otrasinvestigaciones_update' otrasinvestigaciones.id %}" ><span class="glyphicon glyphicon-pencil"></span> Editar</a>
+                <a class="btn btn-danger" href="{% url 'otrainvestigacion:otrasinvestigaciones_eliminar' otrasinvestigaciones.id %}"><span class="glyphicon glyphicon-trash"></span> Eliminar</a>
+
+            </td>
+        </tr>
+        {% endfor %}
+
+ 
+
+	</tbody>
+</table>
+       {% else %}
+        <h4>No hay registros de Otras Investigaciones</h4>
+        {% endif %}
+
+{% endblock%}

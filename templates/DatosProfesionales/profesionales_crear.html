@@ -1,0 +1,58 @@
+{% extends 'base1/inicio.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+<form method="post">
+    {% csrf_token %}
+
+    <div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<div class="form-group input-field">
+				<label>Nombre de Profesión Actual</label>
+				{{form.Nombre_Profecion}}
+			</div>
+		</div>
+	</div>
+	<div class="content">
+                   <div class="col-md-8 col-md-offset-2">
+                  <label >Grado Científico:</label>
+                 <select name="Grado_Cientifico" class="browser-default" >
+					 <option value="Seleccione" >---------------------Seleccione--------------------</option>
+					 <option value="Master" >Master</option>
+					 <option value="PhD." >PhD.</option>
+
+
+                    </select>
+	</div>
+        </div>
+    <div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<div class="form-group input-field">
+				<label>Categoría de Docente</label>
+				{{form.Categoria}}
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<div class="form-group">
+				<label>Usuario</label>
+				<select name="perfil" class="browser-default" >
+                            <option value="{{perfil.id}}" selected>{{perfil.user.username}}</option>
+
+                    </select>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<div class="form-group">
+				<button class="btn btn-primary "type="submit"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
+			</div>
+		</div>
+	</div>
+
+</form>
+{% endblock %}

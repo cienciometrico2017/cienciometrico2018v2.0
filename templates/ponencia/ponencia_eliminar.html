@@ -1,0 +1,30 @@
+{% extends 'base1/inicio.html' %}
+{% load staticfiles %}
+{% block subtitle %} 
+        ELIMINAR <span style="color:#FC9C30">PONENCIA</span> <a href="{% url 'pais:pais_listar' %}" class="btn btn-success  pull-right"><i class="glyphicon glyphicon-eye-open"></i> Ver Todos</a>
+{% endblock%}
+{% block home %}
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'inicio:logeo' %}">
+        <i class="batch-icon batch-icon-browser-alt"></i>
+        Inicio
+    </a>
+</li>
+{% endblock %}
+
+{% block ponencia %}
+    <li class="nav-item active">
+        <a class="nav-link active" href="{% url 'Ponencia:ponencia_listar' %}">
+            <i class="batch-icon batch-icon-star"></i>
+            Ponencias
+        </a>
+    </li>
+{% endblock %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <h4>¿Desea eliminar el registro de {{object.Nombre}}?</h4>
+    <button class="btn btn-danger" type="submit">Si, eliminar</button>
+    <a class="btn btn-default" href="{% url 'pais:pais_listar' %}">Cancelar</a>
+</form>
+{% endblock %}

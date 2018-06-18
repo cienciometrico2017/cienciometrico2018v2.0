@@ -1,0 +1,30 @@
+{% extends 'base1/inicio.html' %}
+{% load staticfiles %}
+{% block subtitle %} 
+        Eliminar <span style="color:#FC9C30">capacitación</span>
+{% endblock%}
+{% block home %}
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'inicio:logeo' %}">
+        <i class="batch-icon batch-icon-browser-alt"></i>
+        Inicio
+    </a>
+</li>
+{% endblock %}
+
+{% block capacitaciones %}
+<li class="nav-item">
+    <a class="nav-link active" href="{% url 'capacitacion:capacitacion_listar' %}">
+        <i class="batch-icon batch-icon-newspaper-alt"></i>
+        Capacitaciones
+    </a>
+</li>
+{% endblock %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <h4>¿Desea eliminar el registro de {{object.areaConocimiento}}?</h4>
+    <button class="btn btn-danger" type="submit">Si, eliminar</button>
+    <a class="btn btn-default" href="{% url 'pais:pais_listar' %}">Cancelar</a>
+</form>
+{% endblock %}

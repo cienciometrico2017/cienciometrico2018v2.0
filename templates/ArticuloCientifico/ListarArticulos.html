@@ -1,0 +1,96 @@
+{% extends 'base1/inicio.html'%}
+{% load staticfiles %}
+{% block title %}
+    Listado de Artículos cientificos
+{% endblock%}
+
+{% block subtitle %}
+    LISTADO DE <span style="color:#07afea">Artículos científicos</span>
+     <a href="{% url 'articulosCientificos:articulos' %}" class="btn btn-primary btn-md pull-right "><i class="fa fa-plus"></i> Nuevo Artículo Científico</a>
+{% endblock%}
+{% block home %}
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'inicio:logeo' %}">
+        <i class="batch-icon batch-icon-browser-alt"></i>
+        Inicio
+    </a>
+</li>
+{% endblock %}
+
+{% block itemArti %}
+<li class="nav-item">
+   <a class="nav-link active" href="{% url 'articulosCientificos:ListaArticulo' %}">
+       <i class="batch-icon batch-icon-compose"></i>
+       Artículos Científicos
+   </a>
+</li>
+{% endblock %}
+
+{% block content %}
+
+   <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12 pb-5">
+                        <div class="table-responsive">
+                            {% if articulo %}
+                            <table id="datatable-1" class="table table-datatable table-striped table-hover">
+                                 <thead>
+                                    <tr>
+
+                                        <td>Título del Artículo </td>
+                                        <td>Fecha de Publicación</td>
+                                        <td>ISSN</td>
+                                        <td>Url</td>
+                                        <td>Doi</td>
+                                        <td>Archivo</td>
+                                        <td style="width:18%">Acciones</td>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+
+                                    {% for i in articulo %}
+                                    <tr>
+                                       <td>{{i.titulo|truncatechars:50}}</td>
+                                       <td>{{i.fechaPublicacion}}</td>
+                                       <td>{{i.iSSN}}</td>
+                                       <td>
+                                       <a href="{{i.url}}" target="_blank">URL</a>
+                                       </td>
+
+                                       <td>
+                                           <a href="{{i.doi}}" target="_blank">DOI</a>
+                                       </td>
+                                        <td>
+                                            {% if not i.documento == '' %}
+                                                <a href="{{i.documento.url}}" target="_blank">Anexo</a>
+                                            {% endif %}
+                                       </td>
+                                       <td>
+                                          <a class="btn btn-primary btn-sm" href="{% url 'articulosCientificos:update_articulo'  i.id %}" ><span class="fa fa-pencil"></span> Editar</a>
+                                          <a class="btn btn-danger btn-sm" href="{% url 'articulosCientificos:deleteArt'  i.id %}" onclick="return confirm('¿El artículo sera removido de la base de datos?');"><span class="fa fa-trash"></span> Eliminar</a>
+                                       </td>
+                                    </tr>
+                                    {% endfor %}
+
+                                 </tbody>
+                            </table>
+                            {% else %}
+                                <h4>No hay registros de artículos científicos</h4>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock%}
+{% block scripts %}
+    <!-- Datatables -->
+    <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/jquery.dataTables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/dataTables.responsive.min.js' %}"></script>
+    <!-- <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/responsive.bootstrap4.min.js' %}"></script> -->
+{% endblock %}

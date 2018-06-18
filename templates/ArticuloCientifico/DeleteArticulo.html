@@ -1,0 +1,33 @@
+{% extends 'base1/inicio.html'%}
+{% load staticfiles %}
+{% block subtitle %}
+    LISTADO DE <span style="color:#FC9C30">Articulos cientificos</span>
+     <a href="{% url 'articulosCientificos:articulos' %}" class="btn btn-primary  pull-right "><i class="glyphicon glyphicon-plus"></i> Nuevo Artículo Científico</a>
+{% endblock%}
+{% block home %}
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'inicio:logeo' %}">
+        <i class="batch-icon batch-icon-browser-alt"></i>
+        Inicio
+    </a>
+</li>
+{% endblock %}
+
+
+{% block itemArti %}
+<li class="nav-item">
+   <a class="nav-link active" href="{% url 'articulosCientificos:ListaArticulo' %}">
+       <i class="batch-icon batch-icon-compose"></i>
+       Artículos Científicos
+   </a>
+</li>
+{% endblock %}
+{% block content %}
+<form method="post">
+   {% csrf_token %}
+   <br><br>
+   <h4>¿Desea eliminar el registro de {{object.Nombre}}?</h4>
+   <button class="btn btn-danger" type="submit">Si, eliminar</button>
+   <a class="btn btn-default" href="{% url 'articulosCientificos:ListaArticulo' %}">Cancelar</a>
+</form>
+{% endblock %}

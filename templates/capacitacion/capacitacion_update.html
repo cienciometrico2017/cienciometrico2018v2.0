@@ -1,0 +1,61 @@
+{% extends 'base1/inicio.html' %}
+{% load staticfiles %}
+{% block title %}
+    Actualizar capacitación
+{% endblock%}
+{% block subtitle %}
+{% endblock%}
+{% block home %}
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'inicio:logeo' %}">
+        <i class="batch-icon batch-icon-browser-alt"></i>
+        Inicio
+    </a>
+</li>
+{% endblock %}
+
+{% block capacitaciones %}
+<li class="nav-item">
+    <a class="nav-link active" href="{% url 'capacitacion:capacitacion_listar' %}">
+        <i class="batch-icon batch-icon-newspaper-alt"></i>
+        Capacitaciones
+    </a>
+</li>
+{% endblock %}
+{% block content %}
+	<div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12 pb-5">
+						<div class="panel panel-headline">
+						    <div class="panel-body">
+								<form method="post" enctype="multipart/form-data">
+                                	{% csrf_token %}
+									<div class="card-header">
+										 ACTUALIZAR información de: {{ form.descripcion.value }}
+									</div>
+									<div class="card-body">
+										<div class="row">
+											<div class="col-md-12">
+												{{ form.as_p }}
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-8 col-md-offset-2">
+												<div class="form-group">
+													<button class="btn btn-primary "type="submit"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+{% endblock %}

@@ -1,0 +1,314 @@
+{% extends 'base1/inicio.html'%}
+{% load staticfiles %}
+
+{% block extrastatic %}
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAiVBq0HNzpFaQrKvjWzHP862amAuwGnE0"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+{% endblock %}
+{% block content %}
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12 pb-5">
+                        <form method="post">
+                            {% csrf_token %}
+
+                              <div class="container">
+                               <div class="row">
+                                <div class="input-field col s12">
+                                 <label >Cédula:</label>
+                                <input id="input_number" type="number" data-length="10" maxlength="10" minlength="10" name="cedula" class="validate" required>
+                                </div>
+
+                              </div>
+                                  </div>
+                             <div class="row">
+                                  <div class="input-field col s6">
+                                      <label >Nombres:</label>
+                                      {{form2.first_name}}
+                                  </div>
+                                  <div class="input-field col s6">
+                                      <label >Apellidos:</label>
+                                      <input type="text" name="last_name" class="validate" required >
+                                  </div>
+
+                             </div>
+
+                               <div class="row">
+                                    <div class="input-field col s6">
+                                      <label >Teléfono:</label>
+                                         <input type="number" name="telefono" class="validate" required>
+                                  </div>
+
+                                  <div class="input-field col s6">
+                                      <label >Correo Electrónico:</label>
+                                         <input type="email" name="email" class="validate" required>
+                                  </div>
+
+                             </div>
+
+                            <div class="content">
+                                           <div class="col-md-14 col-md-offset-">
+                                          {{form.genero}}
+                            </div>
+                                </div>
+
+                             <div class="row">
+                                <div class="input-field col s12">
+                                          <label >Nacionalidad:</label>
+                                         <input type="text" name="nacionalidad" class="validate" required >
+                            </div>
+                                </div>
+
+                              <div class="row">
+                                    <div class=" col s8">
+                                <label >Dirección:</label>
+                                <input type="text" name="direccion" class="form-control" id="address1" required>
+                                    </div>
+
+                                  <div class="input-field col s2">
+                                       <input type="button"   class="btn btn-success" value="Obtener Dirección" onclick="codeLatLng()" >
+                                      <input id="latlng" value="-0.917476, -78.632573"  style="display:none" type="text" name="coordenadas" class="form-control" >
+
+                                  </div>
+
+                             </div>
+
+                               <div class="row">
+                                    <div class="input-field col s8">
+                                <label >Buscar País, ciudad o dirección:</label>
+                                        <input id="add" type="text" class="form-control"  >
+                                    </div>
+
+                                  <div class="input-field col s2">
+                                       <input type="button" class="btn btn-primary" value="Buscar en Mapa" onclick="codeAddress()">
+                                  </div>
+
+                             </div>
+                              <div class="row">
+                                    <div class="input-field col s12">
+
+                                        <div align="center" id="map_canvas" style="width: 800px; height: 300px; z-index:0;">
+                                        </div>
+
+                                </div>
+                                </div>
+
+                            <br>
+                            <div class="row">
+                                           <div class=" col s12">
+                                          <label >Roles:</label>
+                                          {{ form.roles}}
+
+                            </div>
+                                </div>
+
+
+                              <div class="row">
+                                <div class="input-field col s12">
+
+                                          <label >Usuario:</label>
+                                          <input type="text" name="username" class="validate" required >
+                                </div>
+
+                              </div>
+
+                             <div class="row">
+                                  <div class="input-field col s12">
+                                     <label >Contraseña:</label>
+                                         <input type="password" name="password" class="validate" required >
+                                  </div>
+
+                             </div>
+
+
+
+                            <div class="content" style="display:none">
+                                           <div class="col-md-9 col-md-offset-2">
+                                             <label >Activo:</label>
+                                         <input type="checkbox"  style="display:none" checked name="is_staff" class="form-control" >
+                            </div>
+                                </div>
+                            <div class="content" >
+                                <div class="col-md-9 col-md-offset-2">
+
+                            </div>
+                                </div>
+                            <div class="content">
+                                <div class="col-md-8 col-md-offset-2">
+                                    <div class="form-group">
+                                        <button class="btn btn-primary "type="submit">Guardar</button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <script type='text/javascript'>
+                                          var geocoder;
+                                          var map;
+                                          var infowindow = null;
+                                          function openInfoWindow(marker) {
+                                          var markerLatLng = marker.getPosition();
+
+                                          infoWindow.setContent([
+                                             '<strong>La posicion del marcador es:</strong><br/>',
+                                             markerLatLng.lat(),
+                                             ', ',
+                                             markerLatLng.lng(),
+                                             '<br/>ArrÃ¡strame para actualizar la posiciÃ³n.'
+                                          ].join(''));
+                                          infoWindow.open(map, marker);
+                                          document.getElementById('latlng').value = markerLatLng.lat()+','+markerLatLng.lng();
+
+                                          }
+
+
+                                          var marker = new google.maps.Marker({
+                                             position: latlng,
+                                             draggable: true,
+                                             map: map,
+                                          });
+                                          google.maps.event.addListener(marker, 'dragend', function(){ openInfoWindow(marker); });
+                                          google.maps.event.addListener(marker, 'click', function(){ openInfoWindow(marker); });
+
+                                          function closeInfoWindow() {
+                                             infowindow.close();
+                                          }
+
+                                          function initialize() {
+                                          geocoder = new google.maps.Geocoder();
+                                          var latlng = new google.maps.LatLng(-0.917476, -78.632573);
+                                          var mapOptions = {
+                                          zoom: 13,
+                                          center: latlng,
+                                          mapTypeId: 'roadmap'
+                                          }
+                                          infoWindow = new google.maps.InfoWindow();
+                                          map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+
+                                          google.maps.event.addListener(map, 'click', function(){
+                                                 closeInfoWindow();
+                                               });
+                                          }
+
+                                          function codeLatLng() {
+                                          var input = $('#latlng').val();
+                                          var latlngStr = input.split(',', 2);
+                                          var lat = parseFloat(latlngStr[0]);
+                                          var lng = parseFloat(latlngStr[1]);
+                                          var latlng = new google.maps.LatLng(lat, lng);
+                                          geocoder.geocode({'latLng': latlng}, function(results, status) {
+                                          if (status == google.maps.GeocoderStatus.OK) {
+                                           if (results[0]) {
+
+                                             map.setCenter(results[0].geometry.viewport);
+                                                     marker.setMap(map);
+                                                     marker.setPosition(latlng);
+                                             $('#address').text(results[0].formatted_address);
+                                             document.getElementById('address1').value=results[0].formatted_address;
+                                             infowindow.setContent(results[0].formatted_address);
+                                             infowindow.open(map, marker);
+                                             google.maps.event.addListener(marker, 'click', function(){
+                                                 infowindow.setContent(results[0].formatted_address);
+                                                 infowindow.open(map, marker);
+
+                                             });
+                                           } else {
+                                             alert('No results found');
+                                           }
+                                          } else {
+                                           alert('Geocoder failed due to: ' + status);
+                                          }
+                                          });
+
+                                          }
+
+                                          $(document).ready(function(){
+                                          initialize();
+                                          gmaps_ads();
+
+                                          });
+                                          function codeAddress() {
+                                                var address = document.getElementById('add').value;
+                                                geocoder.geocode( { 'address': address}, function(results, status) {
+                                                    if (status == 'OK') {
+                                                        map.setCenter(results[0].geometry.location);
+                                                        marker.setMap(map);
+                                                        marker.setPosition(results[0].geometry.location);
+                                                        var markerLtLg = marker.getPosition();
+                                                        document.getElementById('latlng').value=markerLtLg.lat()+','+markerLtLg.lng();
+
+                                                    } else {
+                                                        alert('Localización no tuvo éxito por la siguiente razón: ' + status);
+                                                    }
+                                                });
+                                          }
+                                       </script>
+                                       <script>
+                                       function showContent() {
+                                element = document.getElementById("content");
+                                check = document.getElementById("check");
+                                if (check.checked) {
+                                    element.style.display='block';
+                                }
+                                else {
+                                    element.style.display='none';
+                                }
+                            }
+                                       </script>
+
+                                          <script>
+                                       function showContent2() {
+                                element = document.getElementById("content2");
+                                check = document.getElementById("check2");
+                                if (check.checked) {
+                                    element.style.display='block';
+                                }
+                                else {
+                                    element.style.display='none';
+                                }
+                            }
+                            </script>
+                            <script>
+                                  function showContenido() {
+                                    element = document.getElementById("contenido");
+                                    check = document.getElementById("check3");
+                                    if (check.checked) {
+                                        element.style.display='block';
+                                    }
+                                    else {
+                                        element.style.display='none';
+                                    }
+                                }
+
+
+                                function showContenido2() {
+                                    element = document.getElementById("contenido2");
+                                    check = document.getElementById("check4");
+                                    if (check.checked) {
+                                        element.style.display='block';
+                                    }
+                                    else {
+                                        element.style.display='none';
+                                    }
+                                }
+                            </script>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% for message in messages %}
+    <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+            {{ message }}
+    </div>
+{% endfor %}
+{% endblock %}

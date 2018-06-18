@@ -1,0 +1,58 @@
+{% extends 'base1/inicio.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+
+<a href="{% url 'datosprofe:datosprofe_crear' %}" class="btn btn-primary  pull-right "><i class="glyphicon glyphicon-plus"></i> Nuevo Dato Profesional</a>
+  {% if object_list %}
+<table class="table table-bordered" style="text-align:center; " >
+
+	<thead>
+		<tr>
+			<td>#</td>
+			<td>Nombre</td>
+            <td>Grado Científico</td>
+			<td>Categoría</td>
+            <td>Usuario</td>
+            <td>Acciones</td>
+		</tr>
+
+	</thead>
+	<tbody>
+      
+        {% for datos_profecionales in object_list %}
+        <tr>
+            <td>{{datos_profecionales.id}}</td>
+            <td>{{datos_profecionales.Nombre_Profecion}}</td>
+            <td>{{datos_profecionales.Grado_Cientifico}}</td>
+            <td>{{datos_profecionales.Categoria}}</td>
+            <td>{{datos_profecionales.perfil.user.username}}</td>
+            <td>
+                 <a class="btn btn-warning" href="{% url 'datosprofe:datosprofe_editar' datos_profecionales.id %}"><span class="glyphicon glyphicon-pencil"></span> Editar</a>
+                <a class="btn btn-danger" href="{% url 'datosprofe:datosprofe_eliminar' datos_profecionales.id %}"><span class="glyphicon glyphicon-trash"></span> Eliminar</a>
+            </td>
+        </tr>
+        {% endfor %}
+
+      
+
+	</tbody>
+</table>
+<ul class="pager">
+    <li>
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+    </li>
+    <li>
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">Next</a>
+        {% endif %}
+    </li>
+</ul>
+  {% else %}
+        <h4>No hay registros de Datos Profesionales</h4>
+        {% endif %}
+
+{% endblock%}

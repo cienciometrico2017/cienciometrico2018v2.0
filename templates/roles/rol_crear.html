@@ -1,0 +1,60 @@
+{% extends 'base1/inicio.html'%}
+{% load staticfiles %}
+{% block subtitle %}
+    NUEVO <span style="color:#FC9C30">ROL</span>
+    <!-- Button trigger modal -->
+{% endblock%}
+{% block home %}
+<li class="nav-item">
+    <li><a href="{% url 'inicio:logeo' %}" class="nav-link"><i class="batch-icon batch-icon-browser-alt"></i> <span>Inicio</span></a>
+</li>
+{% endblock %}
+{% block rol %}
+<li class="nav-item">
+    <a class="nav-link active" href="{% url 'roles:crear_rol' %}">
+        <i class="batch-icon batch-icon-star"></i>
+        Rol
+    </a>
+</li>
+{% endblock %}
+{% block content %}
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12 pb-5">
+                        <form method="post">
+
+                            {% csrf_token %}
+
+                            <div class="row">
+                                <div class="col-md-12 col-md-offset-2">
+                                    <div class="form-group">
+                                    {{ form.as_p }}
+                                    </div>
+                                </div>
+                            </div>
+                            <!--
+                            <div class="btn-group" data-toggle="buttons">
+                                {% for checkbox in form.privilegios %}
+                                    <label class="btn btn-primary">
+                                    {{ checkbox.tag }} {{ checkbox.choice_label }}
+                                    </label>
+                                {% endfor %}
+                             </div>
+                             -->
+                            <div class="row">
+                                <div class="col-md-8 col-md-offset-2">
+                                    <div class="form-group">
+                                        <button class="btn btn-primary "type="submit">Guardar</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

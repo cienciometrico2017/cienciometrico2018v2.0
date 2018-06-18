@@ -1,0 +1,233 @@
+<!-- WRAPPER -->
+	<div id="wrapper">
+
+		<!-- NAVBAR -->
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="brand">
+				<a href="index.html"><img src="{% static 'images/logo2.png' %}" style="width: 100px; height: 25px" alt="Klorofil Logo" class="img-responsive logo"></a>
+			</div>
+			<div class="container-fluid">
+				<div class="navbar-btn">
+					<button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
+				</div>
+
+
+				<div id="navbar-menu">
+					<ul class="nav navbar-nav navbar-right">
+
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="{% static 'images/user.png' %}" class="img-circle" alt="image"> <span>{{user.username}}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+							<ul class="dropdown-menu">
+								<li><a href="#"><i class="lnr lnr-user"></i> <span>My Profile</span></a></li>
+								<li><a href="#"><i class="lnr lnr-envelope"></i> <span>Message</span></a></li>
+								<li><a href="#"><i class="lnr lnr-cog"></i> <span>Settings</span></a></li>
+								<li><a href="{% url 'logout'%}"><i class="lnr lnr-exit"></i> <span>Cerrar Sesión</span></a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<!-- END NAVBAR -->
+
+		<!-- LEFT SIDEBAR -->
+		<div id="sidebar-nav" class="sidebar">
+			<div class="sidebar-scroll">
+				<nav>
+					<ul class="nav">
+						{% block home %}
+    					<li><a href="{% url 'inicio:logeo' %}" class="active"><i class="lnr lnr-home"></i> <span>Inicio</span></a></li>
+						{% endblock %}
+						{% if user.is_authenticated and user.is_staff == True and user.is_superuser == True %}
+						<li>
+							<a href="#subPages" data-toggle="collapse" class="collapsed"><i class="glyphicon glyphicon-globe"></i> <span>Datos Generales</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+							<div id="subPages" class="collapse ">
+								<ul class="nav">
+									{% block pais %}
+									<li><a href="{% url 'pais:pais_listar' %}"><i class="lnr lnr-home"></i> <span>País</span></a></li>
+									{% endblock %}
+									{% block zona %}
+									<li><a href="{% url 'zona:zona_listar' %}" ><i class="lnr lnr-home"></i> <span>Zona</span></a></li>
+									{% endblock %}
+									{% block provincia %}
+									<li><a href="{% url 'provincia:provincia_listar' %}" ><i class="lnr lnr-home"></i> <span>Provincia</span></a></li>
+									{% endblock %}
+									{% block canton %}
+									<li><a href="{% url 'canton:canton_listar' %}"><i class="lnr lnr-home"></i> <span>Cantón</span></a></li>
+									{% endblock %}
+									{% block universidad %}
+									<li><a href="{% url 'universidad:universidad_listar' %}"><i class="lnr lnr-home"></i> <span>Universidad</span></a></li>
+									{% endblock %}
+								</ul>
+							</div>
+						</li>
+						{% endif %}
+
+						{% for us in usuario%}
+						{% if us == 'ver_campus' %}
+						{% block campus %}
+						<li><a href="{% url 'campus:campus_listar' %}"><i class="lnr lnr-code"></i><span> Campus</span></a></li>
+						{% endblock %}
+						{% endif %}
+						{% if us == 'ver_facultad' %}
+						{% block Facultad %}
+						<li><a href="{% url 'Facultad:lista_Facultad' %}"><i class="lnr lnr-code"></i><span> Facultad</span></a></li>
+						{% endblock %}
+						{% endif %}
+						{% endfor%}
+
+						{% for us in usuario%}
+						{% if us == 'ver_carrera' %}
+						{% block carrera %}
+						<li><a href="{% url 'carrera:lista_Carrera' %}"><i class="lnr lnr-code"></i><span> Carrera</span></a></li>
+						{% endblock %}
+						{% endif %}
+						{% endfor%}
+
+						{% if user.is_authenticated and user.is_staff == True and user.is_superuser == True %}
+						{% block itemRevista %}
+						<li><a href="{% url 'Revista:lista_Revista' %}" class=""><i class="lnr lnr-code"></i> <span>Revista</span></a></li>
+						{% endblock %}
+						{% endif%}
+						{% if user.is_authenticated and user.is_staff == True and user.is_superuser == True %}
+						<label>Usuario</label>
+						{% block rol %}
+						<li><a href="{% url 'roles:crear_rol' %}" class=""><i class="lnr lnr-code"></i> <span>Rol</span></a></li>
+						{% endblock %}
+
+
+						{% block usuario %}
+						<li><a href="{% url 'usuario:registrar' %}" class=""><i class="lnr lnr-code"></i> <span>Usuario</span></a></li>
+						{% endblock %}
+						{% endif %}
+
+						{% for us in usuario%}
+						{% if us == 'ver_datosprofesionales' %}
+						<label>Datos Usuario</label>
+
+						{% block item5 %}
+						<li><a href="{% url 'datosprofe:datosprofe_listar' %}" class=""><i class="lnr lnr-code"></i> <span>Datos Profesionales</span></a></li>
+
+						{% endblock %}
+						{% endif %}
+						{% if us == 'ver_formacionAcademica' %}
+						{% block itemForAcad %}
+						<li><a href="{% url 'FormacionAcademica:lista_Formacion_Academica' %}" class=""><i class="lnr lnr-code"></i> <span>Formación Académica</span></a></li>
+						{% endblock %}
+						{% endif %}
+						{% if us == 'ver_FormacionComplementaria' %}
+						{% block itemForCompl %}
+						<li><a href="{% url 'FormacionComplementaria:lista_Formacion_Complementaria' %}" class=""><i class="lnr lnr-code"></i> <span>Formación Complementaria</span></a></li>
+						{% endblock %}
+						{% endif %}
+						{% endfor %}
+						{% for us in usuario%}
+						{% if us == 'ver_articulo' %}
+						<label>Producción Científica</label>
+
+						{% block itemArti %}
+						<li><a href="{% url 'articulosCientificos:ListaArticulo' %}" class=""><i class="lnr lnr-code"></i> <span>Artículos Científicos</span></a></li>
+						{% endblock %}
+						{% endif %}
+						{% if us == 'ver_libro' %}
+						{% block itemLibro %}
+						<li><a href="{% url 'Libro:libro_lis' %}" class=""><i class="lnr lnr-code"></i> <span>Libros</span></a></li>
+						{% endblock %}
+						{% endif %}
+						{% if us == 'ver_ParticipacionesEventos' %}
+						{% block item2 %}
+						<li><a href="{% url 'partevento:partevento_lis' %}" class=""><i class="lnr lnr-code"></i> <span>Participación en Eventos</span></a></li>
+						{% endblock %}
+						{% endif %}
+						{% endfor %}
+						{% for us in usuario%}
+						{% if us == 'ver_Proyectos' %}
+						<label>Producción Científica</label>
+
+						{% block itemProyecto %}
+						<li><a href="{% url 'proyecto:proyectos_lis' %}" class=""><i class="lnr lnr-code"></i> <span>Proyectos</span></a></li>
+						{% endblock %}
+						{% endif %}
+						{% endfor %}
+						{% for us in usuario%}
+						{% if us == 'ver_otrasinvestigaciones' %}
+						{% block item1 %}
+						<li><a href="{% url 'otrainvestigacion:otrasinvestigaciones_lis' %}" class=""><i class="lnr lnr-code"></i> <span>Otras Investigaciones</span></a></li>
+						{% endblock %}
+						{% endif %}
+						{% if us == 'ver_Publicaciones' %}
+						{% block itemPublicaciones %}
+						<li><a href="{% url 'publicaciones:lista_Publicaciones' %}" class=""><i class="lnr lnr-code"></i> <span>Otras Publicaciones</span></a></li>
+						{% endblock %}
+						{% endif %}
+						{% endfor %}
+						{% for us in usuario%}
+						{% if us == 'ver_investigaciones' %}
+
+						{% block item %}
+						<li><a href="{% url 'investigacion:investigaciones_lis' %}" class=""><i class="lnr lnr-code"></i> <span>Investigaciones</span></a></li>
+						{% endblock %}
+						{% endif %}
+
+						{% if us == 'ver_evento' %}
+						{% block eveto %}
+						<li><a href="{% url 'evento:lista_Evento' %}" class=""><i class="lnr lnr-code"></i> <span>Evento</span></a></li>
+						{% endblock %}
+						{% endif %}
+
+						{% endfor %}
+
+						<li>
+							<a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-file-empty"></i> <span>Pages</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+							<div id="subPages" class="collapse ">
+								<ul class="nav">
+									<li><a href="page-profile.html" class="">Profile</a></li>
+									<li><a href="page-login.html" class="">Login</a></li>
+									<li><a href="page-lockscreen.html" class="">Lockscreen</a></li>
+								</ul>
+							</div>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+		<!-- END LEFT SIDEBAR -->
+		<!-- MAIN -->
+		<div class="main">
+			<!-- MAIN CONTENT -->
+			<div class="main-content">
+				<div class="container-fluid">
+					
+					{% block content %}
+
+					{% endblock %}
+
+				</div>
+			</div>
+			<!-- END MAIN CONTENT -->
+		</div>
+		<!-- END MAIN -->
+
+		<!-- END MAIN -->
+		<div class="clearfix"></div>
+		<footer>
+			<div class="container-fluid">
+				<p class="copyright">&copy; 2018 <a href="https://www.themeineed.com" target="_blank">Theme I Need</a>. All Rights Reserved.</p>
+			</div>
+		</footer>
+	</div>
+	<!-- END WRAPPER -->
+
+
+
+
+
+
+
+
+
+		</div>
+		<div class="w3-main" style="margin-left:200px; ">
+			<div class="w3-teal"  >
+				<button class="w3-button w3-teal w3-xlarge w3-hide-large"  onclick="w3_open()">&#9776;</button>
+			</div>

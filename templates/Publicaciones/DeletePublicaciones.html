@@ -1,0 +1,17 @@
+{% extends 'base1/inicio.html'%}
+{% load staticfiles %}
+    {% block home %}
+    <a href="{% url 'inicio:logeo' %}"  class=" w3-bar-item w3-button"><img width="15%" src="{% static 'images/home.png' %}"> Home</a>
+    {% endblock %}
+    {% block itemPublicaciones %}
+    <a href="{% url 'publicaciones:lista_Publicaciones' %}" id="uno" class="w3-bar-item w3-button"><img width="15%" src="{% static 'images/publicaciones.png' %}">Otras Publicaciones</a>
+    {% endblock %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <br><br>
+    <h4>¿Desea eliminar el registro de {{object.Titulo}} ?</h4>
+    <button class="btn btn-danger" type="submit">Si, eliminar</button>
+    <a class="btn btn-default" href="{% url 'publicaciones:lista_Publicaciones' %}">Cancelar</a>
+</form>
+{% endblock %}

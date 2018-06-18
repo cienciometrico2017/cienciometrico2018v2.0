@@ -1,0 +1,202 @@
+{% extends 'Home/index.html' %}
+{% load staticfiles %}
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script>
+
+
+		   /*TABLA*/
+
+
+		   var table = $('#tblInvestigadores').DataTable({
+			   "searching": false,
+		       dom: 'Blfrtip',
+	            buttons: [
+	            ],
+		        "lengthMenu": [[5,10, 20,100, -1], [5,10, 20,100,"Todos"]],
+		    	 "oLanguage": {
+		   		 "oPaginate": {
+		   		        "sPrevious": "Anterior",
+		   		        "sNext": "Siguiente"
+		   		      },
+		   		  "sSearch": "Buscar:",
+		   		  "sLengthMenu": "Ver _MENU_ registros",
+		   		  "sInfo": "Total: _TOTAL_ registro. Mostrando desde el _START_ al _END_",
+		   		  "sZeroRecords": "No se encontraron resultados"
+		   	    }
+
+		   } );
+
+
+
+
+
+		   /*TABLA*/
+
+
+		</script>
+<!------------NAVBAR------------------->
+{% block navbar %}
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="{% url 'indexHome:HomePrincipal' %}"><span style="color:#FC9C30">SIVPCE CIYA</span></a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="{% url 'indexHome:HomePrincipal' %}">Inicio</a></li>
+        <li >
+          <a  href="{% url 'indexHome:produccion' %}">Producción Científica </a>
+
+        </li>
+        <li class="active"><a href="{% url 'indexHome:similar' %}">Similares</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+               <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+{% endblock %}
+{% block content %}
+<div class="container" align="center">
+	<!-- START SERVICES -->
+		<section data-stellar-background-ratio="0.4" id="service" class="our_services"  style="background-image: url('../static/images/images.jpg'); background-size:cover; background-position: center center;">
+			<div class="service_overlay section-padding">
+			   <div class="container">
+					<div class="row text-center">
+						<div class="section-title wow zoomIn">
+							<br /><br />
+							<h2 class="section-title-white" ><font color="white"> <i class="fa fa-star"> </i> Producción Científica  </font><span><font color="orange"> SIMILAR</font></span></h2>
+							<br />
+						</div>
+					</div><!-- END ROW -->
+				</div><!-- END CONTAINER -->
+			</div><!-- END SERVICE OVERLAY -->
+		</section>
+		<!-- END SERVICES -->
+<br><br><br><br>
+
+    <section class="blog_post section-padding" style="margin-top: -50px;">
+			<div class="container" >
+
+				<div class="row">
+					<div class="col-md-9 col-sm-9 col-xs-12">
+							<form action="">
+							<h2>Buscar Investigador por Carrera</h2>
+				           	<div id="custom-search-input">
+	                            <div class="input-group">
+
+	                                	  	<select class="form-control" onchange="buscar();" name="carrera" id="carrera"  class="form-control selectpicker" title="--Seleccione una opción--">
+
+	                                	<option value="">Seleccione una opcion </option>
+
+									   			<option value="1">Sistemas</option>
+
+
+
+	                                							    			<option value="2">Electromecánica</option>
+
+
+
+	                                							    			<option value="3">Industrial</option>
+
+
+
+	                                							    			<option value="4">Eléctrica</option>
+
+
+
+	                                							    			<option value="5">Diseño Gráfico</option>
+
+
+
+	                                							    			<option value="6">Contabilidad de costos</option>
+
+
+
+
+	                                </select>
+	                                <span class="input-group-btn">
+	                                    <button class="btn btn-danger" >
+	                                        <span class=" glyphicon glyphicon-search"> </span> Buscar
+	                                    </button>
+	                                </span>
+	                            </div>
+	                       	 </div>
+	                       	 </form>
+
+	                       	 <br />
+
+	                       	 <table class="table" id="tblInvestigadores">
+
+
+	                       	 	<thead>
+		                       	 	<tr class="alert alert-warning">
+		                       	 		<th>No.</th>
+		                       	 		<th>Foto</th>
+		                       	 		<th>Nombre</th>
+		                       	 		<th>Apellido</th>
+		                       	 		<th>Carrera</th>
+		                       	 		<th>Email</th>
+		                       	 	</tr>
+		                       	 </thead>
+
+		                       	 <tbody>
+								 {% for p in usuario %}
+								 <tr>
+								 <td>{{p.id}}</td>
+								 <td>{{p.Genero}}</td>
+								 <td>{{p.user.first_name}}</td>
+								 <td>{{p.user.last_name}}</td>
+								 <td>{{p.user.email}}</td>
+								 </tr>
+								 {% endfor%}
+
+			                       	 				                      </tbody>
+
+	                       	 </table>
+
+
+
+
+
+
+
+
+
+					</div><!--- END COL -->
+					<div class="col-md-3 col-sm-3 col-xs-12">
+						<div class="list-group" align="left">
+							<h4 class="list-group-item " align="center">Carreras de Investigación</h4>
+							<ul>
+
+																	  		<li class="list-group-item"><a href=""> <i class="fa fa-arrow-right"> </i>Sistemas </a></li>
+								 			 								  		<li class="list-group-item"><a href="similares.php?opcion=2"> <i class="fa fa-arrow-right"> </i>Electromecánica </a></li>
+								 			 								  		<li class="list-group-item"><a href="similares.php?opcion=3"> <i class="fa fa-arrow-right"> </i>Industrial </a></li>
+								 			 								  		<li class="list-group-item"><a href="similares.php?opcion=4"> <i class="fa fa-arrow-right"> </i>Eléctrica </a></li>
+								 			 								  		<li class="list-group-item"><a href="similares.php?opcion=5"> <i class="fa fa-arrow-right"> </i>Diseño Gráfico </a></li>
+								 			 								  		<li class="list-group-item"><a href="similares.php?opcion=6"> <i class="fa fa-arrow-right"> </i>Contabilidad de costos </a></li>
+
+
+
+							</ul>
+						</div>
+
+
+					</div><!--- END COL -->
+				</div><!--- END ROW -->
+			</div><!--- END CONTAINER -->
+		</section>
+		<!-- END BLOG SINGLE -->
+
+</div>
+{% endblock %}

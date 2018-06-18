@@ -1,0 +1,82 @@
+{% extends 'base1/inicio.html'%}
+{% load staticfiles %}
+{% block subtitle  %}
+    MIS <span style="color:#FC9C30">titulos</span>
+    <a href="{% url 'FormacionComplementaria:create_Formacion_Complementaria' %}" class="btn btn-primary  pull-right "><i class="glyphicon glyphicon-plus"></i> Nueva Formación Complementaria</a>
+{% endblock%}
+
+{% block home %}
+<li class="nav-item">
+    <li><a href="{% url 'inicio:logeo' %}" class="nav-link"><i class="batch-icon batch-icon-browser-alt"></i> <span>Inicio</span></a>
+</li>
+{% endblock %}
+{% block itemForCompl %}
+<li class="nav-item">
+    <a class="nav-link active" href="{% url 'FormacionComplementaria:lista_Formacion_Complementaria' %}">
+        <i class="batch-icon batch-icon-stamp-alt"></i>
+        Título cuarto grado
+    </a>
+</li>
+
+{% endblock %}
+{% block content %}
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12 pb-5">
+                        <div class="table-responsive">
+                            {% if object_list %}
+                            <table id="datatable-1" class="table table-datatable table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>Tipo de Formación</td>
+                                        <td>Título Adquirido</td>
+                                        <td>Fecha Finalización</td>
+                                        <td>Centro de Estudios</td>
+                                        <td style="width:16%">Acciones</td>
+                                    </tr>
+
+                                </thead>
+                                <tbody>
+
+                                    {% for formacion_complementaria in object_list %}
+                                    <tr>
+                                        <td>{{formacion_complementaria.id}}</td>
+
+                                        <td>{{formacion_complementaria.Nivel_Estudios}}</td>
+                                        <td>{{formacion_complementaria.NombreTitulo}}</td>
+                                        <td>{{formacion_complementaria.Fecha_Fin}}</td>
+                                        <td>{{formacion_complementaria.Nombre_Centro_Estudios}}</td>
+
+                                        <td>
+                                            <a class="btn btn-warning btn-sm" href="{% url 'FormacionComplementaria:update_Formacion_Complementaria' formacion_complementaria.id %}" ><span class="glyphicon glyphicon-pencil"></span>Editar</a>
+                                            <a class="btn btn-danger btn-sm" href="{% url 'FormacionComplementaria:delete_Formacion_Complementaria'  formacion_complementaria.id %}"><span class="glyphicon glyphicon-trash"></span>Eliminar</a>
+
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+
+
+
+                                </tbody>
+                            </table>
+                            {% else %}
+                            <h4>No hay registros de formación complementaria</h4>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock%}
+
+{% block scripts %}
+    <!-- Datatables -->
+    <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/jquery.dataTables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/dataTables.responsive.min.js' %}"></script>
+    <!-- <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/responsive.bootstrap4.min.js' %}"></script> -->
+{% endblock %}

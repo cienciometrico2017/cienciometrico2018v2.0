@@ -1,0 +1,75 @@
+{% extends 'base1/inicio.html' %}
+{% load staticfiles %}
+{% block extrastatic %}
+{% endblock %}
+    {% block subtitle %} 
+        LISTADO DE <span style="color:#FC9C30">PAÍSES</span> 
+        <!-- Button trigger modal -->
+        
+        <a href="{% url 'pais:pais_crear' %}" class="btn btn-success  pull-right "><i class="glyphicon glyphicon-plus"></i> Nuevo País</a>
+    {% endblock%}
+
+    
+    {% block home %}
+    <li class="nav-item">
+        <li><a href="{% url 'inicio:logeo' %}" class="nav-link"><i class="batch-icon batch-icon-browser-alt"></i> <span>Inicio</span></a>
+    </li>
+    {% endblock %}
+    {% block pais %}
+    <li class="nav-item">
+        <a class="nav-link active" href="{% url 'pais:pais_listar' %}">
+            <i class="batch-icon batch-icon-star"></i>
+            País
+        </a>
+    </li>
+    {% endblock %}
+    {% block content %}
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12 pb-5">
+                            <div class="table-responsive">
+                                <table id="datatable-1" class="table table-datatable table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align:left; width:25%;">#</th>
+                                            <th style="text-align:left; width:25%;">Iso</th>
+                                            <th style="text-align:left; width:25%;">Nombre</th>
+                                            <th style="text-align:center; width:25%;">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% if object_list %}
+                                    {% for pais in object_list %}
+                                        <tr>
+                                            <td>{{pais.id}}</td>
+                                            <td>{{pais.Iso}}</td>
+                                            <td>{{pais.Nombre}}</td>
+                                            <td>
+                                                <a class="btn btn-primary btn-sm" href="{% url 'pais:pais_editar' pais.id %}"><span class="glyphicon glyphicon-pencil"></span> Editar</a>
+                                                <a class="btn btn-primary btn-sm" href="{% url 'pais:pais_eliminar' pais.id %}"><span class="glyphicon glyphicon-trash"></span> Eliminar</a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    {% else %}
+                                    <h1 align="center">No hay registros de Países</h1>
+                                    {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endblock%}
+
+{% block scripts %}
+    <!-- Datatables -->
+    <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/jquery.dataTables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/dataTables.responsive.min.js' %}"></script>
+    <!-- <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/responsive.bootstrap4.min.js' %}"></script> -->
+{% endblock %}

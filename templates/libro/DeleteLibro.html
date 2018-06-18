@@ -1,0 +1,34 @@
+{% extends 'base1/inicio.html'%}
+{% load staticfiles %}
+{% block title %} Eliminar libro {% endblock %}
+{% block subtitle  %}
+    Eliminar <span style="color:#FC9C30">libros</span>
+    <a href="{% url 'Libro:libro_crear' %}" class="btn btn-success  pull-right "><i class="glyphicon glyphicon-plus"></i> Nuevo libro</a>
+{% endblock%}
+
+{% block home %}
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'inicio:logeo' %}">
+        <i class="batch-icon batch-icon-browser-alt"></i>
+        Inicio
+    </a>
+</li>
+{% endblock %}
+
+{% block itemLibro %}
+<li class="nav-item ">
+    <a class="nav-link active" href="{% url 'Libro:libro_lis' %}">
+        <i class="batch-icon batch-icon-book"></i>
+        Libros
+    </a>
+</li>
+{% endblock %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <br><br>
+    <h4>¿Desea eliminar el registro de {{object.Titulo}}?</h4>
+    <button class="btn btn-danger" type="submit">Si, eliminar</button>
+    <a class="btn btn-default" href="{% url 'Libro:libro_lis' %}">Cancelar</a>
+</form>
+{% endblock %}

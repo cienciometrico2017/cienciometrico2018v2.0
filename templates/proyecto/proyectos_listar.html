@@ -1,0 +1,77 @@
+{% extends 'base1/inicio.html'%}
+{% load staticfiles %}
+{% block title %}
+     Listado de Proyecto
+{% endblock%}
+{% block subtitle %}
+     Listado de  <span style="color:#07afea">Proyecto</span>
+    <a href="{% url 'proyecto:proyectos_crear' %}" class="btn btn-primary  pull-right "><i class="glyphicon glyphicon-plus"></i> Nuevo Proyecto</a>
+{% endblock%}
+{% block home %}
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'inicio:logeo' %}">
+        <i class="batch-icon batch-icon-browser-alt"></i>
+        Inicio
+    </a>
+</li>
+{% endblock %}
+
+{% block itemProyecto %}
+    <li class="nav-item">
+        <a class="nav-link active" href="{% url 'proyecto:proyectos_lis' %}">
+            <i class="batch-icon batch-icon-folder-alt-duplicate"></i>
+            Proyectos
+        </a>
+    </li>
+{% endblock %}
+{% block content %}
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12 pb-5">
+                        <div class="table-responsive">
+                            {% if proyecto %}
+                            <table id="datatable-1" class="table table-datatable table-striped table-hover">
+                                <thead >
+                                    <tr>
+                                        <td>Título</td>
+                                        <td>Estado</td>
+                                        <td>MontoFinanciado</td>
+                                        <td>Monto Recibido</td>
+                                        <td>Fecha Inicial/Final</td>
+                                        <td>Tipo Proyecto</td>
+                                        <td style="width: 17%">Acciones</td>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {% for proyecto in proyecto %}
+                                    <tr>
+                                        <td>{{proyecto.titulo}}</td>
+                                        <td>{{proyecto.estado}}</td>
+                                        <td>{{proyecto.montoFinanciado}}</td>
+                                        <td>{{proyecto.montorecibido}}</td>
+                                        <td>{{proyecto.fechaInicial}} / {{proyecto.fechaFinal}}</td>
+                                        <td>{{proyecto.tipoProyecto}}</td>
+
+                                        <td>
+                                            <a class="btn btn-primary btn-sm" href="{% url 'proyecto:proyectos_update' proyecto.id %}" ><span class="fa fa-pencil"></span> Editar</a>
+                                            <a class="btn btn-danger btn-sm" href="{% url 'proyecto:proyectos_eliminar' proyecto.id %}"><span class="fa fa-trash"></span> Eliminar</a>
+
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            {% else %}
+                            <h4>No hay registros de Proyectos</h4>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock%}

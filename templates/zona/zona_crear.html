@@ -1,0 +1,71 @@
+{% extends 'base1/inicio.html' %}
+{% load staticfiles %}
+
+{% block subtitle %} 
+    NUEVA <span style="color:#FC9C30">ZONA</span> 
+    <!-- Button trigger modal -->
+{% endblock%}
+
+
+{% block home %}
+<li class="nav-item">
+    <li><a href="{% url 'inicio:logeo' %}" class="nav-link"><i class="batch-icon batch-icon-browser-alt"></i> <span>Inicio</span></a>
+</li>
+{% endblock %}
+{% block zona %}
+    <li class="nav-item">
+        <a class="nav-link active" href="{% url 'zona:zona_listar' %}">
+            <i class="batch-icon batch-icon-star"></i>
+            Zona
+        </a>
+    </li>
+{% endblock %}
+{% block content %}
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12 pb-5">
+						<form method="post">
+						    {% csrf_token %}
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="form-group">
+										<label for="{{form.pais.Nombre}}">{{form.pais.label}}</label>
+										{{form.pais}}
+									</div>
+								</div>
+							</div>
+						    <div class="row">
+								<div class="col-lg-12">
+									<div class="form-group">
+										<label>Nombre</label>
+										<input class="form-control" class="validate" type="text" name="Nombre">
+									</div>
+								</div>
+							</div>
+						    <div class="row">
+								<div class="col-lg-12">
+									<div class="form-group">
+										<label>Descripción</label>
+										<textarea name="Descripcion" class="form-control"></textarea>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="form-group">
+										<button class="btn btn-primary "type="submit">Guardar</button>
+										<a class="btn btn-default" href="{% url 'zona:zona_listar' %}">Cancelar</a>
+									</div>
+								</div>
+							</div>
+
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

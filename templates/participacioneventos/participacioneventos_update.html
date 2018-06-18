@@ -1,0 +1,49 @@
+{% extends 'base1/inicio.html'%}
+{% load staticfiles %}
+{% block extrastatic %}
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+   <link rel="stylesheet" href="static/css/animate.min.css">
+{% endblock %}
+    {% block home %}
+    <a href="{% url 'inicio:logeo' %}"  class=" w3-bar-item w3-button"><img width="15%" src="{% static 'images/home.png' %}"> Home</a>
+    {% endblock %}
+    {% block item2 %}
+    <a href="{% url 'partevento:partevento_lis' %}"id="uno" class="w3-bar-item w3-button"><img width="15%" src="{% static 'images/country.png' %}"> Participación en Eventos</a>
+    {% endblock %}
+{% block content %}
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="wow fadeInUp animated" style="background: #009688; height:20%;  padding: 1cm 3cm 1cm 3cm;" >
+     <h2 align="center" style="color:white"><span class="glyphicon glyphicon-plus"></span> ACTUALIZAR <span style="color:#FC9C30">PARTICIPACIÓN EN EVENTOS</span> </h2>
+        <div style="float:right;">
+            <strong style="color:white;font-size:100%">Bienvenido/</strong>
+            <strong style="color:white;font-size:100%">{{user.username}}/</strong>
+            <strong style="color:white;font-size:100%"><a href="{% url 'logout'%}" style="color:white;"><span class="glyphicon glyphicon-log-out"></span>Cerrar Sesión</a></strong>
+        </a>
+            </div>
+        </div>
+    <br>
+    <div class="container">
+		<div class="col-md-10 col-md-offset-2">
+	<a href="{% url 'partevento:partevento_lis' %}" class="btn btn-primary  pull-right"><i class="glyphicon glyphicon-eye-open"></i> Ver Todos</a>
+		</div>
+		</div>
+    <div class="row">
+		<div class="col-md-8 col-md-offset-2">
+           {% form form=form %}{% endform %}
+        </div>
+    </div>
+    <div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<div class="form-group">
+				<button class="btn btn-primary "type="submit">Guardar</button>
+                <a href="{% url 'partevento:partevento_lis' %}" class="btn btn-danger"type="button">Cancelar</a>
+			</div>
+		</div>
+	</div>
+  </form>
+
+
+{% endblock %}

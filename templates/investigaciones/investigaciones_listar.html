@@ -1,0 +1,56 @@
+{% extends 'base1/inicio.html'%}
+{% load staticfiles %}
+
+{% block content %}
+
+<a href="{% url 'investigacion:investigaciones_crear' %}" class="btn btn-primary  pull-right "><i class="glyphicon glyphicon-plus"></i> Nueva Investigación</a>
+   
+<br>
+   {% if object_list %}
+<table class="table table-bordered" style="text-align:center; ">
+	<thead >
+		<tr>
+			<td>#</td>
+			<td>Título</td>
+			<td>Palabras Claves</td>
+            <td>Resumen</td>
+			<td>Fecha</td>
+            <td>Editor</td>
+            <td>Link</td>
+            <td>Acciones</td>
+		</tr>
+
+	</thead>
+	<tbody>
+     
+        {% for investigacion in object_list %}
+        <tr>
+            <td>{{investigacion.id}}</td>
+            <td>{{investigacion.Titulo}}</td>
+            <td>{{investigacion.Palabras_Claves}}</td>
+            <td>
+                <li>
+                    <a href="{{ investigacion.Resumen.url }}">{{ investigacion.Resumen.name }}</a>
+                    <small>(Uploaded at: {{ investigacion.uploaded_at }})</small>
+                </li>
+            </td>
+            <td>{{investigacion.Fecha}}</td>
+            <td>{{investigacion.Editor}}</td>
+            <td>{{investigacion.Url}}</td>
+            <td>
+                <a class="btn btn-warning" href="{% url 'investigacion:investigaciones_update' investigacion.id %}" ><span class="glyphicon glyphicon-pencil"></span> Editar</a>
+                <a class="btn btn-danger" href="{% url 'investigacion:investigaciones_eliminar' investigacion.id %}"><span class="glyphicon glyphicon-trash"></span> Eliminar</a>
+
+            </td>
+        </tr>
+        {% endfor %}
+
+  
+
+	</tbody>
+</table>
+
+      {% else %}
+        <h1>No hay registros de Investigaciones</h1>
+        {% endif %}
+{% endblock%}

@@ -1,0 +1,27 @@
+{% extends 'base1/inicio.html' %}
+{% load staticfiles %}
+{% block subtitle %} 
+    ELIMINAR <span style="color:#FC9C30">CANTÓN</span> 
+{% endblock%}
+{% block home %}
+<li class="nav-item">
+    <li><a href="{% url 'inicio:logeo' %}" class="nav-link"><i class="batch-icon batch-icon-browser-alt"></i> <span>Inicio</span></a>
+</li>
+{% endblock %}
+{% block canton %}
+<li class="nav-item">
+    <a class="nav-link active" href="{% url 'canton:canton_listar' %}">
+        <i class="batch-icon batch-icon-star"></i>
+        Cantón
+    </a>
+</li>
+{% endblock %}
+{% block content %}
+<br>
+<form method="post">
+    {% csrf_token %}
+    <h4>¿Desea eliminar el registro de {{object.Nombre}}?</h4>
+    <button class="btn btn-danger" type="submit">Si, eliminar</button>
+    <a class="btn btn-default" href="{% url 'canton:canton_listar' %}">Cancelar</a>
+</form>
+{% endblock %}

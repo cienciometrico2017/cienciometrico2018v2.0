@@ -1,0 +1,32 @@
+{% extends 'base1/inicio.html'%}
+{% load staticfiles %}
+
+{% block content %}
+ <form method="post"enctype="multipart/form-data">
+    {% csrf_token %}
+  
+
+      <div class="row">
+		<div class="col-md-8 col-md-offset-2">
+	<a href="{% url 'publicaciones:lista_Publicaciones' %}" class="btn btn-primary  pull-right"><i class="glyphicon glyphicon-eye-open"></i> Ver Todos</a>
+		</div>
+		</div>
+     <div class="row">
+		<div class="col-md-8 col-md-offset-2">
+           {{ form.as_p }} 
+        </div>
+    </div>
+        <div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<div class="form-group">
+                <button type="submit"   class="btn btn-primary" >Guardar</button>
+            </div>
+		</div>
+        </div>
+
+
+
+
+</form>
+
+{% endblock %}

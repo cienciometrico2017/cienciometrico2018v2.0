@@ -1,0 +1,80 @@
+{% extends 'base1/inicio.html'%}
+{% load staticfiles %}
+{% block subtitle %}
+    listado de <span style="color:#FC9C30">eventos</span>
+<a href="{% url 'evento:create_Evento' %}" class="btn btn-primary  pull-right "><span class="glyphicon glyphicon-plus"></span> Nuevo Evento</a>
+{% endblock%}
+{% block home %}
+<li class="nav-item">
+    <li><a href="{% url 'inicio:logeo' %}" class="nav-link"><i class="batch-icon batch-icon-browser-alt"></i> <span>Inicio</span></a>
+
+</li>
+{% endblock %}
+
+{% block evento %}
+<li class="nav-item">
+	<a class="nav-link active" href="{% url 'evento:lista_Evento' %}">
+		<i class="batch-icon batch-icon-paper-roll-ripped"></i>
+		Evento
+	</a>
+</li>
+{% endblock %}
+{% block content %}
+<div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12 pb-5">
+                        <div class="table-responsive">
+                            {% if object_list %}
+                            <table id="datatable-1" class="table table-datatable table-striped table-hover">
+                                <thead >
+                                    <tr>
+                                        <td>#</td>
+                                        <td>Nombre evento</td>
+                                        <td>Lugar</td>
+                                        <td>Fecha</td>
+                                        <td>Acciones</td>
+                                    </tr>
+
+                                </thead>
+                                <tbody>
+
+                                    {% for evento in object_list %}
+                                    <tr>
+                                        <td>{{evento.id}}</td>
+                                        <td>{{evento.Nombre}}</td>
+                                        <td>{{evento.Lugar}}</td>
+                                        <td>{{evento.Fecha}}</td>
+
+
+                                        <td>
+                                            <a class="btn btn-warning" href="{% url 'evento:update_Evento' evento.id %}"><span class="glyphicon glyphicon-pencil"></span>Editar</a>
+                                            <a class="btn btn-danger" href="{% url 'evento:delete_Evento'  evento.id %}"><span class="glyphicon glyphicon-trash"></span>Eliminar</a>
+
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+
+
+
+                                </tbody>
+                            </table>
+
+                            {% else %}
+                            <h1>No hay registros de eventos</h1>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock%}
+{% block scripts %}
+    <!-- Datatables -->
+    <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/jquery.dataTables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/dataTables.responsive.min.js' %}"></script>
+    <!-- <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/responsive.bootstrap4.min.js' %}"></script> -->
+{% endblock %}

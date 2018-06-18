@@ -1,0 +1,390 @@
+{% extends 'base1/inicio.html'%}
+{% load staticfiles %}
+{% block css %}
+    <!-- Tags Input -->
+    <link rel="stylesheet" href="{% static 'assets/plugins/tagsinput/bootstrap-tagsinput.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/multiselect.css' %}">
+<!-- CSS - OPTIONAL - END -->
+{% endblock %}
+{% block title %}
+    Nuevo Proyecto
+{% endblock%}
+{% block subtitle %}
+
+    <!-- Button trigger modal -->
+{% endblock%}
+{% block home %}
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'inicio:logeo' %}">
+        <i class="batch-icon batch-icon-browser-alt"></i>
+        Inicio
+    </a>
+</li>
+{% endblock %}
+
+{% block itemProyecto %}
+    <li class="nav-item">
+        <a class="nav-link active" href="{% url 'proyecto:proyectos_lis' %}">
+            <i class="batch-icon batch-icon-folder-alt-duplicate"></i>
+            Proyectos
+        </a>
+    </li>
+{% endblock %}
+{% block content %}
+    <div class="col-md-12">
+        <form method="post" enctype="multipart/form-data">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12 pb-5">
+                        <div class="card-header">
+                             Autores
+                        </div>
+                        <div class="card-body">
+                        {% csrf_token %}
+                            <div class="row">
+
+                                <div class="col-md-12">
+                                    {{ form.titulo.label }}
+                                    {{ form.titulo }}
+                                    {{ form.titulo.errors }}
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    {{ form.financiamiento.label }}
+                                    {{ form.financiamiento }}
+                                    {{ form.financiamiento.errors }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form.documentos.label }}
+                                    {{ form.documentos }}
+                                    {{ form.documentos.errors }}
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    {{ form.montoFinanciado.label }}
+                                    {{ form.montoFinanciado }}
+                                    {{ form.montoFinanciado.errors }}
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    {{ form.montorecibido.label }}
+                                    {{ form.montorecibido }}
+                                    {{ form.montorecibido.errors }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    {{ form.fechaInicial.label }}
+                                    {{ form.fechaInicial }}
+                                    {{ form.fechaInicial.errors }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form.fechaFinal.label }}
+                                    {{ form.fechaFinal }}
+                                    {{ form.fechaFinal.errors }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    {{ form.estado.label }}
+                                    {{ form.estado }}
+                                    {{ form.estado.errors }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form.tipoProyecto.label }}
+                                    {{ form.tipoProyecto }}
+                                    {{ form.tipoProyecto.errors }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    {{ form.lineaInvestigacion.label }}
+                                    <select class="form-control" id="linea" name="lineaInvestigacion" required>
+                                        <option value="">Seleccione la linea de investigación</option>
+                                        {% for i in linea %}
+                                            <option value="{{i.id}}">{{i.Nombre}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form.subLinea.label }}
+                                    <select class="form-control" id="subLinea" name="subLinea" required>
+                                        <option value="">Seleccione la sub linea de investigación</option>
+                                        {% for i in subLinea %}
+                                            <option value="{{i.id}}" data-tag="{{i.linea_investigacion.id}}">{{i.Nombre}} </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {{ form.palabrasClaves.label }}
+                                    <label> <b>Palabras clave</b> (Escribe una palabra y presiona enter)</label><br>
+                                    <select multiple data-role="tagsinput" id="palabraC" name="palabraC"  class="form-control" required>
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+
+                                <div class="col-md-12">
+                                    {{ form.resumen.label }}
+                                    {{ form.resumen }}
+                                    {{ form.resumen.errors }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><br>
+        <div class="card">
+            <div class="card-header">
+                Autores<br>
+                <button id="btRemove" class="btn btn-danger btn-sm pull-right" type="button" aria-disabled="true"><i class="fa fa-minus"></i> Autor</button>
+                <button id="btAdd" class="btn btn-primary btn-sm pull-right" type="button" aria-disabled="true"><i class="fa fa-plus"></i> Autor</button>
+                <a href="#" class="btn btn-primary btn-sm pull-left" data-toggle="modal" data-target="#autorNew"><i class="fa fa-user"></i> Añadir nuevo Autor</a>
+
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12" >
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Grado de autoria</label>
+                                <select class="form-control" name='grado0' id='grado0'>
+                                    <option>-----------</option>
+                                    <option value="Investigador Principal">Investigador Principal </option>
+                                    <option value="Coordinador de Proyecto">Coordinador de Proyecto</option>
+                                    <option value="Investigador">Investigador</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6" id="repetidos">
+                                <label>Autor</label>
+                                <select name="user0" class="form-control autores" required onchange="f()">
+                                    <option value=""> ----------- </option>
+                                    {% for o in us %}
+                                        <option value="{{ o.id }}">{{ o.first_name }} {{ o.last_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div id="formGrado">
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div id="formUSer">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="alert alert-danger col-md-12" id="AutRep" role="alert">
+                                <strong>Compruebe los autores ingresados!!</strong> Se han repetido los autores o no ha seleccionado algun autor.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><br>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12 col-md-offset-2">
+                        <div class="form-group">
+                            <button type="submit"   class="btn btn-primary btn-block" >Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        </form>
+    </div>
+
+    <!--  *********************************************** Modal autor ********************************************** -->
+    <div  class="modal fade bd-example-modal-sizes" id="autorNew" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" >Registrando un nuevo autor</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="formAut" method="POST">
+                {% csrf_token %}
+                <div class="modal-body" style="padding-right: 15px !important;">
+
+                    <label>Nombres</label>
+                    <input class="form-control" type="text" id="name" name="name" required="required" >
+                    <label>Apellidos</label>
+                    <input class="form-control" type="text" id="lastname" name="lastname" required="required">
+                    <label>Correo electronico</label>
+                    <input class="form-control" type="email" id="email" name="email" required="required">
+                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script>
+
+
+        $(document).ready(function() {
+            var iCnt = 0;
+            $('#linea').on('change', function() {
+                var selected = $(this).val();
+                $("#subLinea option").each(function(item){
+                    console.log(selected) ;
+                    var element =  $(this) ;
+                    console.log(element.data("tag")) ;
+                    if (element.data("tag") != selected){
+                        element.hide() ;
+                    }else{
+                        element.show();
+                    }
+                }) ;
+                $("#subLinea").val($("#subLinea option:visible:first").val());
+
+            });
+            $('#palabraC').tagsinput({
+                tagClass: 'label label-primary'
+            });
+        });
+    </script>
+    <script>
+        var list = new Array();
+        var AutRep = document.getElementById('AutRep');
+        AutRep.style.display = 'none';
+        function f(){
+            console.clear();
+            $('button[type="submit"]').attr('disabled','disabled');
+            $('#repetidos > select').each(function( index ) {
+                console.log($( this ).val());
+                list.push($( this ).val());
+
+            });
+            $('#formUSer > select').each(function( index ) {
+                console.log($( this ).val());
+                list.push($( this ).val());
+            });
+            if(d(list).length != list.length){
+                console.log("Elementos repetidos");
+                AutRep.style.display = 'block';
+            }else{
+                $('button[type="submit"]').removeAttr('disabled');
+                AutRep.style.display = 'none';
+            }
+            list.length = 0;
+        }
+        function d(arra1) {
+            var i, len=arra1.length, result = [], obj = {};
+            for (i=0; i<len; i++){
+            obj[arra1[i]]=0;
+            }
+            for (i in obj) {
+            result.push(i);
+            }
+            return result;
+        }
+        $(document).ready(function() {
+            var iCnt = 0;
+            $('#btAdd').click(function() {
+
+                if (iCnt < 50) {
+                    iCnt = iCnt + 1;
+
+                    $(formGrado).append('<select class="form-control" name=grado' + iCnt + ' id=grado' + iCnt + ' ' + '> <option>-----------</option><option value="Investigador Principal">Investigador Principal </option> <option value="Coordinador de Proyecto">Coordinador de Proyecto</option> <option value="Investigador">Investigador</option> </select>');
+                    $(formUSer).append('<select name = user' + iCnt + ' id = user' + iCnt + ' class="form-control autores" onchange="f()"></select>');
+                    $.ajax({
+                        type:'POST',
+                        url:'/autor/selAA/',
+                        data:{
+                            datos: {},
+                            csrfmiddlewaretoken: '{{ csrf_token }}'
+                        },
+                        success:function(data){
+
+                            var a = 'user'+(iCnt);
+                            $("#"+a).empty();
+                            $.each(data, function(index, item) {
+                                var newOption = "<option value='" + item.value + "'>" + item.text + "</option>";
+                                $("#"+a).append(newOption);
+                            });
+
+                        },
+                        error : function(){
+
+                            console.log('Opss');
+                        }
+                    });
+                }
+                else {
+                    $('button[id="btAdd"]').attr('disabled','disabled');
+                    $(formGrado).append('<label>Limite Alcanzado</label>');
+
+                }
+            });
+            $('#btRemove').click(function() {
+                if (iCnt != 0) {
+                    $('#grado' + iCnt).remove();
+                    $('#user' + iCnt).remove();
+                    iCnt = iCnt - 1;
+                }
+                if (iCnt == 0) {
+                    $(formGrado).empty();
+                    $(formUSer).empty();
+                    $('#btAdd').removeAttr("disabled");
+                }
+                if (iCnt == 4) {
+                    $("#btAdd").removeAttr("disabled");
+                }
+            });
+            $('#btRemoveAll').click(function() {    // Elimina todos los elementos del contenedor
+                $(formGrado).empty();
+                $(formUser).empty();
+                $("#btAdd").removeAttr("disabled");
+            });
+        });
+    </script>
+
+    <!-- Tags Inputlibreria para limpiar jqueryclean-->
+	<script type="text/javascript" src="{% static 'assets/plugins/tagsinput/bootstrap-tagsinput.min.js' %}"></script>
+    <!-- Tags Input -->
+	<script type="text/javascript" src="{% static 'js/jquery.validate.js' %}"></script>
+    <!-- SCRIPTS - OPTIONAL START -->
+	<!-- Image Placeholder -->
+	<script type="text/javascript" src="{% static 'assets/js/misc/holder.min.js' %}"></script>
+	<!-- Form Wizard -->
+	<script type="text/javascript" src="{% static 'assets/plugins/bootstrap-wizard/jquery.bootstrap.wizard.min.js' %}"></script>
+
+    <!-- Form Validation -->
+	<script type="text/javascript" src="{% static 'assets/plugins/form-validator/jquery.form-validator.min.js' %}"></script>
+    <!-- Form Validation -->
+	<script type="text/javascript" src="{% static 'assets/plugins/typeahead/typeahead.bundle.min.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'assets/js/multiselect.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'assets/js/scriptsna.js' %}"></script>
+
+{% endblock %}

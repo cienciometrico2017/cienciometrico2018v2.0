@@ -1,0 +1,85 @@
+{% extends 'base1/inicio.html' %}
+{% load staticfiles %}
+{% block extrastatic %}
+{% endblock %}
+{% block title %}
+    Listado de capacitaciones
+{% endblock%}
+{% block subtitle %}
+    LISTADO DE <span style="color:#07afea">capacitaciones</span>
+    <!-- Button trigger modal -->
+
+    <a href="{% url 'capacitacion:capacitacionCrear' %}" class="btn btn-primary  pull-right "><i class="glyphicon glyphicon-plus"></i> Nueva capacitación</a>
+{% endblock%}
+
+{% block home %}
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'inicio:logeo' %}">
+        <i class="batch-icon batch-icon-browser-alt"></i>
+        Inicio
+    </a>
+</li>
+{% endblock %}
+
+{% block capacitaciones %}
+<li class="nav-item">
+    <a class="nav-link active" href="{% url 'capacitacion:capacitacion_listar' %}">
+        <i class="batch-icon batch-icon-newspaper-alt"></i>
+        Capacitaciones
+    </a>
+</li>
+{% endblock %}
+{% block content %}
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12 pb-5">
+                        <div class="table-responsive">
+                            {% if capa %}
+                            <table id="datatable-1" class="table table-datatable table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align:left; ">Área de conocimiento</th>
+                                        <th style="text-align:left; ">Horas</th>
+                                        <th style="text-align:left; ">Institución</th>
+                                        <th style="text-align:left; ">Descripción</th>
+                                        <th style="text-align:center; width:16%;">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for lista in capa %}
+                                    <tr>
+                                        <td>{{lista.areaConocimiento}}</td>
+                                        <td>{{lista.horas}}</td>
+                                        <td>{{lista.institucion}}</td>
+                                        <td>{{lista.descripcion}}</td>
+                                        <td>
+                                            <a class="btn btn-primary btn-sm" href="{% url 'capacitacion:capacitacionActualizar' lista.id %}"><span class="glyphicon glyphicon-pencil"></span> Editar</a>
+                                            <a class="btn btn-danger btn-sm" href="{% url 'capacitacion:capacitacionEliminar' lista.id %}"><span class="glyphicon glyphicon-trash"></span> Eliminar</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                            {% else %}
+                                <h1 align="center">No hay registros de capacitaciones.</h1>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock%}
+
+{% block scripts %}
+    <!-- Datatables -->
+    <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/jquery.dataTables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/dataTables.responsive.min.js' %}"></script>
+    <!-- <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/responsive.bootstrap4.min.js' %}"></script> -->
+{% endblock %}

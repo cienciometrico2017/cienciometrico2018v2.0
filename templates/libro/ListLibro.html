@@ -1,0 +1,109 @@
+{% extends 'base1/inicio.html'%}
+{% load staticfiles %}
+{% block title %} Listado de libros {% endblock %}
+{% block subtitle  %}
+    MIS <span style="color:#07afea">LIBROS</span>
+    <a href="{% url 'Libro:libro_crear' %}" class="btn btn-primary  pull-right "><i class="fa fa-plus"></i> Nuevo libro/capitulo</a>
+{% endblock%}
+
+{% block home %}
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'inicio:logeo' %}">
+        <i class="batch-icon batch-icon-browser-alt"></i>
+        Inicio
+    </a>
+</li>
+{% endblock %}
+
+{% block itemLibro %}
+<li class="nav-item">
+    <a class="nav-link active" href="{% url 'Libro:libro_lis' %}">
+        <i class="batch-icon batch-icon-book"></i>
+        Libros
+    </a>
+</li>
+{% endblock %}
+
+{% block content %}
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-12 pb-5">
+                    <div class="table-responsive">
+                        {% if book %}
+                        <table id="datatable-1" class="table table-datatable table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <td>Título del Libro</td>
+                                    <td>Documento</td>
+                                    <td>ISBN</td>
+                                    <td>Año de Publicación</td>
+                                    <td style="width:16%">Url</td>
+                                    <td style="width:18%">Acciones</td>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+
+                                {% for libro in book %}
+                                <tr>
+                                    <td>{{libro.Titulo}}</td>
+                                     <td>{% if libro.Documento.url != null %}
+                                            <a href="{{libro.Documento.url}}" target="_blank">PDF</a>
+
+                                         {% else %}
+                                         <h6>no tiene documento</h6>
+                                         {% endif %}
+                                    </td>
+                                    <td>{{libro.ISBN}}</td>
+                                    <td>{{libro.Anio}}</td>
+                                    <td><a href="{{libro.Url}}" target="_blank">URL</a></td>
+
+                                    <td>
+                                      <a class="btn btn-primary  btn-sm" href="{% url 'Libro:libro_update' libro.id %}" ><span class="fa fa-pencil"></span> Editar</a>
+                                        <a class="btn btn-danger btn-sm" href="{% url 'Libro:libro_eliminar'  libro.id %}"><span class="fa fa-trash"></span> Eliminar</a>
+
+                                    </td>
+
+                                </tr>
+                                {% endfor %}
+
+
+
+                            </tbody>
+                        </table>
+                        {% else %}
+                        <h4>No hay registros de libros</h4>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock%}
+
+{% block scripts %}
+    <!--
+    <script>
+        function truncateText(selector, maxLength) {
+            var element = document.querySelector(selector),
+                truncated = element.innerText;
+
+            if (truncated.length > maxLength) {
+                truncated = truncated.substr(0,maxLength) + '...';
+            }
+            return truncated;
+        }
+        //You can then call the function with something like what i have below.
+        document.querySelector('p').innerText = truncateText('p', 240);
+    </script>
+
+    <!-- Datatables -->
+    <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/jquery.dataTables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/dataTables.responsive.min.js' %}"></script>
+    <!-- <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/responsive.bootstrap4.min.js' %}"></script> -->
+{% endblock %}

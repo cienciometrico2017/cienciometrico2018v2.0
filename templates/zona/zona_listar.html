@@ -1,0 +1,80 @@
+{% extends 'base1/inicio.html' %}
+{% load staticfiles %}
+    {% block subtitle %} 
+        LISTADO DE <span style="color:#FC9C30">ZONAS</span> 
+        <!-- Button trigger modal -->
+        
+        <a href="{% url 'zona:zona_crear' %}" class="btn btn-success  pull-right "><i class="glyphicon glyphicon-plus"></i> Nueva Zona</a>
+    {% endblock%}
+
+    
+    {% block home %}
+    <li class="nav-item">
+        <li><a href="{% url 'inicio:logeo' %}" class="nav-link"><i class="batch-icon batch-icon-browser-alt"></i> <span>Inicio</span></a>
+    </li>
+    {% endblock %}
+    {% block zona %}
+        <li class="nav-item">
+            <a class="nav-link active" href="{% url 'zona:zona_listar' %}">
+                <i class="batch-icon batch-icon-star"></i>
+                Zona
+            </a>
+        </li>
+    {% endblock %}
+    {% block content %}
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12 pb-5">
+                            <div class="table-responsive">
+                                <table id="datatable-1" class="table table-datatable table-striped table-hover">
+                                	<thead>
+                                		<tr>
+                                			<td >#</td>
+                                			<td style="text-align:left; width:25%;">Nombre</td>
+                                            <td style="text-align:left; width:25%;">Descripción</td>
+                                			<td style="text-align:left; width:25%;">País</td>
+                                			<td>Acciones</td>
+                                		</tr>
+                                		
+                                	</thead>
+                                	<tbody>
+                                        {% if object_list %}
+                                        {% for zona in object_list %}
+                                        <tr>
+                                            <td>{{zona.id}}</td>
+                                            <td>{{zona.Nombre}}</td>
+                                            <td>{{zona.Descripcion}}</td>
+                                            <td>{{ zona.pais.Nombre }}</td>
+                                            <td>
+                                                 <a class="btn btn-primary btn-sm" href="{% url 'zona:zona_editar' zona.id %}"><span class="glyphicon glyphicon-pencil"></span> Editar</a>
+                                                <a class="btn btn-primary btn-sm" href="{% url 'zona:zona_eliminar' zona.id %}"><span class="glyphicon glyphicon-trash"></span> Eliminar</a>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+
+                                        {% else %}
+                                        <h4>No hay registros de Zonas</h4>
+                                        {% endif %}
+
+                                	</tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+        
+
+{% endblock%}
+
+{% block scripts %}
+    <!-- Datatables -->
+    <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/jquery.dataTables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/dataTables.responsive.min.js' %}"></script>
+    <!-- <script type="text/javascript" src="{% static 'assets/plugins/datatables/js/responsive.bootstrap4.min.js' %}"></script> -->
+{% endblock %}

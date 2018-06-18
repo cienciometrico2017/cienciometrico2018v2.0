@@ -1,0 +1,575 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+	    <title>{% block title %} Perfil {% endblock %}</title>
+		{% block extrastatic %}
+
+		{% endblock %}
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+   		<meta charset="utf-8">
+		<link rel="icon" href="{% static 'assets/img/favicon.png' %}">
+		<!-- Fonts -->
+		<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700&amp;subset=latin-ext" rel="stylesheet">
+
+		{% block css %}
+
+		{% endblock %}
+
+		<!-- CSS - REQUIRED - START -->
+
+		<!-- Batch Icons -->
+		<link rel="stylesheet" href="{% static 'assets/fonts/batch-icons/css/batch-icons.css' %}">
+		<!-- Bootstrap core CSS -->
+		<link rel="stylesheet" href="{% static 'assets/css/bootstrap/bootstrap.min.css' %}">
+		<!-- Material Design Bootstrap -->
+		<link rel="stylesheet" href="{% static 'assets/css/bootstrap/mdb.min.css' %}">
+		<!-- Custom Scrollbar -->
+		<link rel="stylesheet" href="{% static 'assets/plugins/custom-scrollbar/jquery.mCustomScrollbar.min.css' %}">
+		<!-- Hamburger Menu -->
+		<link rel="stylesheet" href="{% static 'assets/css/hamburgers/hamburgers.css' %}">
+		<link rel="stylesheet" href="{% static 'assets/plugins/toastr/toastr.min.css' %}">
+		<!-- Font Awesome -->
+		<link rel="stylesheet" href="{% static 'assets/fonts/font-awesome/css/font-awesome.min.css' %}">
+		<!-- Font Awesome -->
+		<link rel="stylesheet" href="{% static 'assets/fonts/font-awesome/css/font-awesome.min.css' %}">
+		<!-- JVMaps -->
+		<link rel="stylesheet" href="{% static 'assets/plugins/jvmaps/jqvmap.min.css' %}">
+		<!-- CSS - OPTIONAL - END -->
+		<!-- QuillPro Styles -->
+		<link rel="stylesheet" href="{% static 'assets/css/quillpro/quillpro.css' %}">
+
+		<!-- JQuery -->
+		<script type="text/javascript" src="{% static 'assets/js/jquery/jquery-3.1.1.min.js' %}"></script>
+
+		<!-- Popper.js - Bootstrap tooltips -->
+		<script type="text/javascript" src="{% static 'assets/js/bootstrap/popper.min.js' %}"></script>
+		<!-- Bootstrap core JavaScript -->
+		<script type="text/javascript" src="{% static 'assets/js/bootstrap/bootstrap.min.js' %}"></script>
+
+	</head>
+	<body>
+		<div class="container-fluid">
+		<div class="row">
+			<nav id="sidebar" class="px-0 bg-dark bg-gradient sidebar">
+				<ul class="nav nav-pills flex-column">
+					<li class="logo-nav-item">
+						<a class="navbar-brand" href="{% url 'inicio:logeo' %}">
+							<img src="{% static 'images/logo5.png' %}" width="170" alt="Ecuciencia">
+						</a>
+					</li>
+					{% block home %}
+					<li class="nav-item">
+    					<a class="nav-link active" href="{% url 'inicio:logeo' %}">
+    						<i class="batch-icon batch-icon-browser-alt"></i>
+    						Inicio
+    					</a>
+					</li>
+					{% endblock %}
+
+					{% block itemArti %}
+					<li class="nav-item">
+						<a class="nav-link" href="{% url 'articulosCientificos:ListaArticulo' %}">
+							<i class="batch-icon batch-icon-compose"></i>
+							Artículos Científicos
+						</a>
+					</li>
+					{% endblock %}
+					{% block itemLibro %}
+					<li class="nav-item">
+						<a class="nav-link" href="{% url 'Libro:libro_lis' %}">
+							<i class="batch-icon batch-icon-book"></i>
+							Libros
+						</a>
+					</li>
+					{% endblock %}
+					{% block itemProyecto %}
+					<li class="nav-item">
+						<a class="nav-link" href="{% url 'proyecto:proyectos_lis' %}">
+							<i class="batch-icon batch-icon-folder-alt-duplicate"></i>
+							Proyectos
+						</a>
+					</li>
+					{% endblock %}
+
+					{% block ponencia %}
+					<li class="nav-item">
+						<a class="nav-link" href="{% url 'Ponencia:ponencia_listar' %}">
+							<i class="batch-icon batch-icon-notes"></i>
+							Ponencias
+						</a>
+					</li>
+					{% endblock %}
+					{% block capacitaciones %}
+					<li class="nav-item">
+						<a class="nav-link" href="{% url 'capacitacion:capacitacion_listar' %}">
+							<i class="batch-icon batch-icon-newspaper-alt"></i>
+							Capacitaciones
+						</a>
+					</li>
+					{% endblock %}
+
+					{% block revista %}
+					<li class="nav-item">
+						<a class="nav-link" href="{% url 'Revista:lista_Revista' %}">
+							<i class="batch-icon batch-icon-paragraph-alt-justify"></i>
+							Mis Revistas
+						</a>
+					</li>
+
+					{% endblock %}
+				</ul>
+			</nav>
+
+
+			<div class="right-column">
+				<nav class="navbar navbar-expand-lg navbar-light bg-white">
+					<a class="navbar-brand d-block d-sm-block d-md-block d-lg-none" href="#">
+						<img src="{% static 'images/logo4.png' %}" width="100" height="32.3" alt="Ecuciencia">
+					</a>
+					<button class="hamburger hamburger--slider" type="button" data-target=".sidebar" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle Sidebar">
+						<span class="hamburger-box">
+							<span class="hamburger-inner"></span>
+						</span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbar-header-content">
+						<ul class="navbar-nav navbar-language-translation mr-auto">
+						</ul>
+						<ul class="navbar-nav navbar-notifications float-right">
+						</ul>
+						<ul class="navbar-nav ml-5 navbar-profile">
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" id="navbar-dropdown-navbar-profile" data-toggle="dropdown" data-flip="false" aria-haspopup="true" aria-expanded="false">
+									<div class="profile-name">
+										<b> {{user.first_name}} {{user.last_name}}</b>
+									</div>
+									<div class="profile-picture float-right">
+										{% if perfil.photo != '' %}
+										<img src="{{perfil.photo.url}}" width="44" height="44">
+										{% endif %}
+									</div>
+								</a>
+								<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbar-dropdown-navbar-profile">
+									<li><a class="dropdown-item" href="{% url 'logout'%}">Cerrar Sesión</a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</nav>
+				<main class="main-content p-5" role="main">
+					<div class="row">
+						<div class="col-md-12">
+							<h3>{% block subtitle %}  {% endblock%}</h3>
+						</div>
+					</div>
+					<div class="row mb-5">
+						{% block content %}
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-user-profile">
+									<div class="profile-page-left">
+										<div class="row">
+											<div class="col-lg-12 mb-4">
+												<div class="profile-picture profile-picture-lg mb-4">
+													{% if perfil.photo != '' %}
+														<img  src="{{ perfil.photo.url }}"  width="144" height="144">
+													{% endif %}					
+												</div>
+												<a class="btn btn-primary btn-block" style="background-color: #01568f;" href="{% url 'usuario:editar' perfil.id %}">
+													<i class="batch-icon batch-icon-user"></i>
+													Editar información
+												</a>
+												
+												
+											</div>
+
+											<div class="col-sm-12">
+												<hr />
+												<h5 class="my-0">Libros</h5>
+												<div class="h3 my-0">
+													<a href="#">0</a>
+												</div>
+											</div>
+
+											<div class="col-sm-12">
+												<hr />
+												<h5 class="my-0">Articulos</h5>
+												<div class="h3 my-0">
+													<a href="#">0</a>
+												</div>
+											</div>
+											<div class="col-sm-12">
+												<hr />
+												<h5 class="my-0">Ponencias</h5>
+												<div class="h3 my-0">
+													<a href="#">0</a>
+												</div>
+											</div>
+										</div>
+										<hr />
+
+
+									</div>
+									<div class="profile-page-center">
+										<ul class="nav nav-tabs" id="myTab" role="tablist">
+											<li class="nav-item">
+												<a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="false">Datos personales</a>
+											</li>
+											<li class="nav-item ">
+												<a class="nav-link " id="document-tab" data-toggle="tab" href="#document" role="tab" aria-controls="document" aria-selected="true">Documento de la SENECYT</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Títulos de tercer nivel</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Títulos de cuarto nivel</a>
+											</li>
+											
+										</ul>
+										<div class="tab-content" id="myTabContent">
+											<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+												<div class="card-header">
+													Información general
+												</div>
+												<div class="card-body">
+													<dl class="row">
+														<dt class="col-sm-3">Nombre de usuario </dt>
+														<dd class="col-sm-9">{{perfil.user.username}}</dd>
+
+														<dt class="col-sm-3">Cédula</dt>
+														<dd class="col-sm-9">{{perfil.cedula}}</dd>
+
+														<dt class="col-sm-3">Género</dt>
+														<dd class="col-sm-9">{{perfil.genero}}</dd>
+
+														<dt class="col-sm-3">Nacionalidad</dt>
+														<dd class="col-sm-9">{{perfil.nacionalidad}}</dd>
+
+														<dt class="col-sm-3">Dirección</dt>
+														<dd class="col-sm-9">{{perfil.direccion}}</dd>
+
+														<dt class="col-sm-3">Fecha de nacimiento</dt>
+														<dd class="col-sm-9">{{perfil.edad}}</dd>
+
+														<dt class="col-sm-3">Actualizar contraseña</dt>
+														<dd class="col-sm-9"><a class="" href="{% url 'usuario:editarPass' perfil.id %}">
+															Actualizar contraseña
+														</a></dd>
+													</dl>
+												</div>
+												<div class="card-header">
+													Información de contacto
+												</div>
+												<div class="card-body">
+													<dl class="row">
+														<dt class="col-sm-3">Correo electrónico </dt>
+														<dd class="col-sm-9">{{perfil.user.email}}</dd>
+														<dt class="col-sm-3">Teléfono</dt>
+														<dd class="col-sm-9">{{perfil.telefono}}</dd>
+													</dl>
+												</div>
+												<div class="card-header">
+													Información laboral
+												</div>
+												<div class="card-body">
+													<dl class="row">
+														<dt class="col-sm-3">Tipo de contrato </dt>
+														<dd class="col-sm-9">{{perfil.informacionLaboral.tipoContrato}}</dd>
+														<dt class="col-sm-3">Facultad</dt>
+														<dd class="col-sm-9">{{perfil.informacionLaboral.facultad}}</dd>
+														<dt class="col-sm-3">Carrera</dt>
+														<dd class="col-sm-9">{{perfil.informacionLaboral.carrera}}</dd>
+													</dl>
+												</div>
+											</div>
+											<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+												{% if Formacion.all %}
+													{% for i in Formacion.all %}
+														{% if i.tipoTitulo == 'Título de tercer nivel' %}
+															<dl class="row">
+																<dt class="col-sm-3">Título obtenido </dt>
+																<dd class="col-sm-7">{{i.descripcion}}</dd>
+																<dd class="col-sm-2"><a class="btn btn-primary btn-sm btn-block" href="{% url 'FormacionAcademica:update_Formacion_Academica' i.id %}" >Editar</a></dd>
+
+																<dt class="col-sm-3">Universidad donde se graduó</dt>
+																<dd class="col-sm-7">{{ i.nombreCentroEstudios }}</dd>
+																<dd class="col-sm-2"><a class="btn btn-danger btn-sm btn-block" href="{% url 'FormacionAcademica:delete_Formacion_Academica'  i.id %}">Eliminar</a></dd>
+
+																<dt class="col-sm-3">Año de graduación</dt>
+																<dd class="col-sm-9">{{i.anio}}</dd>
+
+																<dt class="col-sm-3">Título de la tesis con la que se graduó</dt>
+																<dd class="col-sm-9">{{i.titulo}}</dd>
+																<br><br><br>
+																<hr />
+															</dl>
+															<hr />
+														{% endif %}
+													{% endfor %}
+												{% else %}
+													<h4>No ha registrado ningun título</h4>
+												{% endif %}
+													<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" onclick="tercer()">
+														Ingresar nuevo título
+													</button>
+											</div>
+											<div class="tab-pane fade " id="contact" role="tabpanel" aria-labelledby="contact-tab">
+												{% if Formacion %}
+													{% for i in Formacion %}
+														{% if i.tipoTitulo == 'Título de cuarto nivel' %}
+
+															<dl class="row">
+																
+																<dt class="col-sm-3">Título obtenido </dt>
+																<dd class="col-sm-7">{{i.descripcion}}</dd>
+																<dd class="col-sm-2"><a class="btn btn-primary btn-sm btn-block" href="{% url 'FormacionAcademica:update_Formacion_Academica' i.id %}" >Editar</a></dd>
+
+																<dt class="col-sm-3">Universidad donde se graduó</dt>
+																<dd class="col-sm-7">{{i.nombreCentroEstudios.Nombre }}</dd>
+																<dd class="col-sm-2"><a class="btn btn-danger btn-sm btn-block" href="{% url 'FormacionAcademica:delete_Formacion_Academica'  i.id %}">Eliminar</a></dd>
+
+																<dt class="col-sm-3">Año de graduación</dt>
+																<dd class="col-sm-9">{{i.anio}}</dd>
+																<dt class="col-sm-3">Título de la tesis con la que se graduó</dt>
+																<dd class="col-sm-9">{{i.titulo}}</dd>
+																
+															</dl>
+															<hr />
+														{% endif %}
+													{% endfor %}
+												{% else %}
+													<h4>No ha registrado ningun título</h4>
+												{% endif %}
+												<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" onclick="cuarto()">
+														Ingresar nuevo título
+													</button>
+											</div>
+											<div class="tab-pane fade" id="document" role="tabpanel" aria-labelledby="document-tab">
+												{% if perfil.documento.url != ''%}
+
+													<form method="post" enctype="multipart/form-data">
+
+															{% csrf_token %}
+															<input type="text" style="display:none;" id="val" name="val" value="1">
+															<div class="row">
+																<div class="col-md-12">
+																	<label> Cambiar archivo de la SENESCYT <a href="http://www.senescyt.gob.ec/web/guest/consultas" target="_blank"> Registro de Títulos SENESCYT.</a> </label><br><br>
+																	{{ formDoc.documento }}
+																	{{ formDoc.documento.errors }}
+																	<br><br>
+																</div>
+															</div>
+															<div class="row">
+																<div class="col-md-12">
+
+																	<button type="submit" class="btn btn-primary btn-sm">Guardar cambios</button>
+																</div>
+															</div>
+														</form>	
+													<embed src="{{ perfil.documento.url }}#toolbar=0" type="application/pdf" width="100%" height="700">
+												{% else %}
+														<form method="post" enctype="multipart/form-data">
+															<input type="text" style="display:none;" id="val" name="val" value="1">
+															{% csrf_token %}
+															<div class="row">
+																<div class="col-md-12">
+																	<label> Adjuntar documento <a href="http://www.senescyt.gob.ec/web/guest/consultas" target="_blank"> Registro de Títulos SENESCYT.</a> </label><br><br>
+																	{{ formDoc.documento }}
+																	{{ formDoc.documento.errors }}
+																	<br><br>
+																</div>
+															</div>
+															<div class="row">
+																<div class="col-md-12">
+																	<button type="submit" class="btn btn-primary btn-sm">Guardar cambios</button>
+																</div>
+															</div>
+														</form>
+
+												{% endif %}
+
+											</div>
+										</div>
+										<!-- Modal -->
+										<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+											<div class="modal-dialog" role="document">
+												<div class="modal-content">
+													<div class="modal-header">
+														<h5 class="modal-title" id="exampleModalLabel"><b>Registrar nuevo Título de tercer nivel</b></h5>
+
+														<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+															<span aria-hidden="true">&times;</span>
+														</button>
+
+													</div>
+													<div class="modal-body">
+														<form method="post" enctype="multipart/form-data">
+															{% csrf_token %}
+															<input type="text" id="val" style="display:none;" name="val" value="2">
+															<div class="row">
+																<div class="col-md-12">
+																	<label><span style="color:RED">Registrar el nombre de su Título cómo fue registrado en la SENESCYT</span></label><br>
+																	{{ formAca.descripcion.label }}
+																	{{ formAca.descripcion }}
+																</div>
+																<div class="col-md-12">
+																	{{ formAca.anio.label }}
+																	{{ formAca.anio }}
+																</div>
+																<div class="col-md-12">
+																	{{ formAca.pais.label }}
+																	{{ formAca.pais }}
+																</div>
+																<div class="col-md-12">
+																	{{ formAca.nombreCentroEstudios.label }}
+																	<!-- Modificacion -->
+																	{{ formAca.nombreCentroEstudios }}
+																</div>
+																<div class="col-md-12">
+																	{{ formAca.titulo.label }}
+																	{{ formAca.titulo }}
+																</div>
+																<div class="col-md-12">
+																	<input type="text" id="tipoTitulo" style="display:none" name="tipoTitulo" class="form-control" >
+																</div>
+																<div class="col-md-12">
+																	<input type="text" id="user" style="display:none" name="user" class="form-control" value="{{ user.id}}">
+																</div>
+
+															</div>
+															<div class="modal-footer">
+																<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+																<button type="submit" class="btn btn-primary">Guardar cambios</button>
+															</div>
+														</form>
+													</div>
+
+												</div>
+											</div>
+										</div>
+
+
+
+									</div>
+								</div>
+							</div>
+						</div>
+						<script type="text/javascript">
+							$(document).ready(function(){
+							    $("#pais").on("change", pais);
+							});
+							function pais(){
+							    var values = $('#pais').val();
+							    $.ajax({
+							        type:'POST',
+							        url:'/pais/selU/',
+							        data:{
+							            datos: values,
+							            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+							        },
+							        success:function(data){
+							        	
+							            console.log("Estoy aqui");
+							            $("#nombreCentroEstudios option").remove();
+							            $.each(data, function(index, item) {
+							                var newOption = "<option value='" + item.value + "'>" + item.text + "</option>";
+							                $("#nombreCentroEstudios").append(newOption);
+							            });
+							        },
+							        error : function(){
+							             console.log('Opss');
+							        }
+							    })
+							}
+						</script>>
+
+
+						{% endblock%}
+					</div>
+
+					<div class="row mb-5">
+						<div class="col-md-12">
+							<footer>
+								Grupo de Investigación ECU-CIENCIA<!-- <a href="" target="_blank" style="font-weight:300;color:#ffffff;background:#1d1d1d;padding:0 3px;">Jonny<span style="color:#ffa733;font-weight:bold"> </span>Allauca</a>-->
+							</footer>
+						</div>
+					</div>
+				</main>
+			</div>
+		</div>
+	</div>
+		<script>
+			function tercer() {
+  				document.getElementById("tipoTitulo").value = "Título de tercer nivel";
+			}
+			function cuarto() {
+  				document.getElementById("tipoTitulo").value = "Título de cuarto nivel";
+			}
+			function tecnologo() {
+				//Título técnico o técnologico superior
+  				document.getElementById("tipoTitulo").value = "Título técnico superior";
+			}
+
+		</script>
+
+	    <!-- SCRIPTS - REQUIRED START -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<!-- Bootstrap core JavaScript -->
+
+		<!-- MDB core JavaScript -->
+		<script type="text/javascript" src="{% static 'assets/js/bootstrap/mdb.min.js' %}"></script>
+		<!-- Velocity -->
+		<script type="text/javascript" src="{% static 'assets/plugins/velocity/velocity.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'assets/plugins/velocity/velocity.ui.min.js' %}"></script>
+		<!-- Custom Scrollbar -->
+		<script type="text/javascript" src="{% static 'assets/plugins/custom-scrollbar/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+		<!-- jQuery Visible -->
+		<script type="text/javascript" src="{% static 'assets/plugins/jquery_visible/jquery.visible.min.js' %}"></script>
+		<!-- jQuery Visible -->
+		<script type="text/javascript" src="{% static 'assets/plugins/jquery_visible/jquery.visible.min.js' %}"></script>
+		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+		<script type="text/javascript" src="{% static 'assets/js/misc/ie10-viewport-bug-workaround.js' %}"></script>
+
+		<!-- SCRIPTS - REQUIRED END -->
+		{% block scripts %}
+
+		{% endblock %}
+
+		<!-- SCRIPTS - OPTIONAL START -->
+		<!-- ChartJS -->
+		<script type="text/javascript" src="{% static 'assets/plugins/chartjs/chart.bundle.min.js' %}"></script>
+		<!-- JVMaps -->
+		<script type="text/javascript" src="{% static 'assets/plugins/jvmaps/jquery.vmap.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'assets/plugins/jvmaps/maps/jquery.vmap.usa.js' %}"></script>
+		<!-- Image Placeholder -->
+		<script type="text/javascript" src="{% static 'assets/js/misc/holder.min.js' %}"></script>
+			
+		<script type="text/javascript" src="{% static 'assets/plugins/toastr/toastr.min.js' %}"></script>
+
+		<!-- SCRIPTS - OPTIONAL END -->
+
+		<!-- QuillPro Scripts -->
+		<script type="text/javascript" src="{% static 'assets/js/scripts.js' %}"></script>
+
+		{% for message in messages %}
+			<script>
+				toastr.options = {
+					"closeButton": true,
+					"debug": false,
+					"positionClass": "toast-bottom-full-width",
+					"onclick": null,
+					"showDuration": "3000",
+					"hideDuration": "1000",
+					"timeOut": "5000",
+					"extendedTimeOut": "1000",
+					"showEasing": "swing",
+					"hideEasing": "linear",
+					"showMethod": "fadeIn",
+					"hideMethod": "fadeOut"
+				}
+				toastr.{{ message.tags|lower }}("{{ message }}", "{{ message.tags }}");
+			</script>
+		{% endfor %}
+	</body>
+</html>

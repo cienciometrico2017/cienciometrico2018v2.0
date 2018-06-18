@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container" align="center">
+<table class="table table-bordered" style="text-align:center; ">
+	<thead >
+		<tr>
+			<td>#</td>
+			<td>Título</td>
+			<td>Palabras Claves</td>
+            <td>Documento</td>
+			<td>Tipo</td>
+            <td>Investigador</td>
+            <td>Acciones</td>
+		</tr>
+
+	</thead>
+	<tbody>
+        {% if object_list %}
+        {% for User in object_list %}
+        <tr>
+            <td>{{User.id}}</td>
+            <td>{{User.first_name}}</td>
+            <td>{{User.last_name}}</td>
+            <td>{{User.email}}</td>
+            <td>{{User.password}}</td>
+            <td>{{User.username}}</td>
+            <td>
+                <a class="btn btn-warning" href="{% url 'User:User_update' User.id %}" ><span class="glyphicon glyphicon-pencil"></span> Editar</a>
+                <a class="btn btn-danger" href="{% url 'User:User_eliminar' User.id %}"><span class="glyphicon glyphicon-trash"></span> Eliminar</a>
+
+            </td>
+        </tr>
+        {% endfor %}
+
+        {% else %}
+        <h1>No hay registros de Usuarios</h1>
+        {% endif %}
+
+	</tbody>
+</table>
+
+</div>
+</body>
+</html>

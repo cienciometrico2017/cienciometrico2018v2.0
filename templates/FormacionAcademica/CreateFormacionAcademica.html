@@ -1,0 +1,80 @@
+{% extends 'base1/inicio.html'%}
+{% load staticfiles %
+{% block subtitle  %}
+    MIS <span style="color:#FC9C30">titulos</span>
+{% endblock%}
+
+{% block home %}
+<li class="nav-item">
+    <li><a href="{% url 'inicio:logeo' %}" class="nav-link"><i class="batch-icon batch-icon-browser-alt"></i> <span>Inicio</span></a>
+</li>
+{% endblock %}
+{% block itemForAcad %}
+<li class="nav-item">
+    <a class="nav-link active" href="{% url 'FormacionAcademica:lista_Formacion_Academica' %}">
+        <i class="batch-icon batch-icon-stamp-alt"></i>
+        Título tercer grado
+    </a>
+</li>
+{% endblock %}
+{% block content %}
+	<div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12 pb-5">
+						<form method="post">
+							{% csrf_token %}
+						    <div class="content">
+								<div class="col-md-8 col-md-offset-2">
+									<label>Tipo de Titulación </label>
+									<select name="Nivel_Estudios" class="browser-default" >
+									 <option value="" >---------------------Seleccione--------------------</option>
+									 <option value="LIC." >LICENCIATURA</option>
+									 <option value="ING." >INGENIERÍA</option>
+									</select>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-8 col-md-offset-2">
+									<div class="form-group input-field">
+										<label>Nombre de Título Adquirido </label>
+										<input class="form-control" type="text" name="NombreTitulo">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-8 col-md-offset-2">
+										<div class="form-group input-field">
+										<label >Fecha de Finalización</label>
+										<input class="datepicker" type="date" name="Fecha_Fin_Estudios">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-8 col-md-offset-2">
+									<div class="form-group input-field">
+										<label >Centro donde se cursó</label>
+										<input class="form-control" type="text" name="Nombre_Centro_Estudios">
+									</div>
+								</div>
+							</div>
+
+
+							<div class="row">
+							<div class="col-md-8 col-md-offset-2">
+								<div class="form-group">
+									<button type="submit"   class="btn btn-primary" >Guardar</button>
+								</div>
+							</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<script>
+        document.getElementById("user").value = {{user.id}};
+    </script>
+{% endblock %}

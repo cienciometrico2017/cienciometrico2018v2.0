@@ -1,0 +1,63 @@
+{% extends 'base1/inicio.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+<div class="wow fadeInUp animated" style="background: #009688; height:20%;  padding: 1cm 3cm 1cm 3cm;" >
+     <h2 align="center" style="color:white"><span class="glyphicon glyphicon-th-list"></span> LISTADO DE <span style="color:#FC9C30">USUARIOS</span> </h2>
+        </div>
+    <br>
+<div class="container">
+<a href="{% url 'investigador:registrar' %}" class="btn btn-primary  pull-right "><i class="glyphicon glyphicon-plus"></i> Nuevo Usuario</a>
+    </div>
+<br>
+<div class="container" align="center">
+<table class="table table-bordered" style="text-align:center; " >
+
+	<thead>
+		<tr>
+			<td>#</td>
+			<td>Nombres</td>
+            <td>Apellidos</td>
+			<td>Correo Electronico</td>
+            <td>Acciones</td>
+		</tr>
+
+	</thead>
+	<tbody>
+        {% if object_list %}
+        {% for User in object_list %}
+        <tr>
+            <td>{{User.id}}</td>
+            <td>{{User.first_name}}</td>
+            <td>{{User.last_name}}</td>
+            <td>{{User.email}}</td>
+            <td>
+  <a class="btn btn-warning" href="{% url 'investigador:update'  User.id %}"><span class="glyphicon glyphicon-pencil"></span> Editar</a>
+
+
+            </td>
+        </tr>
+        {% endfor %}
+
+        {% else %}
+        <h1>No hay registros de Usuarios</h1>
+        {% endif %}
+
+	</tbody>
+</table>
+    </div>
+<ul class="pager">
+    <li>
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+    </li>
+    <li>
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">Next</a>
+        {% endif %}
+    </li>
+</ul>
+
+{% endblock%}

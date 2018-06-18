@@ -1,0 +1,471 @@
+{% extends 'Home/index.html'%}
+{% load staticfiles %}
+
+
+
+
+  {% block banner %}
+
+	{% endblock %}
+
+
+
+
+
+ {% block contenido%}
+<div class="row" >
+    <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-x1-3" style=" align-content: center;"><!-- inicio columna master 1-->
+        <h3 style="text-align: center">
+Filtros
+        </h3>
+
+
+
+            <div class="row" style=" padding-left: 30px;"> <!-- inicio fila 1-->
+                <div class="col-0 col-sm-0 col-md-1 col-lg-1 col-x1-1">
+
+                </div>
+
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-x1-12" > <!-- inicio columna 1-->
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Zona</label>
+                                <select class="form-control" id="zona" >
+                                    <option>--Seleccione--</option>
+                                    {% for z in  zona%}
+                                    <option value="{{ z.pk }}">{{z.Nombre}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Universidad</label>
+                                <select class="form-control " id="universidad"  >
+                                    <option value="0" >--Seleccione--</option>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div >
+                </div>  <!-- fin columna 1-->
+
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-x1-12" style="align-content: space-between"><!-- inicio coluna 2-->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Campus</label>
+                                <select class="form-control campus" id="campus" >
+                                    <option value="0">--Seleccione--</option>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-x1-12" style="align-content: space-between"><!-- inicio coluna 2-->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Facultad</label>
+                                <select class="form-control facultad" id="facultad" >
+                                    <option value="0">--Seleccione--</option>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Carrera</label>
+                                <select class="form-control" id="carrera" >
+                                    <option value="0">--Seleccione--</option>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- fin columna 2-->
+
+            </div><!-- fin fila 1-->
+
+    </div> <!-- fin columna master 1-->
+
+
+
+
+
+
+    <div class="col-12 col-sm-12 col-md-9 col-lg-9 col-x1-9" ><!-- inicio columna master 2-->
+
+
+        <div class="row" style=" padding-right: 30px;">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-x1-12">
+                <div class="row">
+
+
+                    <div class="col-10 col-sm-10 col-md-6 col-lg-6 col-x1-6">
+                          <div class="row" >
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Eje Y</label>
+                                    <select class="form-control" id="filtro_y" >
+                                        <option value="0">--Seleccione--</option>
+                                        <option value="1">Todo</option>
+                                        <option value="2">Artículos Científicos</option>
+                                        <option value="3">Libros</option>
+                                        <option value="4">Ponencias</option>
+                                        <option value="5">Proyectos</option>
+
+
+
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-10 col-sm-10 col-md-6 col-lg-6 col-x1-6">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Eje X</label>
+                                    <select class="form-control" id="filtro_x" >
+                                        <option value="0">--Seleccione--</option>
+                                        <option value="1">Año</option>
+                                        <option value="2">Nivel de Inpacto</option>
+                                        <option value="3">Estado</option>
+
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-10 col-sm-10 col-md-10 col-lg-10 col-x1-10">
+          <br>
+
+
+               <div id="chart"> </div>
+
+            </div>
+
+            <div class="col-11 col-sm-11 col-lg-11 col-xl-11">
+                    <div class="card text-center">
+<!--
+                      							<div class="row">
+                      						        <div class="col-sm-4 col-xs-12">
+                      						          <div class="counter-block" >
+                      						          	<span class="count-description flaticon-boat" style="color:black" ><strong class="timer" style="color:black" >800</strong>Artículos Científicos</span>
+                      						          </div>
+                      						        </div>
+
+                      					      	</div>  /.row -->
+
+                        <div class="card-body">
+                            <div class="table-responsive">
+
+
+                                <table  class="table" >
+                                    <tr >
+                                        <td style=" with:10px;"><button type="button" class="btn btn-primary" id="buscar_filtros" >Graficar</button></td>
+                                        <td id="nombre_base" style="size:23px">---Sin definir---</td>
+                                        <td id="valor_base" >0</td>
+                                        <td> <a href="/Home/reporte_personas_pdf" target="_blank" class="fa fa-external-link" style="font-size:24px"></a></td>
+                                    </tr>
+                                    <tbody >
+                                    </tbody>
+                                </table>
+
+
+
+                            </div>
+                        </div>
+                        <div class="card-footer text-muted">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-11 col-sm-11 col-lg-11 col-xl-11">
+                  <h2 style=" text-align: center">INFORMACIÓN</h2>
+                </div>
+
+                <!-- para la tabla del contenido-->
+
+                <div class="col-11 col-sm-11 col-lg-11 col-xl-11">
+                  <div class="table-responsive <card></card>">
+                    <table class="table">
+                      <tr>
+                        <td>ID</td>
+                        <td>TITULO</td>
+                        <td>URL</td>
+                        <td>ESTADO</td>
+
+                      </tr>
+                      <tbody id="itemlist" >
+
+                      </tbody>
+
+                    </table>
+
+
+
+                  </div>     <!-- fin table responsive-->
+                </div>     <!--fin contenido-->
+
+
+        </div>
+    </div>
+</div><!-- fin columna master 2-->
+
+
+        <!-- Load d3.js and c3.js -->
+
+                  <script type="text/javascript" src="{% static 'js/d3.min.js' %}"></script>
+                  <script type="text/javascript" src="{% static 'js/c3.min.js' %}"></script>
+                   <script type="text/javascript" src="{% static 'js/bootstrap.min.js'%}"></script>
+                  <script type="text/javascript" src="{% static 'js/graficas.js' %}"></script>
+                  <script type="text/javascript" src="{% static 'js/consultaAjax.js' %}"></script>
+
+
+
+<script type="text/javascript">
+
+graficar();
+
+
+ $('#zona').on('change',inicio);
+ $('#universidad').on('change',inicio_campus);
+  $('#campus').on('change',inicio_facultad);
+  $('#facultad').on('change',inicio_carrera);
+  $("#buscar_filtros").click(function () {
+  var f=$('#facultad').on('change');
+  var c=$('#carrera').on('change');
+  var fx=$('#filtro_y').on('change');
+
+        var facultad=$(f).val();
+        var carrera=$(c).val();
+        var filtroX=$(fx).val();
+        var texto_carrera = $('#carrera option:selected').text();
+        inicio_buscar(facultad,carrera,filtroX,texto_carrera );
+        var Ejey = $('#filtro_y option:selected').text();
+
+        $('#nombre_base').html(Ejey);
+
+
+
+
+
+
+     });
+
+
+   function inicio(){
+vaciar_combo();
+     var id =$(this).val();
+     console.log(id);
+     $.ajax({
+         data:{'id':id},
+         url:'/Home/busqueda_ajax/',
+         type: 'get',
+         success: function(data){
+           console.log(data);
+           var html="";
+           for(var i=0;i<data.length;i++){
+          //   html+='<ul><li>'+data[i].fields.id+'</li><li>'+data.[i].fields.Nombre+'</li></ul>';
+         html+='<option value="'+data[i].pk+'">'+data[i].fields.Nombre+'</option>';
+            //console.log(data[0].fields.Nombre);
+          // console.log(data[0].pk);
+           }
+           $('#universidad').html(html);
+         }
+     });
+
+ }
+
+ function inicio_campus(){
+
+
+   var id =$(this).val();
+   console.log(id);
+   $.ajax({
+       data:{'id':id},
+       url:'/Home/busqueda_campus/',
+       type: 'get',
+       success: function(data){
+         console.log(data);
+         var html="";
+         for(var i=0;i<data.length;i++){
+        //   html+='<ul><li>'+data[i].fields.id+'</li><li>'+data.[i].fields.Nombre+'</li></ul>';
+       html+='<option value="'+data[i].pk+'">'+data[i].fields.Nombre+'</option>';
+          //console.log(data[0].fields.Nombre);
+        // console.log(data[0].pk);
+         }
+         $('#campus').html(html);
+       }
+   });
+
+}
+
+function inicio_facultad(){
+  var id =$(this).val();
+  console.log(id);
+  $.ajax({
+      data:{'id':id},
+      url:'/Home/busqueda_facultad/',
+      type: 'get',
+      success: function(data){
+        console.log(data);
+        var html="";
+        for(var i=0;i<data.length;i++){
+       //   html+='<ul><li>'+data[i].fields.id+'</li><li>'+data.[i].fields.Nombre+'</li></ul>';
+      html+='<option value="'+data[i].pk+'">'+data[i].fields.Nombre+'</option>';
+         //console.log(data[0].fields.Nombre);
+       // console.log(data[0].pk);
+        }
+        $('#facultad').html(html);
+      }
+  });
+
+}
+
+function vaciar_combo(){
+  var html='<option value="0">--Seleccione--</option>';
+
+     $('#universidad').html(html);
+     $('#campus').html(html);
+    $('#facultad').html(html);
+    $('#carrera').html(html);
+}
+
+
+
+
+
+function inicio_carrera(){
+  var id =$(this).val();
+  console.log(id);
+  $.ajax({
+      data:{'id':id},
+      url:'/Home/busqueda_carrera/',
+      type: 'get',
+      success: function(data){
+        console.log(data);
+        var html="";
+        for(var i=0;i<data.length;i++){
+       //   html+='<ul><li>'+data[i].fields.id+'</li><li>'+data.[i].fields.Nombre+'</li></ul>';
+      html+='<option value="'+data[i].pk+'">'+data[i].fields.Nombre+'</option>';
+         //console.log(data[0].fields.Nombre);
+       // console.log(data[0].pk);
+        }
+        $('#carrera').html(html);
+      }
+  });
+
+
+}
+
+function inicio_buscar(f,c,fx,texto_carrera ){
+  alert("facu="+f+"-carr="+c+"- filx="+fx+" carrera "+texto_carrera  );
+
+
+  if(f>0 && c>0 && fx > 0){
+
+    console.log("facu="+f+"-carr="+c+"- filx="+fx);
+    $.ajax({
+        data:{'f':f,'c':c,'fx':fx,'txtC':texto_carrera},
+        url:'/Home/busqueda_filtros/',
+        type: 'get',
+        success: function(data){
+          var contador=0;
+          console.log(data);
+
+          var html="";
+          var borrar=" ";
+          $("#itemlist").append(borrar);
+          for(var i=0;i<data.length;i++){
+         //   html+='<ul><li>'+data[i].fields.id+'</li><li>'+data.[i].fields.Nombre+'</li></ul>';
+        //fa fa-download <a href="html_images.asp" target="_blank">HTML Images</a>
+        html+='<tr>';
+        html+='<td>'+data[i].pk+'</td>';
+        html+='<td>'+data[i].fields.titulo+'</td>';
+        html+='<td> <a href="'+data[i].fields.url+'" target="_blank" class="fa fa-external-link" style="font-size:24px"></a></td>';
+        html+='<td>'+data[i].fields.estado+'</td>';
+
+
+        html+='</tr>';
+        contador=contador+1;
+           //console.log(data[0].fields.Nombre);
+         // console.log(data[0].pk);
+          }
+       $("#itemlist").append(html);
+
+
+
+
+
+
+          graficar();
+          $('#valor_base').html(contador);
+
+        /*  var html="";
+          for(var i=0;i<data.length;i++){
+            console.log(data[i]);
+         //   html+='<ul><li>'+data[i].fields.id+'</li><li>'+data.[i].fields.Nombre+'</li></ul>';
+      ///  html+='<option value="'+data.pk+'">'+data[i].fields.Nombre+'</option>';
+           //console.log(data[0].fields.Nombre);
+         // console.log(data[0].pk);
+       }*/
+
+        }
+    });
+
+
+  }else{
+  alert("Faltan Datos que selecionar");
+
+  }
+
+
+
+}
+
+
+function graficar(){
+  var chart = c3.generate({
+      bindto:"#chart",
+      data: {
+              url: '/static/json/data1.json',
+              mimeType: 'json',
+              type: 'bar'
+
+          },
+
+
+  });
+
+}
+
+
+
+</script>
+
+
+
+	{% endblock %}

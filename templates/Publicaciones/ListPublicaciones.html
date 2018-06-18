@@ -1,0 +1,48 @@
+{% extends 'base1/inicio.html'%}
+{% load staticfiles %}
+
+
+{% block content %}
+
+<a href="{% url 'publicaciones:create_Publicaciones' %}" class="btn btn-primary  pull-right "><i class="glyphicon glyphicon-plus"></i> Nuevas publicaciones</a>
+      {% if object_list %}
+<table class="table table-bordered" style="text-align:center; ">
+	<thead >
+		<tr>
+			<td>#</td>
+			<td>Titulo de la Publicación</td>
+			<td>Nombre de Publicación</td>
+			<td>Ubicación Física</td>
+            <td>URL</td>
+            <td>Acciones</td>
+		</tr>
+
+	</thead>
+	<tbody>
+      
+        {% for publicaciones in object_list %}
+        <tr>
+            <td>{{publicaciones.id}}</td>
+            <td>{{publicaciones.Titulo}}</td>
+            <td>{{publicaciones.NombrePublica}}</td>
+             <td>{{publicaciones.UbicacionFisica}}</td>
+           <td>{{publicaciones.Url}}</td>
+
+
+
+            <td>
+                <a class="btn btn-warning" href="{% url 'publicaciones:update_Publicaciones' publicaciones.id %}" ><span class="glyphicon glyphicon-pencil"></span> Editar</a>
+                <a class="btn btn-danger" href="{% url 'publicaciones:delete_Publicaciones'  publicaciones.id %}"><span class="glyphicon glyphicon-trash"></span> Eliminar</a>
+
+            </td>
+        </tr>
+        {% endfor %}
+
+   
+
+	</tbody>
+</table>
+     {% else %}
+        <h4>No hay registros de publicaciones</h4>
+        {% endif %}
+{% endblock%}

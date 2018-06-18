@@ -1,0 +1,154 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="es" xmlns:background-image="http://www.w3.org/1999/xhtml">
+	<head>
+	    <title>{% block title %} Iniciar Sesión {% endblock %}</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="icon" href="{% static 'assets/img/favicon.png' %}">
+
+		<!-- Fonts -->
+		<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700&amp;subset=latin-ext" rel="stylesheet">
+
+		<!-- CSS - REQUIRED - START -->
+		<!-- Batch Icons -->
+		<link rel="stylesheet" href="{% static 'assets/fonts/batch-icons/css/batch-icons.css' %}">
+		<!-- Bootstrap core CSS -->
+		<link rel="stylesheet" href="{% static 'assets/css/bootstrap/bootstrap.min.css' %}">
+		<!-- Material Design Bootstrap -->
+		<link rel="stylesheet" href="{% static 'assets/css/bootstrap/mdb.min.css' %}">
+		<!-- Custom Scrollbar -->
+		<link rel="stylesheet" href="{% static 'assets/plugins/custom-scrollbar/jquery.mCustomScrollbar.min.css' %}">
+		<!-- Hamburger Menu -->
+		<link rel="stylesheet" href="{% static 'assets/css/hamburgers/hamburgers.css' %}">
+
+		<!-- CSS - REQUIRED - END -->
+
+		<!-- CSS - OPTIONAL - START -->
+		<!-- Font Awesome -->
+		<link rel="stylesheet" href="{% static 'assets/fonts/font-awesome/css/font-awesome.min.css' %}">
+		<!-- Font Awesome -->
+		<link rel="stylesheet" href="{% static 'assets/fonts/font-awesome/css/font-awesome.min.css' %}">
+		<!-- JVMaps -->
+		<link rel="stylesheet" href="{% static 'assets/plugins/jvmaps/jqvmap.min.css' %}">
+		<!-- CSS - OPTIONAL - END -->
+
+		<!-- QuillPro Styles -->
+		<link rel="stylesheet" href="{% static 'assets/css/quillpro/quillpro.css' %}">
+
+
+
+	</head>
+	<body>
+
+		<div class="container-fluid">
+			<div class="row">
+				<div class="right-column sisu">
+					<div class="row mx-0">
+						<div class="col-md-7 order-md-2 signin-right-column px-5 bg-dark" style="background-image: url('{% static 'images/bg.png' %}'); width: 100%; height: 100vh; ">
+							<a class="signin-logo d-sm-block d-md-none" href="/">
+								<img src="{% static 'images/logo5.png' %}" width="145" height="32.3" alt="Cienciometrico">
+							</a><br>
+							<h1 class="display-4">Inicia sesión para empezar</h1>
+							<p class="lead mb-5">
+								El mayo enemigo del conocimiento no es la ignorancia, es la ilusión del conocimiento
+							</p>
+						</div>
+						<div class="col-md-5 order-md-1 signin-left-column bg-white px-5">
+							<a class="signin-logo d-sm-none d-md-block" href="/">
+								<img src="{% static 'images/logo4.png' %}" width="250" height="95" alt="Cienciometrico">
+							</a>
+                            <form method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+
+                                <h3> Para mayor protección de su información requerimos cambiar la contraseña, antes de continuar</h3>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+
+                                        {{ form2.password.label }}
+                                        {{ form2.password }}
+                                        {{ form2.password.errors }}
+
+                                    </div>
+									<div class="col-md-12">
+										<label>Repita nuevamente la contraseña</label>
+										<input class="form-control" type="password" name="password1" id="password1" required>
+									</div>
+                                </div>
+								<div class="row">
+                                    <div class="col-md-6">
+                                        {% for message in messages %}
+                                            <div class="alert alert-danger alert-dismissible" role="alert">
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                {{ message }}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+										<input type="checkbox" name="cambio" id="cambio" style="display:none" checked>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button class="btn btn-primary btn-block"type="submit">Guardar cambios</button>
+                                    </div>
+                                </div>
+
+
+                            </form>
+                             <div class="card-body">
+
+                             </div>
+                        </div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- SCRIPTS - REQUIRED START -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<!-- Bootstrap core JavaScript -->
+		<!-- JQuery -->
+		<script type="text/javascript" src="{% static 'assets/js/jquery/jquery-3.1.1.min.js' %}"></script>
+		<!-- Popper.js - Bootstrap tooltips -->
+		<script type="text/javascript" src="{% static 'assets/js/bootstrap/popper.min.js' %}"></script>
+		<!-- Bootstrap core JavaScript -->
+		<script type="text/javascript" src="{% static 'assets/js/bootstrap/bootstrap.min.js' %}"></script>
+		<!-- MDB core JavaScript -->
+		<script type="text/javascript" src="{% static 'assets/js/bootstrap/mdb.min.js' %}"></script>
+		<!-- Velocity -->
+		<script type="text/javascript" src="{% static 'assets/plugins/velocity/velocity.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'assets/plugins/velocity/velocity.ui.min.js' %}"></script>
+		<!-- Custom Scrollbar -->
+		<script type="text/javascript" src="{% static 'assets/plugins/custom-scrollbar/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+		<!-- jQuery Visible -->
+		<script type="text/javascript" src="{% static 'assets/plugins/jquery_visible/jquery.visible.min.js' %}"></script>
+		<!-- jQuery Visible -->
+		<script type="text/javascript" src="{% static 'assets/plugins/jquery_visible/jquery.visible.min.js' %}"></script>
+		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+		<script type="text/javascript" src="{% static 'assets/js/misc/ie10-viewport-bug-workaround.js' %}"></script>
+
+		<!-- SCRIPTS - REQUIRED END -->
+
+		<!-- SCRIPTS - OPTIONAL START -->
+		<!-- ChartJS -->
+		<script type="text/javascript" src="{% static 'assets/plugins/chartjs/chart.bundle.min.js' %}"></script>
+		<!-- JVMaps -->
+		<script type="text/javascript" src="{% static 'assets/plugins/jvmaps/jquery.vmap.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'assets/plugins/jvmaps/maps/jquery.vmap.usa.js' %}"></script>
+		<!-- Image Placeholder -->
+		<script type="text/javascript" src="{% static 'assets/js/misc/holder.min.js' %}"></script>
+
+		{% block scripts %}
+
+		{% endblock %}
+
+		<!-- SCRIPTS - OPTIONAL END -->
+
+		<!-- QuillPro Scripts -->
+		<script type="text/javascript" src="{% static 'assets/js/scripts.js' %}"></script>
+	</body>
+</html>

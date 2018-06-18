@@ -1,0 +1,211 @@
+{% extends 'Home/index.html' %}
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+   .dropdown.dropdown-lg .dropdown-menu {
+   margin-top: -1px;
+   padding: 6px 20px;
+   }
+   .input-group-btn .btn-group {
+   display: flex !important;
+   }
+   .btn-group .btn {
+   border-radius: 0;
+   margin-left: -1px;
+   }
+   .btn-group .btn:last-child {
+   border-top-right-radius: 4px;
+   border-bottom-right-radius: 4px;
+   }
+   .btn-group .form-horizontal .btn[type="submit"] {
+   border-top-left-radius: 4px;
+   border-bottom-left-radius: 4px;
+   }
+   .form-horizontal .form-group {
+   margin-left: 0;
+   margin-right: 0;
+   }
+   .form-group .form-control:last-child {
+   border-top-left-radius: 4px;
+   border-bottom-left-radius: 4px;
+   }
+   @media screen and (min-width: 768px) {
+   #adv-search {
+   width: 500px;
+   margin: 0 auto;
+   }
+   .dropdown.dropdown-lg {
+   position: static !important;
+   }
+   .dropdown.dropdown-lg .dropdown-menu {
+   min-width: 500px;
+   }
+   }
+</style>
+<script>
+   /*TABLA*/
+   var table = $('table').DataTable({
+
+      dom: 'Blfrtip',
+          buttons: [
+          ],
+       "lengthMenu": [[5,10, 20,100, -1], [5,10, 20,100,"Todos"]],
+   	 "oLanguage": {
+   	 "oPaginate": {
+   	        "sPrevious": "Anterior",
+   	        "sNext": "Siguiente"
+   	      },
+   	  "sSearch": "Buscar:",
+   	  "sLengthMenu": "Ver _MENU_ registros",
+   	  "sInfo": "Total: _TOTAL_ registros. Mostrando desde el _START_ al _END_",
+   	  "sZeroRecords": "No se encontraron resultados"
+       }
+
+   } );
+   /*TABLA*/
+
+
+
+</script>
+<!------------NAVBAR---admin5555---------------->
+{% block navbar %}
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="{% url 'indexHome:HomePrincipal' %}"><span style="color:#FC9C30">SIVPCE CIYA</span></a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="{% url 'indexHome:HomePrincipal' %}">Inicio</a></li>
+        <li class="active">
+          <a  href="{% url 'indexHome:produccion' %}">Producción Científica </a>
+
+        </li>
+        <li><a href="{% url 'indexHome:similar' %}">Similares</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+               <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+{% endblock %}
+<!------------CONTENIDO HTML------------------->
+{% block content %}
+<div class="container">
+     <h2 align="center">BUSCADOR DE PRODUCCIÓN CIENTÍFICA</h2>
+   <div class="container" id="custom-search-input">
+      <div class="input-group">
+         <select class="form-control" name="area" id="area" >
+            <option value="0" selected>----Seleccione Artículos Cientificos, Libros, Seminarios----</option>
+            <option value="1">Biodiversidad local</option>
+            <option value="2">Desarrollo y seguridad alimentaria</option>
+            <option value="3">Energías alternativas y renovables, eficiencia energética y protección ambiental</option>
+            <option value="4">Gestión de la calidad y seguridad laboral</option>
+            <option value="5">Tecnologías de la información y comunicación (tics) y diseño gráfico </option>
+            <option value="6">Educación y comunicación para el desarrollo humano y social</option>
+            <option value="7">Desarrollo y aplicación de software</option>
+         </select>
+         <span class="input-group-btn">
+         <button class="btn btn-primary" >
+         <span class=" glyphicon glyphicon-search"> </span> Buscar
+         </button>
+         </span>
+      </div>
+   </div>
+</div>
+<br>
+
+<br><br>
+<!----------------------------las tablas------------------------------------------->
+<div class="container" >
+<div class="col-md-1"></div>
+<div class="col-md-10">
+   <a href="#myArticle" data-toggle="collapse" class="btn btn-default btn-block">Artículos Científicos Encontrados <span class="caret"> </span> </a>
+   <div id="myArticle" class="collapse">
+      <td colspan="2">
+      </td>
+      <table class="table "  id="gridTable" >
+         <thead>
+            <hr>
+            <input   class="btn btn-default pull-right fa-file"  type="submit"  value="Reporte a PDF">
+            <tr class="alert-warning">
+               <th>No</th>
+               <th>TITULO</th>
+               <th>DESCRIPCION</th>
+               <th>AUTOR(ES)</th>
+               <th>LINEAS</th>
+               <th>P.CLAVE</th>
+               <th>REVISTA</th>
+               <th>PUBLICACION</th>
+               <th>OPCIONES</th>
+            </tr>
+         </thead>
+         <tbody>
+         </tbody>
+      </table>
+      <a href="reporte1.php?id=<br />
+         <b>Notice</b>:  Undefined index: opcion in <b>C:\xampp\htdocs\appinvest\publicaciones\Application1\produccionCientifica.php</b> on line <b>309</b><br />
+         ">Ver Reporte</a>
+   </div>
+   <br />
+   <a href="#mySeminary" data-toggle="collapse" class="btn btn-default btn-block">Seminarios Encontrados <span class="caret"> </span> </a>
+   <div id="mySeminary" class="collapse">
+      <table class="table"  id="gridTable">
+         <thead>
+            <hr>
+            <input   class="btn btn-default pull-right fa-file"  type="submit"  value="Reporte a PDF">
+            <tr class="alert-warning">
+               <th>No</th>
+               <th>TITULO</th>
+               <th>TEMATICA</th>
+               <th>DESCRIPCION</th>
+               <th>AUTOR(ES)</th>
+               <th>LINEAS</th>
+               <th>P. CLAVE</th>
+               <th>LUGAR</th>
+               <th>FECHA</th>
+               <th>OPCIONES</th>
+            </tr>
+         </thead>
+         <tbody>
+         </tbody>
+      </table>
+   </div>
+   <br />
+   <a href="#myBook" data-toggle="collapse" class="btn btn-default btn-block">Libros Encontrados <span class="caret"> </span> </a>
+   <div id="myBook" class="collapse">
+      <table class="table "  id="gridTable">
+         <thead>
+            <hr>
+            <input   class="btn btn-default pull-right fa-file"  type="submit"  value="Reporte a PDF">
+            <tr class="alert-warning">
+               <th>No</th>
+               <th>TITULO</th>
+               <th>TEMATICA</th>
+               <th>DESCRIPCION</th>
+               <th>AUTOR(ES)</th>
+               <th>LINEAS</th>
+               <th>P.CLAVE</th>
+               <th>LUGAR</th>
+               <th>EDITORIAL</th>
+               <th>OPCIONES</th>
+            </tr>
+         </thead>
+         <tbody>
+         </tbody>
+         </tfoot>
+      </table>
+   </div>
+</div>
+   </div>
+<br>
+{% endblock %}

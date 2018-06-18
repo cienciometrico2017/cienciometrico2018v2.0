@@ -1,0 +1,72 @@
+from django import forms
+from apps.Articulos_Cientificos.models import articulos_cientificos
+
+
+class articuloform(forms.ModelForm):
+    class Meta:
+        model = articulos_cientificos
+        fields = [
+            'titulo',
+            'estado',
+            'iSSN',
+            'url',
+            'doi',
+            'fechaPublicacion',
+            'pais',
+            'ciudad',
+            'baseDatos',
+            'revista',
+            'volumen',
+            'numero',
+            'lineaInves',
+            'SubLinea',
+            'resumen',
+            'documento',
+            'tipoArticulo',
+            'aprobado',
+            'palabraClave',
+            'estPub',
+        ]
+        labels = {
+            'titulo': 'Título del Artículo',
+            'estado': 'Estado',
+            'iSSN': 'ISSN',
+            'url': 'Url dónde se encuentra la revista',
+            'doi': 'DOI dónde se encuentra la revista',
+            'fechaPublicacion': 'Fecha de publicación del artículo',
+            'pais': 'País dónde se público el artículo',
+            'ciudad': 'Ciudad dónde se público el artículo',
+            'baseDatos': 'Base de Datos dónde esta indexada la Revista',
+            'revista': 'Revista del artículo',
+            'volumen': 'Volumen de la Revista',
+            'numero': 'Número de la Revista',
+            'lineaInves': 'Linea de investigación',
+            'SubLinea': 'SubLinea de investigación',
+            'resumen': 'Resumen',
+            'documento': 'Adjuntar Archivo',
+            'tipoArticulo': 'Tipo de artículo',
+            'aprobado': 'Aprobado por (Organismo o institución que aprueba el documento)',
+            'palabraClave': '',
+        }
+        widgets = {
+            'titulo': forms.TextInput(attrs={'class': 'form-control', 'required': True}),
+            'estado': forms.Select(attrs={'class': 'form-control', 'required': True}),
+            'iSSN': forms.TextInput(attrs={'class': 'form-control', 'required': True}),
+            'url': forms.URLInput(attrs={'class': 'form-control', 'required': True}),
+            'doi': forms.URLInput(attrs={'class': 'form-control', 'required': False}),
+            'fechaPublicacion': forms.TextInput(attrs={'class': 'form-control datepicker', 'type': 'date', 'required': True}),
+            'pais': forms.Select(attrs={'class': 'form-control', 'id': 'pais', 'required': False}),
+            'ciudad': forms.Select(attrs={'class': 'form-control', 'id': 'ciudad', 'required': False}),
+            'baseDatos': forms.CheckboxSelectMultiple(),
+            'revista': forms.Select(attrs={'class': 'form-control', 'id': 'revista', 'required': True}),
+            'volumen': forms.TextInput(attrs={'class': 'form-control', 'required': True}),
+            'numero': forms.TextInput(attrs={'class': 'form-control', 'required': True}),
+            'lineaInves': forms.Select(attrs={'class': 'form-control', 'id': 'lineaInves', 'required': True}),
+            'SubLinea': forms.Select(attrs={'class': 'form-control', 'id': 'SubLinea', 'required': True}),
+            'resumen': forms.Textarea(attrs={'class': 'form-control', 'required': True}),
+            'documento': forms.FileInput(attrs={'class': 'form-control', 'required': False}),
+            'tipoArticulo': forms.Select(attrs={'class': 'form-control', 'required': True}),
+            'aprobado': forms.TextInput(attrs={'class': 'form-control', 'required': False}),
+            'palabraClave': forms.CheckboxSelectMultiple(),
+            'estPub': forms.CheckboxInput(attrs={'class': 'form-control', 'required': False, 'checked': True, 'style': 'display:none'}),
+        }

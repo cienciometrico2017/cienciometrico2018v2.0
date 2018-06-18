@@ -1,0 +1,217 @@
+{% extends 'Home/index.html'%}
+
+<style>
+.carousel-inner > .item > img,
+  .carousel-inner > .item > a > img {
+      width: 70%;
+      margin: auto;
+  }
+</style>
+<script></script>
+<style>#textp{
+    color: #333;
+    font-family: "Montserrat",sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+#textp span { float: right }
+#pb5 {
+    background: #e8e8e9 none repeat scroll 0 0;
+    box-shadow: 0 0 0;
+    height: 4px;
+    margin: 0 0 20px;
+    position: relative;
+    width: 100%;
+}
+#pb5 span {
+    background: #ff8f00 none repeat scroll 0 0;
+    display: block;
+    height: 100%;
+    width: 0;
+}</style>
+{% block content %}
+
+<br><br>
+
+<div class="container" align="center">
+  <br>
+  <div id="myCarousel" style="width:60%"  class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+      <li data-target="#myCarousel" data-slide-to="2"></li>
+      <li data-target="#myCarousel" data-slide-to="3"></li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" role="listbox">
+
+      <div class="item active" align="center">
+        <img src="static/images/edificio.png" alt="edificio" style="width:800px; height:485px" >
+        <div class="carousel-caption" style="background:#F1F1F1">
+          <h2 style="color:black">BIENVENIDOS <span style="color:#FC9C30"> A SIVPC</span></h2>
+          <p style="color:black">Sistema informático que admite la visualización de la producción científica de la Unidad Académica de Ciencias de la Ingeniería y Aplicadas <b>CIYA</b>,
+			    la misma que se encarga de inventariar todo lo que abarca la producción científica es decir libros, artículos científicos publicados en revistas indexadas
+				 y seminarios que realizan los docentes.</p>
+			<a class="btn btn-warning" href="{% url 'indexHome:produccion' %}">VER PRODUCCIÓN CIENTÍFICA</a><br><br>
+			<a class="btn btn-default" href="{% url 'indexHome:similar' %}">VER SIMILARES</a>
+        </div>
+      </div>
+
+      <div class="item" align="center">
+        <img src="static/images/utcnoche.jpg" alt="utcnoche" style="width:800px; height:485px">
+        <div class="carousel-caption" style="background:#F1F1F1">
+          <h2 style="color:black">ACCESO <span style="color:#FC9C30">AL SISTEMA</span></h2>
+          <p style="color:black">Para ingresar a SIVPC, requiere disponer de una cuenta de usuario proporcionada por el administrador del sistema</p>
+			<a class="btn btn-warning" href="{% url 'login'%}">INGRESAR</a>
+        </div>
+      </div>
+
+      <div class="item" align="center">
+        <img src="static/images/recientes.jpg" alt="recientes" style="width:800px; height:485px">
+        <div class="carousel-caption" style="background:#F1F1F1">
+          <h2 style="color:black">INVESTIGACIÓN <span style="color:#FC9C30"> COLABORATIVA</span></h2>
+          <p style="color:black">
+										 	SIVPC-CIYA tiene la capacidad de enviar un correo electrónico con la finalidad
+										 	de unir investigadores de acuerdo a sus Áreas de interes científica.
+										 </p>
+        </div>
+      </div>
+
+
+
+    </div>
+
+    <!-- Left and right controls -->
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</div>
+	</div>
+<br>
+<div class="container">
+<div align="center" style="visibility: visible; animation-name: zoomIn;">
+						<h2>SISTEMA INFORMÁTICO DE  VISUALIZACIÓN <span style="color:#FC9C30"> DE PRODUCCIÓN CIENTÍFICA</span></h2>
+						<div></div>
+					</div>
+<br><br><br>
+<div class="col-md-4 col-sm-4 col-xs-12 wow fadeInUp animated" data-wow-duration="500ms" data-wow-delay="300ms" style="visibility: visible; animation-duration: 500ms; animation-delay: 300ms; animation-name: fadeInUp;">
+                        <div style="text-align: center;">
+                            <div  style="display: inline-block; background-color: #4FCCCD; color: #fff; padding: 25px; box-shadow: 0 0 0 5px rgba(0,0,0,.1) inset; -webkit-box-shadow: 0 0 0 5px rgba(0,0,0,.1) inset;  border-radius: 100%;  margin: 10px 0;"><i class="fa fa-2x fa-file-o"></i>
+                            </div>
+                            <h4>Artículos Científicos</h4>
+                            <p>Tiene como objetivo difundir de manera clara y precisa, los resultados de una investigación realizada sobre un Área determinada del conocimiento.</p>
+                        </div>
+                    </div>
+<div class="col-md-4 col-sm-4 col-xs-12 wow fadeInUp animated" data-wow-duration="500ms" data-wow-delay="300ms" style="visibility: visible; animation-duration: 500ms; animation-delay: 300ms; animation-name: fadeInUp;">
+                        <div style="text-align: center;">
+                            <div  style="display: inline-block; background-color: #4FCCCD; color: #fff; padding: 25px; box-shadow: 0 0 0 5px rgba(0,0,0,.1) inset; -webkit-box-shadow: 0 0 0 5px rgba(0,0,0,.1) inset;  border-radius: 100%;  margin: 10px 0;"><i class="fa fa-2x fa-users"></i>
+                            </div>
+                            <h4>Seminarios</h4>
+                            <p>Es una junta especializada que tiene naturaleza técnica y académica, y cuyo objetivo es el de llevar a cabo un estudio profundo de determinadas cuestiones o asuntos</p>
+                        </div>
+                    </div>
+<div class="col-md-4 col-sm-4 col-xs-12 wow fadeInUp animated" data-wow-duration="500ms" data-wow-delay="300ms" style="visibility: visible; animation-duration: 500ms; animation-delay: 300ms; animation-name: fadeInUp;">
+                        <div style="text-align: center;">
+                            <div  style="display: inline-block; background-color: #4FCCCD; color: #fff; padding: 25px; box-shadow: 0 0 0 5px rgba(0,0,0,.1) inset; -webkit-box-shadow: 0 0 0 5px rgba(0,0,0,.1) inset;  border-radius: 100%;  margin: 10px 0;"><i class="fa fa-2x fa-book"></i>
+                            </div>
+                            <h4>Libros</h4>
+                            <p>Es una obra impresa en una serie de hojas de papel u otro materialencuadernadas y protegidas con tapas, también llamadas cubiertas</p>
+                        </div>
+                    </div>
+</div>
+<br><br><br><br>
+<div class="container">
+					<div class="col-md-4 col-sm-4 col-xs-12">
+						<div class="single_about wow fadeInUp animated" >
+							<h4>SIPC</h4>
+							<p></p>
+							<center><a class="btn btn-warning btn-md" href="{% url 'indexHome:produccion' %}"> <i class="fa fa-search"> </i> BUSCAR PRODUCCIÓN CIENTÍFICA </a></center>
+						</div>
+					</div><!--- END COL -->
+					<div class="col-md-4 col-sm-4 col-xs-12">
+						<div class="about_img wow fadeInUp animated">
+							<img src="static/images/lateral.png" class="img-responsive" alt="">
+						</div>
+					</div><!--- END COL -->
+					<div class="col-md-4 col-sm-4 col-xs-12 wow fadeInUp animated">
+						<div style="text-align: left;  padding-right: 20px;  line-height: 40px;  color: black;">
+							<div class="progress-bar-linear">
+								<p class="progress-bar-text" id="textp">Investigación</p>
+								<div id="pb5">
+									<span data-percent="100" style="transition: width 2s; width: 100%;"></span>
+								</div>
+							</div>
+							<div class="progress-bar-linear">
+								<p class="progress-bar-text" id="textp">Creatividad </p>
+								<div class="progress-bar" id="pb5">
+									<span data-percent="100" style="transition: width 2s; width: 100%;"></span>
+								</div>
+							</div>
+							<div class="progress-bar-linear">
+								<p class="progress-bar-text" id="textp">Innovación </p>
+								<div class="progress-bar" id="pb5">
+									<span data-percent="100" style="transition: width 2s; width: 100%;"></span>
+								</div>
+							</div>
+							<div class="progress-bar-linear">
+								<p class="progress-bar-text" id="textp">VINCULACIÓN</p>
+								<div class="progress-bar"  id="pb5">
+									<span data-percent="100" style="transition: width 2s; width: 100%;"></span>
+								</div>
+							</div>
+						</div>
+					</div><!--- END COL -->
+				</div>
+<br><br><br>
+			<div class="container ">
+				<div class="row text-center " >
+					<div class="section-title wow zoomIn" style="visibility: visible; animation-name: zoomIn;">
+						<h2>FACILIDAD DE <span style="color:#FC9C30">USO</span></h2>
+						<div></div>
+					</div>
+					<div class="col-md-3 col-sm-3 col-xs-12 no-padding wow fadeInUp animated" style="background:#FC9C30; height:200px">
+						<div class="single_why single_why_one wow fadeInLeft" style=" visibility: visible; animation-name: fadeInLeft;">
+							<br><br><br><br>
+                            <h3 style="color:white">Buscadores Rápidos</h3>
+							<span></span>
+							<p></p>
+						</div>
+					</div><!--- END COL -->
+					<div class="col-md-3 col-sm-3 col-xs-12 no-padding wow fadeInUp animated"  style="background:black; height:200px">
+						<div class="single_why single_why_two wow fadeInLeft" style=" visibility: visible; animation-name: fadeInLeft;">
+							<br><br><br><br>
+                            <h3 style="color:white">Producción Científica</h3>
+							<span></span>
+							<p></p>
+						</div>
+					</div><!--- END COL -->
+					<div class="col-md-3 col-sm-3 col-xs-12 no-padding " style="background:#FC9C30; height:200px">
+						<div class="single_why single_why_three wow fadeInLeft" style="visibility: visible; animation-name: fadeInLeft;">
+							<br><br><br><br>
+                            <h3 style="color:white">Temáticas Innovadoras</h3>
+							<span></span>
+							<p></p>
+						</div>
+					</div><!--- END COL -->
+					<div class="col-md-3 col-sm-3 col-xs-12 no-padding wow fadeInUp animated" style="background:black; height:200px">
+						<div class="single_why single_why_four wow fadeInLeft" style="visibility: visible; animation-name: fadeInLeft;">
+							<br><br><br><br>
+                            <h3 style="color:white">Áreas Afines</h3>
+							<span></span>
+							<p></p>
+						</div>
+					</div><!--- END COL -->
+				</div><!--- END ROW -->
+			</div><!--- END CONTAINER -->
+<br><br>
+  {% endblock %}

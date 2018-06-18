@@ -1,0 +1,32 @@
+{% extends 'base1/inicio.html'%}
+{% load staticfiles %}
+{% block subtitle %}
+    eliminar <span style="color:#FC9C30">Proyecto</span>
+    <!-- Button trigger modal -->
+{% endblock%}
+{% block home %}
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'inicio:logeo' %}">
+        <i class="batch-icon batch-icon-browser-alt"></i>
+        Inicio
+    </a>
+</li>
+{% endblock %}
+
+{% block itemProyecto %}
+    <li class="nav-item">
+        <a class="nav-link active" href="{% url 'proyecto:proyectos_lis' %}">
+            <i class="batch-icon batch-icon-folder-alt-duplicate"></i>
+            Proyectos
+        </a>
+    </li>
+{% endblock %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <br><br>
+    <h4>¿Desea eliminar el registro de {{object.Titulo}} ?</h4>
+    <button class="btn btn-danger" type="submit">Si, eliminar</button>
+    <a class="btn btn-default" href="{% url 'proyecto:proyectos_lis' %}">Cancelar</a>
+</form>
+{% endblock %}

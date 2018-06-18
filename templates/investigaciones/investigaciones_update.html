@@ -1,0 +1,24 @@
+{% extends 'base1/inicio.html'%}
+{% load staticfiles %}
+ 
+{% block content %}
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="row">
+		<div class="col-md-8 col-md-offset-2">
+            {{ form.as_p }}
+        </div>
+    </div>
+    <div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<div class="form-group">
+				<button class="btn btn-primary "type="submit">Guardar</button>
+                <a href="{% url 'investigacion:investigaciones_lis' %}" class="btn btn-danger"type="button">Cancelar</a>
+			</div>
+		</div>
+	</div>
+  </form>
+
+
+{% endblock %}

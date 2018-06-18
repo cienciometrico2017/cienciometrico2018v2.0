@@ -1,0 +1,222 @@
+{% extends 'base1/inicio.html'%}
+{% load staticfiles %}
+{% block subtitle %} 
+    ACTUALIZAR <span style="color:#FC9C30">REVISTAS</span> 
+     
+{% endblock%}
+{% block home %}
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'inicio:logeo' %}">
+        <i class="batch-icon batch-icon-browser-alt"></i>
+        Inicio
+    </a>
+</li>
+{% endblock %}
+{% block css %}
+    <!-- Tags Input -->
+    <link rel="stylesheet" href="{% static 'assets/plugins/tagsinput/bootstrap-tagsinput.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/multiselect.css' %}">
+<!-- CSS - OPTIONAL - END -->
+{% endblock %}
+
+
+{% block revista %}
+<li class="nav-item">
+  <a class="nav-link active" href="{% url 'Revista:lista_Revista' %}">
+    <i class="batch-icon batch-icon-paragraph-alt-justify"></i>
+    Mis Revistas
+  </a>
+</li>
+{% endblock %}
+{% block content %}
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12 pb-5">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="card-header">
+                                Actualizar información de: {{ form.Nombre.value }}
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        {{ form.Nombre.label }}
+                                        {{ form.Nombre }}
+                                        {{ form.Nombre.errors }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        {{ form.ISSN.label }}
+                                        {{ form.ISSN }}
+                                        {{ form.ISSN.errors }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        {{ form.base.label }}<a href="#" class="" data-toggle="modal" data-target="#exampleModal">
+                                                <i class="fa fa-plus"></i> Nueva Base de Datos
+                                        </a>
+                                        <select id="base" name="base" multiple="multiple" >
+                                            {% for i in base%}
+                                                {% for j in form.base.value %}
+                                                    {% if j == i.id %}
+                                                        <option value="{{ i.id }}" selected> {{ i.BaseDatos }}</option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endfor %}
+                                            {% for i in Datos%}
+                                                <option value="{{ i.id }}"> {{ i.BaseDatos }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        {{ form.Cuartil_Pertenece.label }}
+                                        {{ form.Cuartil_Pertenece }}
+                                        {{ form.Cuartil_Pertenece.errors }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        {{ form.Factor_Impacto.label }}
+                                        {{ form.Factor_Impacto }}
+                                        {{ form.Factor_Impacto.errors }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        {{ form.Url.label }}
+                                        {{ form.Url }}
+                                        {{ form.Url.errors }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        {{ form.user }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <button type="submit"   class="btn btn-primary" >Guardar</button>
+                                        <a class="btn btn-default" href="{% url 'Revista:lista_Revista' %}">Cancelar</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById("user").value = {{user.id}};
+    </script>
+            <!--                                       Modal DB                                                  -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Nueva base de datos</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="formDB" method="POST">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>Nombre de la base de datos</label>
+                                <input type="text" class="form-control" name="nameBD" id="nameBD" required>
+                            </div>
+                            <div class="col-md-12">
+                                <label>Url</label>
+                                <input type="url" required class="form-control" name="Url de la base de datos" id="Url">
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" style="display:none" name="user" id="user" value="{{user.id}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+        $(document).on('submit', '#formDB', function(e){
+            e.preventDefault();
+
+            $.ajax({
+                type:'POST',
+                url:'/db/create/',
+                data:{
+                    BaseDatos: $('#nameBD').val(),
+                    Url: $('#Url').val(),
+                    user: $('#user').val(),
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success:function(data){
+                    $.each(data, function(index, item) {
+                    var newOption = "<option value='" + item.value + "'>" + item.text + "</option>";
+                    $("#base").append(newOption).multiselect('rebuild');
+
+                    });
+                    $('#Url').val('');
+                    $('#nameBD').val('');
+                    $('#exampleModal').modal('hide');
+                    alert("Base de datos creada");
+                },
+                error : function(){
+                     $('#Url').val('');
+                     $('#nameBD').val('');
+                     $('#exampleModal').modal('hide');
+                     alert('Ya existe la base de datos');
+                }
+            });
+
+        });
+        $(document).ready(function() {
+
+            $('#base').multiselect({
+                //nonSelectedText: '- - -Select Project- - -',
+                buttonWidth: '100%',
+                buttonClass: 'btn small btn-light',
+            });
+        });
+    </script>
+
+
+{% endblock %}
+
+{% block scripts %}
+    <!-- Tags Input -->
+	<script type="text/javascript" src="{% static 'assets/plugins/tagsinput/bootstrap-tagsinput.min.js' %}"></script>
+    <!-- Tags Input -->
+	<script type="text/javascript" src="{% static 'assets/js/typeahead.bundle.js' %}"></script>
+    <!-- SCRIPTS - OPTIONAL START -->
+	<!-- Image Placeholder -->
+	<script type="text/javascript" src="{% static 'assets/js/misc/holder.min.js' %}"></script>
+	<!-- Form Wizard -->
+	<script type="text/javascript" src="{% static 'assets/plugins/bootstrap-wizard/jquery.bootstrap.wizard.min.js' %}"></script>
+
+    <!-- Form Validation -->
+	<script type="text/javascript" src="{% static 'assets/plugins/form-validator/jquery.form-validator.min.js' %}"></script>
+    <!-- Form Validation -->
+	<script type="text/javascript" src="{% static 'assets/plugins/typeahead/typeahead.bundle.min.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'assets/js/multiselect.js' %}"></script>
+{% endblock %}

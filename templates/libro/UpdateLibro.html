@@ -1,0 +1,626 @@
+{% extends 'base1/inicio.html'%}
+{% load staticfiles %}
+{% block css %}
+    <!-- Tags Input -->
+    <link rel="stylesheet" href="{% static 'assets/plugins/tagsinput/bootstrap-tagsinput.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/multiselect.css' %}">
+<!-- CSS - OPTIONAL - END -->
+{% endblock %}
+{% block title %}
+    Actualizar información
+{% endblock%}
+{% block subtitle  %}
+
+{% endblock%}
+
+{% block home %}
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'inicio:logeo' %}">
+        <i class="batch-icon batch-icon-browser-alt"></i>
+        Inicio
+    </a>
+</li>
+{% endblock %}
+
+{% block itemLibro %}
+<li class="nav-item">
+    <a class="nav-link active" href="{% url 'Libro:libro_lis' %}">
+        <i class="batch-icon batch-icon-book"></i>
+        Libros
+    </a>
+</li>
+{% endblock %}
+{% block content %}
+    <div class="col-md-12">
+        <form method="post" enctype="multipart/form-data">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12 pb-5">
+
+                            {% csrf_token %}
+
+                            <div class="card-header">
+                                Actualizar información de: {{ form.Titulo.value }} {{ grad }}
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        {{ form.Titulo.label }}
+                                        {{ form.Titulo }}
+                                        {{ form.Titulo.errors }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    {% if grad.capituloTitulo == None or grad.capituloTitulo == '' %}
+                                        <div class="col-md-12">
+                                            <label>Si escribio solo un capitulo del libro, digite el titulo del capitulo</label>
+                                            <input type="text" class="form-control" id="tituloC" name="tituloC" value="{{ grad.capituloTitulo }}">
+                                        </div>
+                                    {% else %}
+
+                                        <div class="col-md-12">
+                                            <label>Si escribio solo un capitulo del libro, digite el titulo del capitulo</label>
+                                            <input type="text" class="form-control" id="tituloC" name="tituloC" value="{{ grad.capituloTitulo }}">
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        {{ form.Editorial.label }}
+                                        {{ form.Editorial }}
+                                        {{ form.Editorial.errors }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        {{ form.ISBN.label }}
+                                        {{ form.ISBN }}
+                                        {{ form.ISBN.errors }}
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        {{ form.gradoAutoria.label }}
+                                        {{ form.gradoAutoria }}
+                                        {{ form.gradoAutoria.errors }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        {{ form.Url.label }}
+                                        {{ form.Url }}
+                                        {{ form.Url.errors }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        {{ form.Doi.label }}
+                                        {{ form.Doi }}
+                                        {{ form.Doi.errors }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        {{ form.UbicacionFisica.label }}
+                                        {{ form.UbicacionFisica }}
+                                        {{ form.UbicacionFisica.errors }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        {{ form.Anio.label }}
+                                        {{ form.Anio }}
+                                        {{ form.Anio.errors }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label><b>Base de Datos donde esta indexado el libro</b><a href="#" class="" data-toggle="modal" data-target="#exampleModal">
+                                            <i class="fa fa-plus"></i> Nueva Base de Datos
+                                        </a></label>
+                                        <select id="baseDatos" name="BaseDatos" multiple="multiple" >
+                                            {% for i in base%}
+                                                {% for j in form.BaseDatos.value %}
+                                                    {% if j == i.id %}
+                                                        <option value="{{ i.id }}" selected> {{ i.BaseDatos }}</option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endfor %}
+                                            {% for i in Datos%}
+                                                <option value="{{ i.id }}"> {{ i.BaseDatos }}</option>
+                                            {% endfor %}
+                                        </select>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label> <b>Palabras clave</b> (Escribe una palabra y presiona enter)</label><br>
+                                        <select multiple data-role="tagsinput" id="palabras" name="palabras"  class="form-control">
+                                            {% for i in palabra%}
+                                                <option value="{{ i.Termino }}"> {{ i.Termino }}</option>
+                                            {% endfor %}
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        {{ form.Resumen.label }}
+                                        {{ form.Resumen }}
+                                        {{ form.Resumen.errors }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <br>
+                                    {{ form.Documento.label }}
+                                    {{ form.Documento }}
+                                    {{ form.Documento.errors }}
+                                </div>
+                            </div>
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div><br>
+        <div class="card">
+            <div class="card-header">
+                Autores<br>
+                <button id="btRemove" class="btn btn-danger btn-sm pull-right" type="button" aria-disabled="true"><i class="fa fa-minus"></i> Autor</button>
+                <button id="btAdd" class="btn btn-primary btn-sm pull-right" type="button" aria-disabled="true"><i class="fa fa-plus"></i> Autor</button>
+                <a href="#" class="btn btn-primary btn-sm pull-left" data-toggle="modal" data-target="#autorNew"><i class="fa fa-user"></i> Añadir nuevo Autor</a>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="row">
+                                <div class="col-md-5">
+                                    <div id="dbGrado">
+                                    </div>
+                                    <script>
+                                        var a = -1, b = -1;
+                                        $("#dbGrado").append('<label>Grado de autoria</label>{%for i in Autores%}<input  type=text class="form-control" name=grado' + (a += 1) + ' id=grado' + (b += 1) + ' ' + 'value="{{i.gradoAutoria }}" />{%endfor%}');
+                                    </script>
+                                </div>
+                                <div class="col-md-5   ">
+                                    <div id="dbAutores">
+
+                                    </div>
+                                </div>
+                                <script>
+                                    var b = -1, a = -1;
+                                        $("#dbAutores").append(' <label> Autores </label> {% for i in Autores %} <select name = user' + (a += 1) + ' id = user' + (b += 1) + ' class="form-control autores" style="height: 41.5px;" onchange="f()"> {%for o in us%} {%if o.id == i.user_id %} <option value="{{ o.id }}" selected> {{o.first_name}} {{o.last_name}} </option> {%else%} <option value="{{ o.id }}"> {{o.first_name}} {{o.last_name}} </option> {% endif %} {%endfor%}</select>{%endfor%}');
+                                </script>
+                                <div class="col-md-2">
+
+                                    <label>Acción</label>
+                                    {% for i in Autores %}
+                                        <a style="padding: 10px;" class="btn btn-danger btn-sm btn-block" href="{% url 'autor:eliminarBook' i.id id %}" onclick="return confirm('¿Estas seguro?');">Eliminar <b>{{ i.gradoAutoria }}</b></a>
+                                    <br><br>
+                                    {% endfor %}
+
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div id="formGrado">
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div id="formUSer">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="alert alert-danger col-md-12" id="AutRep" role="alert">
+                            <strong>Compruebe los autores ingresados!!</strong> Se han repetido los autores o no ha seleccionado algun autor.
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <br>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <button type="submit"   class="btn btn-primary btn-block" >Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>
+
+    <!--  *********************************************** Modal autor ********************************************** -->
+    <div  class="modal fade bd-example-modal-sizes" id="autorNew" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" >Registrando un nuevo autor</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="formAut" method="POST">
+                {% csrf_token %}
+                <div class="modal-body" style="padding-right: 15px !important;">
+                    <label>Nombres</label>
+                    <input class="form-control" type="text" id="name" name="name" required="required" >
+                    <label>Apellidos</label>
+                    <input class="form-control" type="text" id="lastname" name="lastname" required="required">
+                    <label>Correo electronico</label>
+                    <input class="form-control" type="email" id="email" name="email" required="required">
+                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+     <!--                                       Modal DB                                                  -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Nueva base de datos</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="formDB" method="POST">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>Nombre de la base de datos</label>
+                                <input type="text" class="form-control" name="nameBD" id="nameBD" required>
+                            </div>
+                            <div class="col-md-12">
+                                <label>Url</label>
+                                <input type="url" required class="form-control" name="Url de la base de datos" id="Url">
+                            </div>
+                            <div class="col-md-12">
+                                    <input type="text" class="form-control" style="display:none" name="user" id="user" value="{{user.id}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+        <script type="text/javascript">
+        $('#tipo').ready(function() {
+            var a = document.getElementById("tipo").value;
+            if (a == "capitulo") {
+                // Añadir caja de texto.
+                $(capitulo).append('{{ form.capitulo.label }} {{ form.capitulo }} {{ form.capitulo.errors }}');
+                $(autoresLibro).append('{{ form.autoresLibro.label }} {{ form.autoresLibro }} {{ form.autoresLibro.errors }}');
+            }
+            else if (a == "libro" || a == ""){
+                $(capitulo).empty();
+                $(autoresLibro).empty();
+            }
+        });
+        $('#tipo').change(function() {
+            var a = document.getElementById("tipo").value;
+            if (a == "capitulo") {
+                // Añadir caja de texto.
+                $(capitulo).append('{{ form.capitulo.label }} {{ form.capitulo }} {{ form.capitulo.errors }}');
+                $(autoresLibro).append('{{ form.autoresLibro.label }} {{ form.autoresLibro }} {{ form.autoresLibro.errors }}');
+            }
+            else if (a == "libro" || a == ""){
+                $(capitulo).empty();
+                $(autoresLibro).empty();
+            }
+        });
+        $(document).on('submit', '#formRev', function(e){
+            e.preventDefault();
+            $.ajax({
+                type:'POST',
+                url:'/revista/new/',
+                data:{
+                    Nombre: $('#Nombre').val(),
+                    ISSN: $('#ISSN1').val(),
+                    baseData: $('#baseData').val(),
+                    Cuartil_Pertenece: $('#Cuartil_Pertenece').val(),
+                    Factor_Impacto: $('#Factor_Impacto').val(),
+                    Url: $('#Url1').val(),
+                    user: $('#user1').val(),
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success:function(data){
+                    $('#exampleModal1').modal('hide');
+                     $.each(data, function(index, item) {
+                        var newOption = "<option value='" + item.value + "'>" + item.text + "</option>";
+                        $("#revista").append(newOption).multiselect('rebuild');
+                    });
+                    $('#Nombre').val('');
+                    $('#ISSN1').val('');
+                    $('#baseData').multiselect('rebuild');
+                    $('#Cuartil_Pertenece').val('');
+                    $('#Factor_Impacto').val('');
+                    $('#Url1').val('');
+                    alert("Revista creada.");
+                },
+                error : function(){
+                    $('#Nombre').val('');
+                    $('#ISSN1').val('');
+                    $('#baseData').multiselect('rebuild');
+                    $('#Cuartil_Pertenece').val('');
+                    $('#Factor_Impacto').val('');
+                    $('#Url1').val('');
+                    $('#exampleModal1').modal('hide');
+                    alert("Error, la revisa ya se encuentra registrada.");
+                }
+            });
+        });
+    </script>
+    <script type="text/javascript">
+
+        $(document).on('submit', '#formDB', function(e){
+            e.preventDefault();
+
+            $.ajax({
+                type:'POST',
+                url:'/db/create/',
+                data:{
+                    BaseDatos: $('#nameBD').val(),
+                    Url: $('#Url').val(),
+                    user: $('#user').val(),
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success:function(data){
+                    $.each(data, function(index, item) {
+                    var newOption = "<option value='" + item.value + "'>" + item.text + "</option>";
+                    $("#baseDatos").append(newOption).multiselect('rebuild');
+                    $("#baseData").append(newOption).multiselect('rebuild');
+                    });
+                    $('#Url').val('');
+                    $('#nameBD').val('');
+                    $('#exampleModal').modal('hide');
+                    alert("Base de datos creada");
+                },
+                error : function(){
+                     $('#Url').val('');
+                     $('#nameBD').val('');
+                     $('#exampleModal').modal('hide');
+                     alert('Ya existe la base de datos');
+                }
+            });
+
+        });
+    </script>
+<script>
+    var list = new Array();
+    var AutRep = document.getElementById('AutRep');
+    AutRep.style.display = 'none';
+    function f(){
+        console.clear();
+        $('button[type="submit"]').attr('disabled','disabled');
+        $('#dbAutores > select').each(function( index ) {
+            console.log($( this ).val());
+            list.push($( this ).val());
+        });
+        $('#formUSer > select').each(function( index ) {
+            console.log($( this ).val());
+            list.push($( this ).val());
+        });
+        if(d(list).length != list.length){
+            console.log("Elementos repetidos");
+            AutRep.style.display = 'block';
+        }else{
+            $('button[type="submit"]').removeAttr('disabled');
+            AutRep.style.display = 'none';
+        }
+        list.length = 0;
+    }
+    function d(arra1) {
+        var i, len=arra1.length, result = [], obj = {};
+        for (i=0; i<len; i++){
+        obj[arra1[i]]=0;
+        }
+        for (i in obj) {
+        result.push(i);
+        }
+        return result;
+    }
+</script>
+
+<script>
+    $(document).ready(function() {
+
+        $('#baseDatos').multiselect({
+            //nonSelectedText: '- - -Select Project- - -',
+            buttonWidth: '100%',
+            buttonClass: 'btn small btn-light',
+        });
+        $('#revista').multiselect({
+            //nonSelectedText: '',
+            buttonWidth: '100%',
+            buttonClass: 'btn small btn-light',
+
+        });
+        var iCnt = 0;
+        $('#linea').on('change', function() {
+            var selected = $(this).val();
+            $("#subLinea option").each(function(item){
+                console.log(selected) ;
+                var element =  $(this) ;
+                console.log(element.data("tag")) ;
+                if (element.data("tag") != selected){
+                    element.hide() ;
+                }else{
+                    element.show();
+                }
+            }) ;
+            $("#subLinea").val($("#subLinea option:visible:first").val());
+
+        });
+
+        $('#palabras').tagsinput({
+            tagClass: 'label label-primary'
+        });
+
+        var iCnt = {{ Autores.count }};
+        var t = 20 ;
+        $('#btAdd').click(function() {
+            console.log(iCnt, t);
+            if(iCnt == 0){
+                iCnt += 1;
+            }
+            if (iCnt != t) {
+                if(iCnt == 1){
+                   $(formGrado).append('<input  type=text class="form-control" name=grado' + iCnt + ' id=grado' + iCnt + ' ' + 'value="Segundo" />');
+                }
+                if(iCnt == 2){
+                    $(formGrado).append('<input  type=text class="form-control" name=grado' + iCnt + ' id=grado' + iCnt + ' ' + 'value="Tercero" />');
+                }
+                if(iCnt == 3){
+                    $(formGrado).append('<input  type=text class="form-control" name=grado' + iCnt + ' id=grado' + iCnt + ' ' + 'value="Cuarto" />');
+                }
+                if(iCnt == 4){
+                    $(formGrado).append('<input  type=text class="form-control" name=grado' + iCnt + ' id=grado' + iCnt + ' ' + 'value="Quinto" />');
+                }
+                if(iCnt == 5){
+                    $(formGrado).append('<input  type=text class="form-control" name=grado' + iCnt + ' id=grado' + iCnt + ' ' + 'value="Sexto" />');
+                }
+                if(iCnt == 6){
+                    $(formGrado).append('<input  type=text class="form-control" name=grado' + iCnt + ' id=grado' + iCnt + ' ' + 'value="Séptimo " />');
+                }
+                if(iCnt == 7){
+                    $(formGrado).append('<input  type=text class="form-control" name=grado' + iCnt + ' id=grado' + iCnt + ' ' + 'value="Octavo" />');
+                }
+                if(iCnt == 8){
+                    $(formGrado).append('<input  type=text class="form-control" name=grado' + iCnt + ' id=grado' + iCnt + ' ' + 'value="Noveno" />');
+                }
+                if(iCnt == 9){
+                    $(formGrado).append('<input  type=text class="form-control" name=grado' + iCnt + ' id=grado' + iCnt + ' ' + 'value="Décimo" />');
+                }
+                if(iCnt == 10){
+                    $(formGrado).append('<input  type=text class="form-control" name=grado' + iCnt + ' id=grado' + iCnt + ' ' + 'value="Undécimo" />');
+                }
+                if(iCnt == 11){
+                    $(formGrado).append('<input  type=text class="form-control" name=grado' + iCnt + ' id=grado' + iCnt + ' ' + 'value="Duodécimo" />');
+                }
+                if(iCnt == 12){
+                    $(formGrado).append('<input  type=text class="form-control" name=grado' + iCnt + ' id=grado' + iCnt + ' ' + 'value="Decimotercero" />');
+                }
+                if(iCnt == 13){
+                    $(formGrado).append('<input  type=text class="form-control" name=grado' + iCnt + ' id=grado' + iCnt + ' ' + 'value="Decimocuarto" />');
+                }
+                if(iCnt == 14){
+                    $(formGrado).append('<input  type=text class="form-control" name=grado' + iCnt + ' id=grado' + iCnt + ' ' + 'value="Decimoquinto" />');
+                }
+                if(iCnt == 15){
+                    $(formGrado).append('<input  type=text class="form-control" name=grado' + iCnt + ' id=grado' + iCnt + ' ' + 'value="Decimosexto" />');
+                }
+                if(iCnt == 16){
+                    $(formGrado).append('<input  type=text class="form-control" name=grado' + iCnt + ' id=grado' + iCnt + ' ' + 'value="Decimoséptimo" />');
+                }
+                if(iCnt == 17){
+                    $(formGrado).append('<input  type=text class="form-control" name=grado' + iCnt + ' id=grado' + iCnt + ' ' + 'value="Decimoctavo" />');
+                }
+                if(iCnt == 18){
+                    $(formGrado).append('<input  type=text class="form-control" name=grado' + iCnt + ' id=grado' + iCnt + ' ' + 'value="Decimonoveno" />');
+                }
+                if(iCnt == 19){
+                    $(formGrado).append('<input  type=text class="form-control" name=grado' + iCnt + ' id=grado' + iCnt + ' ' + 'value="Vigésimo " />');
+                }
+                $(formUSer).append('<select name = user' + iCnt + ' id = user' + iCnt + ' class="form-control autores" onchange="f()"></select>');
+                $.ajax({
+                    type:'POST',
+                    url:'/autor/selAA/',
+                    data:{
+                        datos: {},
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success:function(data){
+
+                        var a = 'user'+(iCnt-1);
+                        $("#"+a).empty();
+                        $.each(data, function(index, item) {
+                            var newOption = "<option value='" + item.value + "'>" + item.text + "</option>";
+                            $("#"+a).append(newOption);
+                        });
+
+                    },
+                    error : function(){
+
+                        console.log('Opss');
+                    }
+                });
+
+                iCnt = iCnt + 1;
+            }
+            else {
+                $(formGrado).append('<label>Limite Alcanzado</label>');
+                $('button[id="btAdd"]').attr('disabled','disabled');
+            }
+        });
+        $('#btRemove').click(function() {
+            console.log(iCnt);
+            if (iCnt != {{ Autores.count }}) {
+                iCnt = iCnt - 1;
+                if(iCnt != 0 ){
+                    $('#grado' + iCnt).remove();
+                    $('#user' + iCnt).remove();
+                }
+            }
+            if (iCnt == 0) {
+                $(formGrado).empty();
+                $(formUSer).empty();
+                $('#btAdd').removeAttr('disabled');
+                iCnt = 1;
+            }
+            if (iCnt + 1 == t) {
+                $("#btAdd").removeAttr("disabled");
+            }
+        });
+        $('#btRemoveAll').click(function() {    // Elimina todos los elementos del contenedor
+            $(formGrado).empty();
+            $(formUser).empty();
+            $('#btAdd').removeAttr('disabled');
+        });
+    });
+    </script>
+    <!-- Tags Input -->
+	<script type="text/javascript" src="{% static 'assets/plugins/tagsinput/bootstrap-tagsinput.min.js' %}"></script>
+    <!-- Tags Input -->
+	<script type="text/javascript" src="{% static 'assets/js/typeahead.bundle.js' %}"></script>
+    <!-- SCRIPTS - OPTIONAL START -->
+	<script type="text/javascript" src="{% static 'assets/js/misc/holder.min.js' %}"></script>
+	<!-- Form Wizard -->
+	<script type="text/javascript" src="{% static 'assets/plugins/bootstrap-wizard/jquery.bootstrap.wizard.min.js' %}"></script>
+
+    <!-- Form Validation -->
+	<script type="text/javascript" src="{% static 'assets/plugins/form-validator/jquery.form-validator.min.js' %}"></script>
+    <!-- Form Validation -->
+	<script type="text/javascript" src="{% static 'assets/plugins/typeahead/typeahead.bundle.min.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'assets/js/multiselect.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'assets/js/scriptsna.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,186 @@
+{% extends 'base1/inicio.html'%}
+{% load staticfiles %}
+{% block subtitle %}
+{% endblock%}
+{% block home %}
+<li class="nav-item">
+    <li><a href="{% url 'inicio:logeo' %}" class="nav-link active"><i class="batch-icon batch-icon-browser-alt"></i> <span>Inicio</span></a>
+</li>
+{% endblock %}
+{% block extrastatic %}
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAiVBq0HNzpFaQrKvjWzHP863amAuwGnE0"></script>
+{% endblock %}
+{% block content%}
+
+<div class="col-md-6">
+    <div class="card">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+            <div class="card-header">
+                <h3> Cambio de contraseña </h3>
+            </div>
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        {{ form2.password.label }}
+                        {{ form2.password }}
+                        {{ form2.password.errors }}
+                    </div>
+                    <div class="col-md-12">
+                        <label>Repita nuevamente la contraseña</label>
+                        <input class="form-control" type="password" name="password1" id="password1" required>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button class="btn btn-primary btn-block"type="submit">Guardar cambios</button>
+                    </div>
+                </div>
+            </div>
+
+            </form>
+             <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        {% for message in messages %}
+                            <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+             </div>
+        </div>
+    </div>
+    <!--
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12 pb-5">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+
+                            {{form.as_p}}
+                            {{form2.as_p}}
+                            {{form3.as_p}}
+                            <!--
+                            <div class="form-group row">
+                                <label for="{{ form.cedula.id_for_label }}" class="col-sm-3 col-form-label"> Cedula </label>
+                                <div class="col-sm-9">
+                                    {{ form.errors }}
+                                    {{ form2.errors }}
+                                    {{ form3.errors }}
+
+                                    {{ form.cedula }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="{{ form.photo.id_for_label }}" class="col-sm-3 col-form-label">Foto</label>
+                                <div class="col-sm-9">
+                                    {{ form.photo }}
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="{{ form.telefono.id_for_label }}" class="col-sm-3 col-form-label">Teléfono</label>
+                                <div class="col-sm-9">
+                                    {{ form.telefono }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="{{ form.genero.id_for_label }}" class="col-sm-3 col-form-label">Genero</label>
+                                <div class="col-sm-9">
+                                    {{ form.genero }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="{{ form.nacionalidad.id_for_label }}" class="col-sm-3 col-form-label">Nacionalidad</label>
+                                <div class="col-sm-9"><br>
+                                    {{ form.nacionalidad }}
+                                    {{ form.roles }}<br><br><br><br><br><br>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="{{ form.direccion.id_for_label }}" class="col-sm-3 col-form-label">Dirección:</label>
+                                <div class="col-sm-9">
+                                    {{ form.direccion }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="{{ form.categoria.id_for_label }}" class="col-sm-3 col-form-label">Categoría del docente</label>
+                                <div class="col-sm-9">
+                                    {{ form.categoria }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="{{ form2.username.id_for_label }}" class="col-sm-3 col-form-label">username</label>
+                                <div class="col-sm-9">
+                                    {{ form2.username }}
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="{{ form2.first_name.id_for_label }}" class="col-sm-3 col-form-label">first_name</label>
+                                <div class="col-sm-9">
+                                    {{ form2.first_name }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="{{ form2.last_name.id_for_label }}" class="col-sm-3 col-form-label">last_name</label>
+                                <div class="col-sm-9">
+                                    {{ form2.last_name }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="{{ form2.email.id_for_label }}" class="col-sm-3 col-form-label">email</label>
+                                <div class="col-sm-9">
+                                    {{ form2.email }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="{{ form2.tipoContrato.id_for_label }}" class="col-sm-3 col-form-label">tipoContrato</label>
+                                <div class="col-sm-9">
+                                    {{ form3.tipoContrato }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="{{ form2.facultad.id_for_label }}" class="col-sm-3 col-form-label">facultad</label>
+                                <div class="col-sm-9">
+                                    {{ form3.facultad }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="{{ form2.carrera.id_for_label }}" class="col-sm-3 col-form-label">carrera</label>
+                                <div class="col-sm-9">
+                                    {{ form3.carrera }}
+                                </div>
+                            </div>
+                            -
+                            <div class="content">
+                                <div class="col-md-8 col-md-offset-2">
+                                    <div class="form-group">
+                                        <button class="btn btn-primary "type="submit">Guardar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    -->
+
+{% endblock %}
+

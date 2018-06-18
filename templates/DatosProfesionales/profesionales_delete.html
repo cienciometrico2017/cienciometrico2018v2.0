@@ -1,0 +1,12 @@
+{% extends 'base1/inicio.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<br>
+<form method="post">
+    {% csrf_token %}
+    <h4>¿Desea eliminar el registro de {{object.Nombre_Profecion}}?</h4>
+    <button class="btn btn-danger" type="submit">Si, eliminar</button>
+    <a class="btn btn-default" href="{% url 'datosprofe:datosprofe_listar' %}">Cancelar</a>
+</form>
+{% endblock %}

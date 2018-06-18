@@ -1,0 +1,70 @@
+{% extends 'base1/inicio.html'%}
+{% load staticfiles %}
+{% block subtitle  %}
+    Actualizar informacion de <span style="color:#FC9C30">titulos</span>
+{% endblock%}
+
+{% block home %}
+<li class="nav-item">
+    <li><a href="{% url 'inicio:logeo' %}" class="nav-link"><i class="batch-icon batch-icon-browser-alt"></i> <span>Inicio</span></a>
+</li>
+{% endblock %}
+{% block itemForAcad %}
+<li class="nav-item">
+    <a class="nav-link active" href="{% url 'FormacionAcademica:lista_Formacion_Academica' %}">
+        <i class="batch-icon batch-icon-stamp-alt"></i>
+        Título tercer grado
+    </a>
+</li>
+{% endblock %}
+{% block content %}
+	<div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12 pb-5">
+						<form method="post" enctype="multipart/form-data">
+							{% csrf_token %}
+							<div class="row">
+								<div class="col-md-12">
+									{{ form.descripcion.label }}
+									{{ form.descripcion }}
+								</div>
+								<div class="col-md-12">
+									{{ form.anio.label }}
+									{{ form.anio }}
+								</div>
+								<div class="col-md-12">
+									{{ form.nombreCentroEstudios.label }}
+									{{ form.nombreCentroEstudios }}
+								</div>
+								<div class="col-md-12">
+									{{ form.titulo.label }}
+									{{ form.titulo }}
+								</div>
+								<div class="col-md-12">
+									{{ form.documentos.label }}
+									{{ form.documentos }}
+								</div>
+								<div class="col-md-12">
+									<input type="text" style="display:none" id="tipoTitulo" value="{{ form.tipoTitulo.value }}" name="tipoTitulo" class="form-control" >
+								</div>
+								<div class="col-md-12">
+									{{ form.user }}
+								</div>
+
+							</div>
+							<div class="row">
+								<div class="col-md-8 col-md-offset-2">
+								<div class="form-group">
+								<button type="submit"   class="btn btn-primary" >Guardar</button>
+								</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

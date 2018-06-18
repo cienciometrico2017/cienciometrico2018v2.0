@@ -1,0 +1,52 @@
+{% extends 'base1/inicio.html' %}
+{% load staticfiles %}
+{% block content %}
+
+<form method="post">
+    {% csrf_token %}
+ 
+    <div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<div class="form-group">
+				<label>Nombre de Profeción</label>
+				<input class="form-control" type="text" name="Nombre_Profecion" value="{{datos_profecionales.Nombre_Profecion}}">
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<div class="form-group">
+				<label>Grado Científico</label>
+				<input class="form-control" type="text" name="Grado_Cientifico" value="{{datos_profecionales.Grado_Cientifico}}">
+			</div>
+		</div>
+	</div>
+    <div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<div class="form-group">
+				<label>Categoría</label>
+				<input class="form-control" type="text" name="Categoria" value="{{datos_profecionales.Categoria}}">
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<div class="form-group">
+				<label>Usuario</label>
+				<select name="perfil" class="browser-default" >
+                            <option value="{{perfil.id}}" selected>{{perfil.user.username}}</option>
+
+                    </select>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<div class="form-group">
+				<button class="btn btn-primary "type="submit">Guardar</button>
+			</div>
+		</div>
+	</div>
+
+</form>
+{% endblock %}
