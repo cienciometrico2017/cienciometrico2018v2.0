@@ -149,7 +149,7 @@ Filtros
                                         <option value="3">Estado</option>
 
 
-                                    </select>
+                </select>
                                 </div>
                             </div>
                         </div>
@@ -165,6 +165,8 @@ Filtros
                <div id="chart"> </div>
 
             </div>
+
+
 
             <div class="col-11 col-sm-11 col-lg-11 col-xl-11">
                     <div class="card text-center">
@@ -187,7 +189,7 @@ Filtros
                                         <td style=" with:10px;"><button type="button" class="btn btn-primary" id="buscar_filtros" >Graficar</button></td>
                                         <td id="nombre_base" style="size:23px">---Sin definir---</td>
                                         <td id="valor_base" >0</td>
-                                        <td> <a href="/Home/reporte_personas_pdf" target="_blank" class="fa fa-external-link" style="font-size:24px"></a></td>
+                                        <td> <a href="/Home/reporte_pdf" target="_blank" class="fa fa-external-link" style="font-size:24px"></a></td>
                                     </tr>
                                     <tbody >
                                     </tbody>
@@ -210,12 +212,16 @@ Filtros
 
                 <div class="col-11 col-sm-11 col-lg-11 col-xl-11">
                   <div class="table-responsive <card></card>">
-                    <table class="table">
+                    <table class="table" id="table_data">
                       <tr>
-                        <td>ID</td>
+
                         <td>TITULO</td>
                         <td>URL</td>
-                        <td>ESTADO</td>
+                        <td>ISSN</td>
+                        <td>VOLUMEN</td>
+                        <td>DOCUMENTO</td>
+                        <td>AUTOR</td>
+                        <td>REVISTA</td>
 
                       </tr>
                       <tbody id="itemlist" >
@@ -246,8 +252,9 @@ Filtros
 
 
 <script type="text/javascript">
+var gra=[['.',0]];
+graficar(gra);
 
-graficar();
 
 
  $('#zona').on('change',inicio);
@@ -258,6 +265,8 @@ graficar();
   var f=$('#facultad').on('change');
   var c=$('#carrera').on('change');
   var fx=$('#filtro_y').on('change');
+
+
 
         var facultad=$(f).val();
         var carrera=$(c).val();
@@ -287,6 +296,7 @@ vaciar_combo();
          success: function(data){
            console.log(data);
            var html="";
+           html+='<option value="0">--Todo--</option>';
            for(var i=0;i<data.length;i++){
           //   html+='<ul><li>'+data[i].fields.id+'</li><li>'+data.[i].fields.Nombre+'</li></ul>';
          html+='<option value="'+data[i].pk+'">'+data[i].fields.Nombre+'</option>';
@@ -311,6 +321,7 @@ vaciar_combo();
        success: function(data){
          console.log(data);
          var html="";
+         html+='<option value="0">--Todo--</option>';
          for(var i=0;i<data.length;i++){
         //   html+='<ul><li>'+data[i].fields.id+'</li><li>'+data.[i].fields.Nombre+'</li></ul>';
        html+='<option value="'+data[i].pk+'">'+data[i].fields.Nombre+'</option>';
@@ -333,6 +344,7 @@ function inicio_facultad(){
       success: function(data){
         console.log(data);
         var html="";
+        html+='<option value="0">--Todo--</option>';
         for(var i=0;i<data.length;i++){
        //   html+='<ul><li>'+data[i].fields.id+'</li><li>'+data.[i].fields.Nombre+'</li></ul>';
       html+='<option value="'+data[i].pk+'">'+data[i].fields.Nombre+'</option>';
@@ -368,6 +380,7 @@ function inicio_carrera(){
       success: function(data){
         console.log(data);
         var html="";
+        html+='<option value="0">--Todo--</option>';
         for(var i=0;i<data.length;i++){
        //   html+='<ul><li>'+data[i].fields.id+'</li><li>'+data.[i].fields.Nombre+'</li></ul>';
       html+='<option value="'+data[i].pk+'">'+data[i].fields.Nombre+'</option>';
@@ -380,66 +393,112 @@ function inicio_carrera(){
 
 
 }
-
+var val_carr=[];
 function inicio_buscar(f,c,fx,texto_carrera ){
   alert("facu="+f+"-carr="+c+"- filx="+fx+" carrera "+texto_carrera  );
 
 
+/////////////////////////////ajax para carreras
   if(f>0 && c>0 && fx > 0){
-
     console.log("facu="+f+"-carr="+c+"- filx="+fx);
-    $.ajax({
-        data:{'f':f,'c':c,'fx':fx,'txtC':texto_carrera},
-        url:'/Home/busqueda_filtros/',
-        type: 'get',
-        success: function(data){
-          var contador=0;
-          console.log(data);
-
-          var html="";
-          var borrar=" ";
-          $("#itemlist").append(borrar);
-          for(var i=0;i<data.length;i++){
-         //   html+='<ul><li>'+data[i].fields.id+'</li><li>'+data.[i].fields.Nombre+'</li></ul>';
-        //fa fa-download <a href="html_images.asp" target="_blank">HTML Images</a>
-        html+='<tr>';
-        html+='<td>'+data[i].pk+'</td>';
-        html+='<td>'+data[i].fields.titulo+'</td>';
-        html+='<td> <a href="'+data[i].fields.url+'" target="_blank" class="fa fa-external-link" style="font-size:24px"></a></td>';
-        html+='<td>'+data[i].fields.estado+'</td>';
+      ajax_carrera(f,c,fx,texto_carrera);
 
 
-        html+='</tr>';
-        contador=contador+1;
-           //console.log(data[0].fields.Nombre);
-         // console.log(data[0].pk);
-          }
-       $("#itemlist").append(html);
+  }   //////// fian ajax carreras//////////////////////////////////////////////////
+  eliminaFilas();
+  var gra=[['.',0]];
+  graficar(gra);
+
+  if(f>0 && c==0 && fx > 0){//// INICIO FACULTADES
+  ajax_Facultad(f,c,fx,texto_carrera);
 
 
 
+/// atrapamos todos los valores del select de carrera
+var val_car=$("#carrera").find("option").length;
+var ids_carrera=[];
+var txt_carrera=[];
+
+for(var i=0;i<val_car;i++){
+  var s= $("#carrera").val([i]);
+  var temp=$("#carrera").val();
+  var temp2=$('#carrera option:selected').text();
+  ids_carrera[i]=temp;
+  txt_carrera[i]=temp2;
+}
+
+
+var objts=[];
+for(var i=1;i<=ids_carrera.length;i++){
+  alert(txt_carrera[i]+" = "+ids_carrera[i]);
+
+  $.ajax({
+      data:{'f':2,'c':ids_carrera[i],'fx':2,'txtC':texto_carrera},
+      url:'/Home/busqueda_filtros/',
+      type: 'get',
+      success: function(data){
+       objts.push(data);
+        console.log(data);
+
+
+      //  alert("el  valor de "+txt_carrera[j] +" contador escontador=" +cc);
+
+
+      }
+
+  });
+} // fin for contador
+console.log(objts);
+var val_carr_new=[];
+for(var j=0;j<objts.length;j++){
+  val_carr_new[j]=objts[j].length;
+
+
+}
+console.log(val_carr_new);
 
 
 
-          graficar();
-          $('#valor_base').html(contador);
-
-        /*  var html="";
-          for(var i=0;i<data.length;i++){
-            console.log(data[i]);
-         //   html+='<ul><li>'+data[i].fields.id+'</li><li>'+data.[i].fields.Nombre+'</li></ul>';
-      ///  html+='<option value="'+data.pk+'">'+data[i].fields.Nombre+'</option>';
-           //console.log(data[0].fields.Nombre);
-         // console.log(data[0].pk);
-       }*/
-
-        }
-    });
 
 
-  }else{
-  alert("Faltan Datos que selecionar");
+var data=[];
+for(var i=1; i<txt_carrera.length;i++){
+alert( "la carrera= "+txt_carrera[i]+"  id "+ids_carrera[i]+"  valor contador ="+val_carr_new[i-1]);
+var a=[];
+a[0]=txt_carrera[i];
+a[1]=val_carr_new[i-1];
+data[i-1]=a;
+}
+console.log(data);
+graficar_facultades(data);
 
+
+
+
+
+
+
+//for(var i=0;i<ids_carrera.length;i++){
+//  alert("finalmente el valor de " + txt_carrera[i+1]+"  es= "+ val_carr[i])
+//}
+
+
+
+
+//// regreamos a la posicion 0
+ $("#carrera").val([0]);
+
+
+
+
+
+
+  }//////FIN FACULTADES
+  else{
+    eliminaFilas();
+    var gra=[['.',0]];
+    graficar(gra);
+    //alert("FALTAN PARÁMETROS");
   }
 
 
@@ -447,18 +506,194 @@ function inicio_buscar(f,c,fx,texto_carrera ){
 }
 
 
-function graficar(){
+
+
+
+function graficar_facultades(data1){
+  var s="siatemas";
+  var e="electromecanica";
+  var ele="electrica";
+  var s1=22;
+  var e1=1;
+  var ele1=23;
+  var nom=[];
+  nom[0]=s;
+  nom[1]=e;
+  nom[2]=ele;
+
+  var val=[];
+  val[0]=s1;
+  val[1]=e1;
+  val[2]=ele1;
+
+
+  var data=[];
+for (var i=0;i<nom.length;i++){
+var a=[];
+a[0]=nom[i];
+a[1]=val[i];
+data[i]=a;
+}
+ console.log("la data llega es="+data1);
+ console.log(data1);
+ console.log(" la data generada es="+data);
+ console.log(data);
+   var tipo="pie";
   var chart = c3.generate({
-      bindto:"#chart",
-      data: {
-              url: '/static/json/data1.json',
-              mimeType: 'json',
-              type: 'bar'
+data: {
+  bindto:"#chart",
+columns: data1,
+type: tipo
+},
+bar: {
+width: {
+ratio: 0.4 // this makes bar width 50% of length between ticks
+}
 
-          },
+}
+});
+}
 
+function graficar(data){
+
+  console.log("la data es "+data);
+  var type_gra='bar';
+  var chart = c3.generate({
+    bindto:"#chart",
+    data: {
+        columns:data,
+       type:type_gra
+
+    }
+});
+
+
+}
+
+function eliminaFilas(){
+
+  //OBTIENE EL NÚMERO DE FILAS DE LA TABLA
+         var n=0;
+         $("#table_data tbody tr").each(function () {
+           n++;
+                    });
+  //BORRA LAS n-1 FILAS VISIBLES DE LA TABLA
+  //LAS BORRA DE LA ULTIMA FILA HASTA LA SEGUNDA
+  //DEJANDO LA PRIMERA FILA VISIBLE, MÁS LA FILA PLANTILLA OCULTA
+        for(i=n-1;i>0;i--){
+        $("#table_data tbody tr:eq('"+i+"')").remove();
+          };
+
+}
+
+
+function ajax_carrera(f,c,fx,texto_carrera){
+  $.ajax({
+      data:{'f':f,'c':c,'fx':fx,'txtC':texto_carrera},
+      url:'/Home/busqueda_filtros/',
+      type: 'get',
+      success: function(data){
+        var contador=0;
+        console.log(data);
+        var html="";
+        eliminaFilas();
+          html+='<tr>';
+        for(var i=0;i<data.length;i++){
+    //  titulo','url','iSSN','volumen','documento','first_name','Nombre'
+      html+='<td>'+data[i].fields.titulo+'</td>';
+      html+='<td> <a href="'+data[i].fields.url+'" target="_blank" class="fa fa-external-link" style="font-size:24px"></a></td>';
+      html+='<td>'+data[i].fields.iSSN+'</td>';
+      html+='<td>'+data[i].fields.volumen+'</td>';
+      html+='<td> <a href="'+data[i].fields.documento+'" target="_blank" class="fa fa-external-link" style="font-size:24px"></a></td>';
+      html+='<td>'+data[i].fields.first_name+'</td>';
+      html+='<td>'+data[i].fields.Nombre+'</td>';
+      html+='</tr>';
+      contador=contador+1;
+        }
+     $("#itemlist").append(html);
+        $('#valor_base').html(contador);
+
+         var texto_carrera = $('#carrera option:selected').text();
+        var data=[];
+        data[0]=texto_carrera;
+        data[1]=contador;
+       var  data_fin=[];
+        data_fin[0]=data;
+       graficar(data_fin);
+
+      }
+  });
+
+}
+
+function ajax_Facultad(f,c,fx,texto_carrera){
+  $.ajax({
+      data:{'f':f,'c':c,'fx':fx,'txtC':texto_carrera},
+      url:'/Home/busqueda_filtros/',
+      type: 'get',
+      success: function(data){
+        var contador=0;
+        console.log(data);
+        var html="";
+        eliminaFilas();
+          html+='<tr>';
+        for(var i=0;i<data.length;i++){
+    //  titulo','url','iSSN','volumen','documento','first_name','Nombre'
+      html+='<td>'+data[i].fields.titulo+'</td>';
+      html+='<td> <a href="'+data[i].fields.url+'" target="_blank" class="fa fa-external-link" style="font-size:24px"></a></td>';
+      html+='<td>'+data[i].fields.iSSN+'</td>';
+      html+='<td>'+data[i].fields.volumen+'</td>';
+      html+='<td> <a href="'+data[i].fields.documento+'" target="_blank" class="fa fa-external-link" style="font-size:24px"></a></td>';
+      html+='<td>'+data[i].fields.first_name+'</td>';
+      html+='<td>'+data[i].fields.Nombre+'</td>';
+      html+='</tr>';
+      contador=contador+1;
+        }
+     $("#itemlist").append(html);
+        $('#valor_base').html(contador);
+
+         var texto_carrera = $('#carrera option:selected').text();
+         var s= "sistemas";
+         var e="electromecanica";
+
+        var data=[];
+        data[0]=texto_carrera;
+        data[1]=contador;
+
+       var  data_fin=[];
+        data_fin[0]=data;
+       graficar(data_fin);
+
+      }
+  });
+
+}
+
+var contador=0;
+
+function ajax_grafica_cacu(f,c,fx,texto_carrera){
+
+  $.ajax({
+      data:{'f':f,'c':c,'fx':fx,'txtC':texto_carrera},
+      url:'/Home/busqueda_filtros/',
+      type: 'get',
+      success: function(data){
+      var cc=0;
+        console.log(data);
+        for(var i=0;i<data.length;i++){
+         cc=cc+1;
+        }
+
+        alert("el  valor del contador escontador=" +cc);
+
+
+      }
 
   });
+
+  var s= contador;
+contador=0;
+return s;
 
 }
 
